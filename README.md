@@ -38,4 +38,4 @@ For detailed instructions on how to use all the features provided by Parrot, see
 Features
 --------
 
-* A Solr 4 server running customisable configs.
+* [A Solr 4 server running customisable configs.](https://github.com/computerminds/parrot/wiki/Solr-4-server)
