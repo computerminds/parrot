@@ -1,0 +1,61 @@
+#!/bin/sh -e
+# SOLR auto-start
+#
+# description: auto-starts solr engine
+# processname: solr-production
+# pidfile: /var/run/solr-production.pid
+
+NAME="solr"
+PIDFILE="/var/run/solr-production.pid"
+LOG_FILE="/var/log/solr-production.log"
+SOLR_DIR="/usr/local/solr/example"
+JAVA_OPTIONS="-Xmx512m -DSTOP.PORT=8079 -DSTOP.KEY=stopkey -jar start.jar"
+JAVA="/usr/bin/java"
+
+start() {
+  echo -n "Starting $NAME... "
+  if [ -f $PIDFILE ]; then
+    echo "is already running!"
+  else
+    cd $SOLR_DIR
+    $JAVA $JAVA_OPTIONS 2> $LOG_FILE &
+    sleep 2
+    echo `ps -ef | grep -v grep | grep java | awk '{print $2}'` > $PIDFILE
+    echo "(Done)"
+  fi
+  return 0
+}
+
+stop() {
+  echo -n "Stopping $NAME... "
+  if [ -f $PIDFILE ]; then
+    cd $SOLR_DIR
+    $JAVA $JAVA_OPTIONS --stop
+    sleep 2
+    rm $PIDFILE
+    echo "(Done)"
+  else
+    echo "can not stop, it is not running!"
+  fi
+  return 0
+}
+
+case "$1" in
+  start)
+    start
+  ;;
+  stop)
+    stop
+  ;;
+  restart)
+    stop
+    sleep 5
+    start
+  ;;
+
+*)
+echo "Usage: $0 (start | stop | restart)"
+exit 1
+;;
+esac
+
