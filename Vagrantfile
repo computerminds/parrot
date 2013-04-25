@@ -25,7 +25,7 @@ Vagrant::Config.run do |config|
     config.vm.box_url = "http://files.vagrantup.com/precise32.box"
   else
     config.vm.box = "precise64"
-    config.vm.box_url = "http://files.vagrantup.com/precise4.box"
+    config.vm.box_url = "http://files.vagrantup.com/precise64.box"
   end
 
   # Boot with a GUI so you can see the screen. (Default is headless)
