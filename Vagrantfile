@@ -76,7 +76,16 @@ Vagrant::Config.run do |config|
   # #               Managed by Puppet.\n"
   # # }
   #
-  #config.vm.provision :shell, :inline => "sudo apt-get update && sudo apt-get install puppet -y"
+  
+  # A quick bootstrap to get Puppet installed.
+  config.vm.provision :puppet do |puppet|
+    puppet.manifests_path = "manifests"
+    puppet.manifest_file  = "bootstrap.pp"
+    puppet.module_path = "modules"
+    #puppet.options = "--verbose --debug"
+  end
+
+  # And now the meat.
   config.vm.provision :puppet do |puppet|
     puppet.manifests_path = "manifests"
     puppet.manifest_file  = "solr.pp"
