@@ -1,0 +1,25 @@
+# This file is managed by parrot - DO NOT EDIT MANUALLY!
+# See /etc/parrot/parrot_mysql.yaml for options instead.
+[mysqld]
+
+query_cache_limit       = <%= scope.lookupvar('parrot_mysql::config::mysql_query_cache_limit') %>
+query_cache_size        = <%= scope.lookupvar('parrot_mysql::config::mysql_query_cache_size') %>
+
+innodb_buffer_pool_size = <%= scope.lookupvar('parrot_mysql::config::innodb_buffer_pool_size') %>
+key_buffer_size = <%= scope.lookupvar('parrot_mysql::config::key_buffer_size') %>
+max_connections = <%= scope.lookupvar('parrot_mysql::config::mysql_max_connections') %>
+table_cache = <%= scope.lookupvar('parrot_mysql::config::table_cache') %>
+
+default_storage_engine  = innodb
+<% if (lsbdistcodename == 'precise') %># Not needed for Precise
+# <% end %>default_character_set   = utf8
+collation_server        = utf8_general_ci
+character_set_server    = utf8
+#safe to set to 0 only if raid card has battery backup
+sync_binlog             = 1
+# may mean less than 100% acid-compliance if set to 0
+innodb_flush_log_at_trx_commit = 0
+innodb_flush_method            = O_DIRECT
+innodb_file_per_table          = 1
+
+max_allowed_packet      = 128M

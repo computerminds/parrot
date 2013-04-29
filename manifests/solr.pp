@@ -8,9 +8,8 @@ exec { "apt-update":
 
 Exec["apt-update"] -> Package <| |>
 
-  class { solr_server:
-
-  }
+  class { solr_server:  }
+  class { parrot_mysql:  }
 
   package { "puppet":
     ensure => latest,
@@ -22,5 +21,7 @@ Exec["apt-update"] -> Package <| |>
     ensure     => running,
     autoupdate => true,
   }
+
+
 
 }
