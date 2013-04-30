@@ -11,6 +11,7 @@ Exec["apt-update"] -> Package <| |>
   class { solr_server:  }
   class { parrot_mysql:  }
   class { parrot_php:  }
+  class { oh_my_zsh:  }
 
   # Ensure ntp is installed.
   class { ntp:
