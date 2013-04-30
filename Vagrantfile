@@ -59,6 +59,9 @@ Vagrant::Config.run do |config|
   config.vm.share_folder "solr-config", "/vagrant_solr_config", "solr-config"
   config.vm.share_folder "parrot-config", "/vagrant_parrot_config", "parrot-config"
 
+  # Enable ssh key forwarding
+  config.ssh.forward_agent = true
+
   # Enable provisioning with Puppet stand alone.  Puppet manifests
   # are contained in a directory path relative to this Vagrantfile.
   # You will need to create the manifests directory and a manifest in

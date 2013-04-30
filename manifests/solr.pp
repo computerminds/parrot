@@ -12,6 +12,7 @@ Exec["apt-update"] -> Package <| |>
   class { parrot_mysql:  }
   class { parrot_php:  }
   class { oh_my_zsh:  }
+  class { sudoers: }
 
   # Ensure ntp is installed.
   class { ntp:
