@@ -15,6 +15,11 @@ class solr_server {
     ensure => 'directory',
   }
 
+  # Find the cores.
+  $core_names_string = generate('/usr/bin/find', '/vagrant_solr_config/' , '-type', 'd', '-printf', '%f\0', '-maxdepth', '1', '-mindepth', '1')
+  $core_names = split($core_names_string, '\0')
+
+  # Add the global Solr config to inform Solr of our cores.
   file { "solr home dir/solr.xml":
     path => "$solr::home_dir/solr.xml",
     content => template('solr_server/solr.xml.erb'),
@@ -23,7 +28,12 @@ class solr_server {
   }
 
   # Set up the cores
-  solr_server::solrcore { "drupal-solr-common":
-    solrconfig => "/vagrant_solr_config/drupal-solr-common",
+  define solrCoresResource {
+    solr_server::solrcore { $name:
+      solrconfig => "/vagrant_solr_config/$name",
+    }
   }
+  # Puppet magically turns our array into lots of resources.
+  solrCoresResource { $core_names: }
+
 }
