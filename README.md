@@ -41,3 +41,5 @@ Features
 * [A Solr 4 server running customisable configs.](https://github.com/computerminds/parrot/wiki/Solr-4-server)
 * [A MySQL server](https://github.com/computerminds/parrot/wiki/Mysql-server)
 * [SSH agent forwarding](https://github.com/computerminds/parrot/wiki/SSH-agent-forwarding)
+* [PHP 5.3](https://github.com/computerminds/parrot/wiki/PHP-5.3)
+* [XDebug](https://github.com/computerminds/parrot/wiki/PHP-XDebug)
