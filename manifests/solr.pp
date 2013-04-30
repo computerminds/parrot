@@ -11,11 +11,6 @@ Exec["apt-update"] -> Package <| |>
   class { solr_server:  }
   class { parrot_mysql:  }
 
-  package { "puppet":
-    ensure => latest,
-  }
-  Package["puppet"] -> Augeas <| |>
-
   # Ensure ntp is installed.
   class { ntp:
     ensure     => running,
