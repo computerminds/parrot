@@ -13,6 +13,11 @@ Exec["apt-update"] -> Package <| |>
   class { parrot_php:  }
   class { oh_my_zsh:  }
   class { sudoers: }
+  class { http_stack: }
+
+  package { 'vim': }
+  package { 'vim-puppet': }
+  package { 'curl': }
 
   # Ensure ntp is installed.
   class { ntp:
