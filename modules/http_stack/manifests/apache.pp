@@ -20,6 +20,14 @@ class http_stack::apache {
 
   class { 'phpmyadmin': }
 
+  file { "/etc/apache2/conf.d/xhprof":
+    source => 'puppet:///modules/http_stack/apache/xhprof',
+    owner => 'root',
+    group => 'root',
+    require => Package['apache2'],
+    notify => Service['apache2'],
+  }
+
   # Restart Apache after the config file is deployed.
   service { 'apache2':  }
 

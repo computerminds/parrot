@@ -1,0 +1,8 @@
+# xhprof default Apache configuration
+
+Alias /xhprof /usr/share/php5-xhprof/xhprof_html
+
+<Directory /usr/share/php5-xhprof/xhprof_html>
+  Options FollowSymLinks
+  DirectoryIndex index.php
+</Directory>

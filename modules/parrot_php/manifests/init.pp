@@ -18,6 +18,23 @@ class parrot_php {
 
   }
 
+  apt::source { 'php5-xhprof':
+    location   => 'http://ppa.launchpad.net/brianmercer/php5-xhprof/ubuntu/',
+    repos      => 'main',
+    release    => 'precise',
+    require => Apt::Key['php5-xhprof'],
+  }
+
+  apt::key { "php5-xhprof":
+      key        => "8D0DC64F",
+      key_server => "keyserver.ubuntu.com",
+    }
+
+  package { 'php5-xhprof':
+    require => Apt::Source["php5-xhprof"],
+  }
+  package { 'graphviz': }
+
   # Set up APC
   #file {'/etc/php5/conf.d/apc.ini':
   #  content => template('pergola_php/apc.ini.erb'),
