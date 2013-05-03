@@ -12,7 +12,7 @@ class http_stack::varnish {
       key_source => "http://repo.varnish-cache.org/debian/GPG-key.txt",
     }
 
-    package { varnish: 
+    package { varnish:
        ensure => latest,
        require => Apt::Source['varnish'],
     }
@@ -39,11 +39,13 @@ class http_stack::varnish {
     }
 
     service { "varnish":
-        enable => true,
-    	ensure => running,
-    	hasrestart => true,
-    	hasstatus => true,
-    	subscribe => File["/etc/varnish/default.vcl", "/etc/default/varnish", "/etc/varnish/secret"],
+      enable => true,
+      ensure => running,
+      hasrestart => true,
+      hasstatus => true,
+      subscribe => File["/etc/varnish/default.vcl", "/etc/default/varnish", "/etc/varnish/secret"],
     }
+
+    Service['apache2'] ~> Service['varnish']
 
 }

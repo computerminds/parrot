@@ -65,6 +65,15 @@ Vagrant::Config.run do |config|
   config.vm.share_folder "parrot-config", "/vagrant_parrot_config", "parrot-config"
   config.vm.share_folder "sites", "/vagrant_sites", "sites", :nfs => true
 
+  # We can speed up subsequent rebuilds by caching the apt cache directories
+  # on the host machine.
+  current_dir = File.dirname(__FILE__)
+  apt_cache = "#{current_dir}/tmp/apt/cache"
+  require "fileutils"
+  # We seem to need to create the partial directory.
+  FileUtils.mkdir_p("#{apt_cache}/partial")
+  config.vm.share_folder "apt-cache", "/var/cache/apt/archives", apt_cache
+
   # Enable ssh key forwarding
   config.ssh.forward_agent = true
 
@@ -86,7 +95,7 @@ Vagrant::Config.run do |config|
   # #               Managed by Puppet.\n"
   # # }
   #
-  
+
   # A quick bootstrap to get Puppet installed.
   config.vm.provision :puppet do |puppet|
     puppet.manifests_path = "manifests"

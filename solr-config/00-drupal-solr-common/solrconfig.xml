@@ -303,8 +303,8 @@
       -->
     <autoCommit>
       <maxDocs>10000</maxDocs>
-      <!-- Auto commit every ten seconds for development usage -->
-      <maxTime>10000</maxTime>
+      <!-- Auto commit every thirty seconds for development usage -->
+      <maxTime>30000</maxTime>
     </autoCommit>
 
     <!-- Update Related Event Listeners
