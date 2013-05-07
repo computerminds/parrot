@@ -64,6 +64,7 @@ Vagrant::Config.run do |config|
   config.vm.share_folder "solr-config", "/vagrant_solr_config", "solr-config"
   config.vm.share_folder "parrot-config", "/vagrant_parrot_config", "parrot-config"
   config.vm.share_folder "sites", "/vagrant_sites", "sites", :nfs => true
+  config.vm.share_folder "databases", "/vagrant_databases", "databases"
 
   # We can speed up subsequent rebuilds by caching the apt cache directories
   # on the host machine.

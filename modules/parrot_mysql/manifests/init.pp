@@ -32,4 +32,14 @@ class parrot_mysql {
     require => [Service["mysql"], Package['mysql-client']],
   }
 
+  # Find the DBs.
+  $db_names_string = generate('/usr/bin/find', '/vagrant_databases/' ,'-name', '*.sql', '-type', 'f', '-printf', '%f\0', '-maxdepth', '1', '-mindepth', '1')
+  $db_names = split($db_names_string, '\0')
+
+  # Set up the DBs
+  # Puppet magically turns our array into lots of resources.
+  parrot_mysql::database_import { $db_names: }
+
+
+
 }

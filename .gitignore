@@ -4,3 +4,4 @@ parrot-config/php/parrot-local.ini
 sites/*
 .DS_Store
 tmp/*
+databases/*
