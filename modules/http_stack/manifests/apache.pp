@@ -5,6 +5,8 @@ class http_stack::apache {
   file { '/etc/apache2/ports.conf':
     source => "puppet:///modules/http_stack/ports.conf",
     ensure => "present",
+    owner => 'root',
+    group => 'root',
   }
 
   File['/etc/apache2/ports.conf'] ~> Service['apache2']
@@ -42,12 +44,18 @@ class http_stack::apache {
       ensure => 'file',
       content => template('http_stack/apache/vhost.erb'),
       notify => Service['apache2'],
+      require => Package['apache2'],
+      owner => 'root',
+      group => 'root',
     }
     # The symlink in sites-enabled.
     file {"/etc/apache2/sites-enabled/20-$name":
       ensure => 'link',
       target => "/etc/apache2/sites-available/$name",
       notify => Service['apache2'],
+      require => Package['apache2'],
+      owner => 'root',
+      group => 'root',
     }
 
   }
