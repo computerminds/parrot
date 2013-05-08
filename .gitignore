@@ -1,5 +1,6 @@
 .vagrant
-solr-config/*
+.vagrant*
+parrot-config/solr/*
 parrot-config/php/parrot-local.ini
 sites/*
 .DS_Store

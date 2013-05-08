@@ -16,7 +16,7 @@ class solr_server {
   }
 
   # Find the cores.
-  $core_names_string = generate('/usr/bin/find', '/vagrant_solr_config/' , '-type', 'd', '-printf', '%f\0', '-maxdepth', '1', '-mindepth', '1')
+  $core_names_string = generate('/usr/bin/find', '/vagrant_parrot_config/solr/' , '-type', 'd', '-printf', '%f\0', '-maxdepth', '1', '-mindepth', '1')
   $core_names = split($core_names_string, '\0')
 
   # Add the global Solr config to inform Solr of our cores.
@@ -30,7 +30,7 @@ class solr_server {
   # Set up the cores
   define solrCoresResource {
     solr_server::solrcore { $name:
-      solrconfig => "/vagrant_solr_config/$name",
+      solrconfig => "/vagrant_parrot_config/solr/$name",
     }
   }
   # Puppet magically turns our array into lots of resources.

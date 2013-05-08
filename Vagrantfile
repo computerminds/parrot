@@ -61,7 +61,6 @@ Vagrant::Config.run do |config|
   # Share an additional folder to the guest VM. The first argument is
   # an identifier, the second is the path on the guest to mount the
   # folder, and the third is the path on the host to the actual folder.
-  config.vm.share_folder "solr-config", "/vagrant_solr_config", "solr-config"
   config.vm.share_folder "parrot-config", "/vagrant_parrot_config", "parrot-config"
   config.vm.share_folder "sites", "/vagrant_sites", "sites", :nfs => true
   config.vm.share_folder "databases", "/vagrant_databases", "databases"
