@@ -18,4 +18,13 @@ class phpmyadmin {
     require => Package['phpmyadmin', 'apache2'],
     notify => Service['apache2'],
   }
+
+  file { '/etc/phpmyadmin/config.inc.php':
+    ensure => file,
+    source => 'puppet:///modules/phpmyadmin/config.inc.php',
+    require => Package['phpmyadmin'],
+    notify => Service['apache2'],
+    owner => 'root',
+    group => 'root',
+  }
 }
