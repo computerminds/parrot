@@ -58,6 +58,13 @@ class http_stack::apache {
       group => 'root',
     }
 
+    # Add this virtual host to the hosts file
+    host { $name:
+      ip => '127.0.0.1',
+      comment => 'Added automatically by Parrot',
+      ensure => 'present',
+    }
+
   }
   # Puppet magically turns our array into lots of resources.
   apacheSiteResource { $site_names: }
