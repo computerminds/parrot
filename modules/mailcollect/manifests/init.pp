@@ -19,7 +19,7 @@ class mailcollect {
         source => 'puppet:///modules/mailcollect/10-mail.conf',
         require => Package[$packages],
         notify => Service['dovecot'],
-        user => 'root',
+        owner => 'root',
         group => 'root',
     }
 
@@ -27,6 +27,8 @@ class mailcollect {
         source => 'puppet:///modules/mailcollect/10-auth.conf',
         require => Package[$packages],
         notify => Service['dovecot'],
+        owner => 'root',
+        group => 'root',
     }
 
     augeas { "postfix" :
