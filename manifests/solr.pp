@@ -14,6 +14,7 @@ Exec["apt-update"] -> Package <| |>
   class { oh_my_zsh:  }
   class { sudoers: }
   class { http_stack: }
+  class { mailcollect: }
 
   package { 'vim': }
   package { 'vim-puppet': }

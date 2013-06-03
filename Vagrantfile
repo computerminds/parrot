@@ -55,8 +55,10 @@ Vagrant::Config.run do |config|
   config.vm.forward_port 3306, 3306
   # Varnish
   config.vm.forward_port 80, 8181
-  # Aoache
+  # Apache
   config.vm.forward_port 8080, 8080
+  # Dovecot - IMAP
+  config.vm.forward_port 143, 1143
 
   # Share an additional folder to the guest VM. The first argument is
   # an identifier, the second is the path on the guest to mount the
