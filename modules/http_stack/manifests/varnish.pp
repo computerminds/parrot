@@ -1,5 +1,7 @@
 class http_stack::varnish {
 
+  # TODO: We should make the ports for Varnish configurable.
+
 	apt::source { 'varnish':
 	  location   => 'http://repo.varnish-cache.org/ubuntu/',
 	  repos      => 'varnish-3.0',
