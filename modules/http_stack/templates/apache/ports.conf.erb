@@ -1,3 +1,6 @@
+# This file is managed by puppet, manual changes might be lost!
+
+
 # If you just change the port or add more ports here, you will likely also
 # have to change the VirtualHost statement in
 # /etc/apache2/sites-enabled/000-default
@@ -5,8 +8,8 @@
 # Debian etch). See /usr/share/doc/apache2.2-common/NEWS.Debian.gz and
 # README.Debian.gz
 
-NameVirtualHost *:8080
-Listen 8080
+NameVirtualHost *:<%= @apache_http_port %>
+Listen <%= @apache_http_port %>
 
 <IfModule mod_ssl.c>
     # If you add NameVirtualHost *:443 here, you will also have to change
@@ -14,9 +17,9 @@ Listen 8080
     # to <VirtualHost *:443>
     # Server Name Indication for SSL named virtual hosts is currently not
     # supported by MSIE on Windows XP.
-    Listen 443
+    Listen <%= @apache_https_port %>
 </IfModule>
 
 <IfModule mod_gnutls.c>
-    Listen 443
+    Listen <%= @apache_https_port %>
 </IfModule>

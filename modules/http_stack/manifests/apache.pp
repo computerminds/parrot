@@ -1,15 +1,17 @@
-class http_stack::apache {
+class http_stack::apache(
+  $apache_http_port  = 8080,
+  $apache_https_port = 443
+) {
   package { 'apache2': }
   package { 'libapache2-mod-php5': }
 
   file { '/etc/apache2/ports.conf':
-    source => "puppet:///modules/http_stack/ports.conf",
+    content => template('http_stack/apache/ports.conf.erb'),
     ensure => "present",
     owner => 'root',
     group => 'root',
+    notify => Service['apache2']
   }
-
-  File['/etc/apache2/ports.conf'] ~> Service['apache2']
 
    # Ensure that mod-rewrite is running.
   exec { 'a2enmod':
