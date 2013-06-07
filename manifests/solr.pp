@@ -13,7 +13,7 @@ Exec["apt-update"] -> Package <| |>
   class { parrot_php:  }
   class { oh_my_zsh:  }
   class { sudoers: }
-  class { http_stack: }
+  class { 'http_stack::without_varnish': }
   class { mailcollect: }
 
   package { 'vim': }
