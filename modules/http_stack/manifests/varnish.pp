@@ -1,4 +1,8 @@
-class http_stack::varnish {
+class http_stack::varnish(
+  $varnish_port,
+  $backend_port,
+  $admin_port = 6082
+) {
 
   # TODO: We should make the ports for Varnish configurable.
 
@@ -20,17 +24,17 @@ class http_stack::varnish {
     }
 
     file { "/etc/varnish/default.vcl":
-      source => '/vagrant_parrot_config/varnish/default.vcl',
       require => Package['varnish'],
       owner => 'root',
       group => 'root',
+      content => template('http_stack/varnish/default.vcl.erb'),
     }
 
     file { "/etc/default/varnish":
-      source => 'puppet:///modules/http_stack/varnish/defaults',
       require => Package['varnish'],
       owner => 'root',
       group => 'root',
+      content => template('http_stack/varnish/defaults.erb'),
     }
 
     file { "/etc/varnish/secret":
