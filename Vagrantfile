@@ -69,14 +69,8 @@ Vagrant.configure('2') do |config|
   config.vm.synced_folder "sites", "/vagrant_sites", :nfs => true
   config.vm.synced_folder "databases", "/vagrant_databases"
 
-  # We can speed up subsequent rebuilds by caching the apt cache directories
-  # on the host machine.
-  current_dir = File.dirname(__FILE__)
-  apt_cache = "#{current_dir}/tmp/apt/cache"
-  require "fileutils"
-  # We seem to need to create the partial directory.
-  FileUtils.mkdir_p("#{apt_cache}/partial")
-  config.vm.synced_folder apt_cache, "/var/cache/apt/archives"
+  # Use Vagrant Cachier
+  config.cache.auto_detect = true
 
   # Enable ssh key forwarding
   config.ssh.forward_agent = true
