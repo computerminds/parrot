@@ -1,10 +1,29 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+def parse_config(
+  config_file=File.expand_path(File.join(File.dirname(__FILE__), 'config.yaml'))
+)
+  require 'yaml'
+  config = {
+    'folders' => {
+      'sites' => "sites",
+      'databases' => "databases"
+    }
+  }
+  if File.exists?(config_file)
+    overrides = YAML.load_file(config_file)
+    config.merge!(overrides)
+  end
+  config
+end
 
 Vagrant.configure('2') do |config|
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
+
+  custom_config = parse_config
+  puts custom_config
 
   # Note the backticks on this next line.
   architecture = `uname -m`.strip
@@ -66,8 +85,10 @@ Vagrant.configure('2') do |config|
   # an identifier, the second is the path on the guest to mount the
   # folder, and the third is the path on the host to the actual folder.
   config.vm.synced_folder "parrot-config", "/vagrant_parrot_config"
-  config.vm.synced_folder "sites", "/vagrant_sites", :nfs => true
-  config.vm.synced_folder "databases", "/vagrant_databases"
+
+  config.vm.synced_folder custom_config['sites'].to_s(), "/vagrant_sites", :nfs => true
+  config.vm.synced_folder custom_config['databases'].to_s(), "/vagrant_databases"
+  
 
   # Use Vagrant Cachier
   config.cache.auto_detect = true
