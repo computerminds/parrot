@@ -23,7 +23,6 @@ Vagrant.configure('2') do |config|
   # please see the online documentation at vagrantup.com.
 
   custom_config = parse_config
-  puts custom_config
 
   # Note the backticks on this next line.
   architecture = `uname -m`.strip
