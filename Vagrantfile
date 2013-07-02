@@ -85,8 +85,8 @@ Vagrant.configure('2') do |config|
   # folder, and the third is the path on the host to the actual folder.
   config.vm.synced_folder "parrot-config", "/vagrant_parrot_config"
 
-  config.vm.synced_folder custom_config['sites'].to_s(), "/vagrant_sites", :nfs => true
-  config.vm.synced_folder custom_config['databases'].to_s(), "/vagrant_databases"
+  config.vm.synced_folder custom_config['folders']['sites'], "/vagrant_sites", :nfs => true
+  config.vm.synced_folder custom_config['folders']['databases'], "/vagrant_databases"
   
 
   # Use Vagrant Cachier
