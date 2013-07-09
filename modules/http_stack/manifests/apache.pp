@@ -36,7 +36,7 @@ class http_stack::apache(
   service { 'apache2':  }
 
   # Find the cores.
-  $site_names_string = generate('/usr/bin/find', '/vagrant_sites/' , '-type', 'd', '-printf', '%f\0', '-maxdepth', '1', '-mindepth', '1')
+  $site_names_string = generate('/usr/bin/find', '-L', '/vagrant_sites/' , '-type', 'd', '-printf', '%f\0', '-maxdepth', '1', '-mindepth', '1')
   $site_names = split($site_names_string, '\0')
 
   # Set up the cores
