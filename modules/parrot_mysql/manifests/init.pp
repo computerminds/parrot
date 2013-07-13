@@ -36,7 +36,9 @@ class parrot_mysql {
     #subscribe => File['/etc/mysql/conf.d/parrot.cnf'],
   }
 
-  package {'percona-server-client-5.5': }
+  package {'percona-server-client-5.5':
+    require => Apt::Source['percona'],
+  }
 
   # Create the user for the DB from the host machine
   exec { "create-db-schema-and-user":
