@@ -5,10 +5,8 @@ def parse_config(
 )
   require 'yaml'
   config = {
-    'folders' => {
-      'sites' => "sites",
-      'databases' => "databases"
-    }
+    'sites' => "sites",
+    'databases' => "databases"
   }
   if File.exists?(config_file)
     overrides = YAML.load_file(config_file)
@@ -85,8 +83,8 @@ Vagrant.configure('2') do |config|
   # folder, and the third is the path on the host to the actual folder.
   config.vm.synced_folder "parrot-config", "/vagrant_parrot_config"
 
-  config.vm.synced_folder custom_config['folders']['sites'], "/vagrant_sites", :nfs => true
-  config.vm.synced_folder custom_config['folders']['databases'], "/vagrant_databases"
+  config.vm.synced_folder custom_config['sites'], "/vagrant_sites", :nfs => true
+  config.vm.synced_folder custom_config['databases'], "/vagrant_databases"
   
 
   # Use Vagrant Cachier
