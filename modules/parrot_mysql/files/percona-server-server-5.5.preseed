@@ -1,0 +1,6 @@
+percona-server-server-5.5 percona-server-server/root_password password root
+percona-server-server-5.5 percona-server-server/root_password seen true
+percona-server-server-5.5 percona-server-server/root_password_again password root
+percona-server-server-5.5 percona-server-server/root_password_again seen true
+percona-server-server-5.5 percona-server-server-5.5/start_on_boot boolean true
+percona-server-server-5.5 percona-server-server-5.5/postrm_remove_databases boolean false

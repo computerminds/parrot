@@ -3,10 +3,23 @@ class parrot_mysql {
 
   include parrot_mysql::config
 
-  preseed_package { "mysql-server":
+  apt::key { "percona":
+      key        => "1C4CBDCDCD2EFD2A",
+      key_server => "keys.gnupg.net",
+    }
+
+  apt::source { 'percona':
+    location   => 'http://repo.percona.com/apt',
+    repos      => 'main',
+    release    => 'precise',
+    require => Apt::Key['percona'],
+  }
+
+  preseed_package { "percona-server-server-5.5":
     ensure => latest,
     module_name => 'parrot_mysql',
     before => File['/etc/mysql/conf.d/parrot.cnf'],
+    require => Apt::Source['percona'],
   }
 
   file {'/etc/mysql/conf.d/parrot.cnf':
@@ -23,13 +36,15 @@ class parrot_mysql {
     #subscribe => File['/etc/mysql/conf.d/parrot.cnf'],
   }
 
-  package {'mysql-client': }
+  package {'percona-server-client-5.5':
+    require => Apt::Source['percona'],
+  }
 
   # Create the user for the DB from the host machine
   exec { "create-db-schema-and-user":
     unless => "/usr/bin/mysql -uroot -proot parrot",
     command => "/usr/bin/mysql -uroot -proot -e \"CREATE DATABASE parrot; create user root@'%' identified by 'root'; grant all on *.* to root@'%' WITH GRANT OPTION; flush privileges;\"",
-    require => [Service["mysql"], Package['mysql-client']],
+    require => [Service["mysql"], Package['percona-server-client-5.5']],
   }
 
   # Find the DBs.
