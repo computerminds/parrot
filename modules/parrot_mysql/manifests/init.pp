@@ -37,7 +37,8 @@ class parrot_mysql {
   }
 
   package {'percona-server-client-5.5':
-    require => Apt::Source['percona'],
+    require => [Apt::Source['percona'], Preseed_package["percona-server-server-5.5"]],
+
   }
 
   # Create the user for the DB from the host machine
