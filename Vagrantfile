@@ -124,7 +124,7 @@ Vagrant.configure('2') do |config|
   # And now the meat.
   config.vm.provision :puppet do |puppet|
     puppet.manifests_path = "manifests"
-    puppet.manifest_file  = "solr.pp"
+    puppet.manifest_file  = "parrot.pp"
     puppet.module_path = "modules"
     #puppet.options = "--verbose --debug"
   end
