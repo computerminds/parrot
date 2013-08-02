@@ -18,6 +18,7 @@ Listen <%= @apache_http_port %>
     # Server Name Indication for SSL named virtual hosts is currently not
     # supported by MSIE on Windows XP.
     Listen <%= @apache_https_port %>
+    NameVirtualHost *:<%= @apache_https_port %>
 </IfModule>
 
 <IfModule mod_gnutls.c>

@@ -23,3 +23,35 @@
 	CustomLog ${APACHE_LOG_DIR}/access.log combined
 
 </VirtualHost>
+
+<IfModule mod_ssl.c>
+	<VirtualHost *:<%= @apache_https_port %>>
+		ServerAdmin webmaster@localhost
+	        ServerName <%= @name %>
+
+		DocumentRoot /vagrant_sites/<%= @name %>
+		<Directory />
+			Options FollowSymLinks
+			AllowOverride None
+		</Directory>
+		<Directory /vagrant_sites/<%= @name %>/>
+			Options Indexes FollowSymLinks MultiViews
+			AllowOverride All
+			Order allow,deny
+			allow from all
+		</Directory>
+
+		ErrorLog ${APACHE_LOG_DIR}/error.log
+
+		# Possible values include: debug, info, notice, warn, error, crit,
+		# alert, emerg.
+		LogLevel warn
+
+		CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+		SSLEngine on
+		SSLCertificateFile /etc/apache2/ssl.d/<%= @name %>.crt
+        SSLCertificateKeyFile /etc/apache2/ssl.d/<%= @name %>.key
+
+	</VirtualHost>
+</IfModule>

@@ -14,10 +14,19 @@ class http_stack::apache(
   }
 
    # Ensure that mod-rewrite is running.
-  exec { 'a2enmod':
+  exec { 'a2enmod-rewrite':
     command => '/usr/sbin/a2enmod rewrite',
     require => Package['apache2'],
     creates => '/etc/apache2/mods-enabled/rewrite.load',
+    user => 'root',
+    group => 'root',
+  }
+
+  # Ensure that mod-ssl is running.
+  exec { 'a2enmod-ssl':
+    command => '/usr/sbin/a2enmod ssl',
+    require => Package['apache2'],
+    creates => '/etc/apache2/mods-enabled/ssl.load',
     user => 'root',
     group => 'root',
   }
@@ -34,6 +43,14 @@ class http_stack::apache(
 
   # Restart Apache after the config file is deployed.
   service { 'apache2':  }
+
+  # Make sure the SSL directory exists.
+  file { "/etc/apache2/ssl.d":
+    owner => 'root',
+    group => 'root',
+    require => Package['apache2'],
+    ensure => "directory",
+  }
 
   # Find the cores.
   $site_names_string = generate('/usr/bin/find', '-L', '/vagrant_sites/' , '-type', 'd', '-printf', '%f\0', '-maxdepth', '1', '-mindepth', '1')
@@ -65,6 +82,16 @@ class http_stack::apache(
       ip => '127.0.0.1',
       comment => 'Added automatically by Parrot',
       ensure => 'present',
+    }
+
+    # Add an SSL cert just for this host.
+    exec { "ssl-cert-$name":
+      command => "/usr/bin/openssl req -new -x509 -days 3650 -sha1 -newkey rsa:1024 -nodes -keyout $name.key -out $name.crt -subj '/O=Company/OU=Department/CN=$name'",
+      require => File['/etc/apache2/ssl.d'],
+      cwd => '/etc/apache2/ssl.d',
+      creates => "/etc/apache2/ssl.d/$name.key",
+      user => 'root',
+      group => 'root',
     }
 
   }
