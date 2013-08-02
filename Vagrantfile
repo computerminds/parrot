@@ -45,13 +45,12 @@ Vagrant.configure('2') do |config|
     config.vm.box_url = "http://files.vagrantup.com/precise64.box"
   end
 
-  # Boot with a GUI so you can see the screen. (Default is headless)
-  # config.vm.boot_mode = :gui
-
   # Give the created VM 768M of RAM
   config.vm.provider :virtualbox do |box|
    box.customize ['modifyvm', :id, '--memory', custom_config['memory']]
    box.name = "Parrot"
+   # Boot with a GUI so you can see the screen. (Default is headless)
+   # box.gui = true
   end
 
   # Assign this VM to a host-only network IP, allowing you to access it
