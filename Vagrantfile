@@ -51,6 +51,7 @@ Vagrant.configure('2') do |config|
   # Give the created VM 768M of RAM
   config.vm.provider :virtualbox do |box|
    box.customize ['modifyvm', :id, '--memory', custom_config['memory']]
+   box.name = "Parrot"
   end
 
   # Assign this VM to a host-only network IP, allowing you to access it
