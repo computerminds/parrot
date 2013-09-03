@@ -5,7 +5,7 @@ class parrot_mysql {
 
   apt::key { "percona":
       key        => "1C4CBDCDCD2EFD2A",
-      key_server => "keys.gnupg.net",
+      key_server => "subkeys.pgp.net",
     }
 
   apt::source { 'percona':
