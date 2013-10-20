@@ -17,6 +17,7 @@ Requirements
 * [Vagrant](http://www.vagrantup.com/) and [Virtualbox](https://www.virtualbox.org/)
 * Unix based host system
 * [Vagrant cachier plugin](https://github.com/fgrehm/vagrant-cachier#installation)
+* [Vagrant bindfs plugin](https://github.com/gael-ian/vagrant-bindfs#installation)
 * [Lots of free RAM](http://lmgtfy.com/?q=computer+memory+upgrade)
 
 
