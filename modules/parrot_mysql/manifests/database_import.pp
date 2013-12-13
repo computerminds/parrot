@@ -6,7 +6,7 @@ define parrot_mysql::database_import {
   exec { "create-db-$name":
     unless => "/usr/bin/mysql -uroot -proot $db_name",
     command => "/usr/bin/mysql -uroot -proot -e \"CREATE DATABASE $db_name;\"",
-    require => [Service["mysql"], Package['percona-server-client-5.5']],
+    require => [Service["mysql"], Package['mysql-client']],
   }
 
   exec { "import-db-$name":
