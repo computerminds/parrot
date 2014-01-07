@@ -9,6 +9,7 @@ def parse_config(
     'databases' => "databases",
     'memory' => '2048',
     'with_gui' => false,
+    'ip' => "192.168.50.4"
   }
   if File.exists?(config_file)
     overrides = YAML.load_file(config_file)
@@ -72,7 +73,7 @@ Vagrant.configure('2') do |config|
   # via the IP. Host-only networks can talk to the host machine as well as
   # any other machines on the same network, but cannot be accessed (through this
   # network interface) by any external networks.
-  config.vm.network :private_network, ip: "192.168.50.4"
+  config.vm.network :private_network, ip: custom_config['ip']
 
   # Assign this VM to a bridged network, allowing you to connect directly to a
   # network using the host's network device. This makes the VM appear as another
