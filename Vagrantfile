@@ -8,6 +8,7 @@ def parse_config(
     'sites' => "sites",
     'databases' => "databases",
     'memory' => '2048',
+    'with_gui' => false,
   }
   if File.exists?(config_file)
     overrides = YAML.load_file(config_file)
@@ -39,18 +40,32 @@ Vagrant.configure('2') do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   if (bits == 32)
     config.vm.box = "precise32"
-    config.vm.box_url = "http://files.vagrantup.com/precise32.box"
   else
     config.vm.box = "precise64"
-    config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  end
+
+  # Provide specific settings for VMWare Fusion
+  config.vm.provider "vmware_fusion" do |box, override|
+    override.vm.box = "precise64"
+    override.vm.box_url = "http://files.vagrantup.com/precise64_vmware.box"
+
+    box.vmx["memsize"] = custom_config['memory']
+    # Boot with a GUI so you can see the screen. (Default is headless)
+    box.gui = custom_config['with_gui']
   end
 
   # Give the created VM 768M of RAM
-  config.vm.provider :virtualbox do |box|
-   box.customize ['modifyvm', :id, '--memory', custom_config['memory']]
-   box.name = "Parrot"
-   # Boot with a GUI so you can see the screen. (Default is headless)
-   # box.gui = true
+  config.vm.provider :virtualbox do |box, override|
+    if (bits == 32)
+      override.vm.box_url = "http://files.vagrantup.com/precise32.box"
+    else
+      override.vm.box_url = "http://files.vagrantup.com/precise64.box"
+    end
+
+    box.customize ['modifyvm', :id, '--memory', custom_config['memory']]
+    box.name = "Parrot"
+    # Boot with a GUI so you can see the screen. (Default is headless)
+    box.gui = custom_config['with_gui']
   end
 
   # Assign this VM to a host-only network IP, allowing you to access it
