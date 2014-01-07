@@ -14,7 +14,8 @@ Simple and repeatable, that is what the Parrot VM is all about.
 Requirements
 ------------
 
-* [Vagrant](http://www.vagrantup.com/) and [Virtualbox](https://www.virtualbox.org/)
+* [Vagrant](http://www.vagrantup.com/)
+* [Virtualbox](https://www.virtualbox.org/) or [VMWare Fusion](http://www.vmware.com/uk/products/fusion)
 * Unix based host system
 * [Vagrant cachier plugin](https://github.com/fgrehm/vagrant-cachier#installation)
 * [Lots of free RAM](http://lmgtfy.com/?q=computer+memory+upgrade)
@@ -28,6 +29,10 @@ You will need to clone this repo to your host machine, and then `cd` into the di
     vagrant up
 
 That's it!
+
+If you want to use your [VMWare Fusion Vagrant provider](http://www.vagrantup.com/vmware), then run:
+
+    vagrant up --provider=vmware_fusion
 
 
 Usage
