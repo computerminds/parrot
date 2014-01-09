@@ -25,6 +25,7 @@ class solr_server {
     content => template('solr_server/solr.xml.erb'),
     require => File['solr home dir'],
     notify => Service["tomcat6"],
+    mode => 0644,
   }
 
   # Set up the cores
