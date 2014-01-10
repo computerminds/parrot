@@ -40,6 +40,10 @@ class parrot_mysql {
   # Puppet magically turns our array into lots of resources.
   parrot_mysql::database_import { $db_names: }
 
-
+  file {'/var/parrot-dump-databases.sh':
+    ensure => file,
+    source => 'puppet:///parrot_mysql/parrot-dump-databases.sh',
+    mode => 755,
+  }
 
 }
