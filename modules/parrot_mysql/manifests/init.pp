@@ -42,7 +42,7 @@ class parrot_mysql {
 
   file {'/var/parrot-dump-databases.sh':
     ensure => file,
-    source => 'puppet:///parrot_mysql/parrot-dump-databases.sh',
+    source => 'puppet:///modules/parrot_mysql/parrot-dump-databases.sh',
     mode => 755,
   }
 
