@@ -1,9 +1,17 @@
 class solr::files {
+
+  exec { "cache_solr":
+    cwd => "/vagrant_parrot_config/solr",
+    command => "/usr/bin/wget -c http://archive.apache.org/dist/lucene/solr/4.2.1/solr-4.2.1.tgz",
+    creates => ["/vagrant_parrot_config/solr/solr-4.2.1.tgz", "/var/lib/tomcat6/webapps/solr.war"],
+    timeout => 0,
+  }
+
   exec { "download_solr":
     cwd => "/tmp",
-    command => "/usr/bin/wget -c http://archive.apache.org/dist/lucene/solr/4.2.1/solr-4.2.1.tgz",
+    command => "/bin/cp /vagrant_parrot_config/solr/solr-4.2.1.tgz /tmp/",
     creates => ["/tmp/solr-4.2.1.tgz", "/var/lib/tomcat6/webapps/solr.war"],
-    timeout => 0,
+    require => Exec["cache_solr"],
   }
 
   exec { "unpack_solr":
