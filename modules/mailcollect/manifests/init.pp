@@ -43,22 +43,55 @@ class mailcollect {
         notify  => Service["postfix"],
     }
 
-    exec { "postfix-virtual-config" :
-        command => '/bin/echo "/@.*/ vagrant" > /etc/postfix/virtual_forwardings.pcre ; /bin/echo "/^.*/ OK" > /etc/postfix/virtual_domains.pcre',
+    file { "/etc/postfix/virtual_forwardings.pcre":
+        owner => 'root',
+        group => 'root',
         require => Package[$packages],
         notify  => Service["postfix"],
+        content => "/@.*/ vagrant
+"
+    }
+
+    file { "/etc/postfix/virtual_domains.pcre":
+        owner => 'root',
+        group => 'root',
+        require => Package[$packages],
+        notify  => Service["postfix"],
+        content => "/^.*/ OK
+",
     }
 
     # Setup maildir
-    exec { 'vagrant-maildir' :
-        command => '/bin/mkdir -p /home/vagrant/Maildir/{cur,new,tmp}',
-        require => Package[$packages],
+    file { '/home/vagrant/Maildir':
+      owner => 'vagrant',
+      group => 'vagrant',
+      ensure => 'directory',
     }
+    file { '/home/vagrant/Maildir/cur':
+      owner => 'vagrant',
+      group => 'vagrant',
+      ensure => 'directory',
+      require => File['/home/vagrant/Maildir'],
+    }
+    file { '/home/vagrant/Maildir/new':
+      owner => 'vagrant',
+      group => 'vagrant',
+      ensure => 'directory',
+      require => File['/home/vagrant/Maildir'],
+    }
+    file { '/home/vagrant/Maildir/tmp':
+      owner => 'vagrant',
+      group => 'vagrant',
+      ensure => 'directory',
+      require => File['/home/vagrant/Maildir'],
+    }
+
     exec { 'maildir-permissions' :
         command => '/bin/chown -R vagrant:vagrant /home/vagrant/Maildir',
         require => [
             Package[$packages],
-            Exec["vagrant-maildir"],
         ],
+        subscribe => File['/home/vagrant/Maildir/cur', '/home/vagrant/Maildir/new', '/home/vagrant/Maildir/tmp'],
+        refreshonly => true,
     }
 }
