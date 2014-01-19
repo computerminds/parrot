@@ -41,6 +41,11 @@ Usage
 For detailed instructions on how to use all the features provided by Parrot, see the wiki.
 
 
+Config
+------
+You can configure the VM that Parrot provisions read the [configuration page](https://github.com/computerminds/parrot/wiki/Configuration) in the wiki for more details.
+
+
 Features
 --------
 
