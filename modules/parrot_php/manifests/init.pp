@@ -64,4 +64,11 @@ class parrot_php {
   #class {'pear':
   #  require => Package['php5'],
   #}
+
+
+  host { 'host_machine.parrot':
+    ip => regsubst($vagrant_guest_ip,'^(\d+)\.(\d+)\.(\d+)\.(\d+)$','\1.\2.\3.1'),
+    comment => 'Added automatically by Parrot',
+    ensure => 'present',
+  }
 }
