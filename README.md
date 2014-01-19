@@ -17,8 +17,8 @@ Requirements
 * [Vagrant](http://www.vagrantup.com/)
 * [Virtualbox](https://www.virtualbox.org/) or [VMWare Fusion](http://www.vmware.com/uk/products/fusion)
 * Unix based host system
-* [Vagrant cachier plugin](https://github.com/fgrehm/vagrant-cachier#installation)
 * [Lots of free RAM](http://lmgtfy.com/?q=computer+memory+upgrade)
+* [Vagrant cachier plugin](https://github.com/fgrehm/vagrant-cachier#installation) (optional)
 
 
 Installation

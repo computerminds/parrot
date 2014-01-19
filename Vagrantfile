@@ -102,7 +102,9 @@ Vagrant.configure('2') do |config|
 
 
   # Use Vagrant Cachier
-  config.cache.auto_detect = true
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.auto_detect = true
+  end
 
   # Enable ssh key forwarding
   config.ssh.forward_agent = true
