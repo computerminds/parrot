@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 def parse_config(
-  config_file=File.expand_path(File.join(File.dirname(__FILE__), 'config.yaml'))
+  config_file=File.expand_path(File.join(File.dirname(__FILE__), 'config.yml'))
 )
   require 'yaml'
   config = {

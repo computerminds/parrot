@@ -1,6 +1,6 @@
 .vagrant
 .vagrant*
-config.yaml
+config.yml
 parrot-config/solr/*
 parrot-config/php/parrot-local.ini
 sites/*
