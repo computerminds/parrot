@@ -3,7 +3,9 @@ class http_stack::apache(
   $apache_https_port = 443
 ) {
   package { 'apache2': }
-  package { 'libapache2-mod-php5': }
+  package { 'libapache2-mod-php5':
+    require => Package['php5'],
+  }
 
   file { '/etc/apache2/ports.conf':
     content => template('http_stack/apache/ports.conf.erb'),
@@ -42,7 +44,9 @@ class http_stack::apache(
   }
 
   # Restart Apache after the config file is deployed.
-  service { 'apache2':  }
+  service { 'apache2':
+    subscribe => Package['libapache2-mod-php5'],
+  }
 
   # Make sure the SSL directory exists.
   file { "/etc/apache2/ssl.d":

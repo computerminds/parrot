@@ -1,38 +1,58 @@
 class parrot_php {
 
+  $php_packages = [
+   'php5',
+#   'php5-suhosin',
+   'php5-cgi',
+   'php-apc',
+   'php5-cli',
+   'php5-curl',
+   'php5-mysql',
+   'php5-gd',
+   'php5-sqlite',
+   'php5-xmlrpc',
+   'php5-xdebug',
+  ]
+
   #Install PHP
-  package { ['php5',
-             'php5-suhosin',
-             'php5-cgi',
-             'php-apc',
-             'php5-cli',
-             'php5-curl',
-             'php5-mysql',
-             'php5-gd',
-             'php5-sqlite',
-             'php5-xmlrpc',
-             'php5-xdebug',
-  ]:
-    ensure => 'latest',
-#    notify => Exec["force-reload-apache"],
+  case $parrot_php_version {
+    '5.4': {
+      package { $php_packages:
+        ensure => 'latest',
+        # This causes a dependency loop, not sure why though!
+        #require => Apt::Source["php5-oldstable"],
+      }
+      apt::source { 'php5-oldstable':
+        location   => 'http://ppa.launchpad.net/ondrej/php5-oldstable/ubuntu/',
+        key        => "E5267A6C",
+      }
 
-  }
-
-  apt::source { 'php5-xhprof':
-    location   => 'http://ppa.launchpad.net/brianmercer/php5-xhprof/ubuntu/',
-    repos      => 'main',
-    release    => 'precise',
-    require => Apt::Key['php5-xhprof'],
-  }
-
-  apt::key { "php5-xhprof":
-      key        => "8D0DC64F",
-      key_server => "keyserver.ubuntu.com",
+      package { 'php5-xhprof':
+        ensure => 'purged',
+      }
     }
+    '5.3', default: {
+      package { $php_packages:
+        ensure => 'latest',
+      }
+      apt::source { 'php5-oldstable':
+        location   => 'http://ppa.launchpad.net/ondrej/php5-oldstable/ubuntu/',
+        key        => "E5267A6C",
+        ensure     => 'absent',
+      }
+      apt::source { 'php5-xhprof':
+        location   => 'http://ppa.launchpad.net/brianmercer/php5-xhprof/ubuntu/',
+        key        => "8D0DC64F",
+      }
 
-  package { 'php5-xhprof':
-    require => Apt::Source["php5-xhprof"],
+      package { 'php5-xhprof':
+        require => Apt::Source["php5-xhprof"],
+        ensure => 'latest',
+      }
+    }
   }
+
+
   package { 'graphviz': }
 
   # Set up APC
