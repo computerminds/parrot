@@ -7,3 +7,4 @@ sites/*
 .DS_Store
 tmp/*
 databases/*
+.idea/*

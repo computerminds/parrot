@@ -10,8 +10,11 @@
 	<Directory /vagrant_sites/<%= @name %>/>
 		Options Indexes FollowSymLinks MultiViews
 		AllowOverride All
+		# For apache 2.2
 		Order allow,deny
 		allow from all
+		# For Apache 2.4
+		#Require all granted
 	</Directory>
 
 	ErrorLog ${APACHE_LOG_DIR}/error.log

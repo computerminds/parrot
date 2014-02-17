@@ -4,7 +4,7 @@ class http_stack::apache(
 ) {
   package { 'apache2': }
   package { 'libapache2-mod-php5':
-    require => Package['php5'],
+    require => Class['parrot_php'],
   }
 
   file { '/etc/apache2/ports.conf':
@@ -12,8 +12,18 @@ class http_stack::apache(
     ensure => "present",
     owner => 'root',
     group => 'root',
-    notify => Service['apache2']
+    notify => Service['apache2'],
+    require => Package['apache2'],
   }
+
+  file { '/etc/apache2/conf.d/xhprof':
+      content => template('http_stack/apache/xhprof.conf.erb'),
+      ensure => "present",
+      owner => 'root',
+      group => 'root',
+      notify => Service['apache2'],
+      require => Package['apache2'],
+    }
 
    # Ensure that mod-rewrite is running.
   exec { 'a2enmod-rewrite':
@@ -35,17 +45,9 @@ class http_stack::apache(
 
   class { 'phpmyadmin': }
 
-  file { "/etc/apache2/conf.d/xhprof":
-    source => 'puppet:///modules/http_stack/apache/xhprof',
-    owner => 'root',
-    group => 'root',
-    require => Package['apache2'],
-    notify => Service['apache2'],
-  }
-
   # Restart Apache after the config file is deployed.
   service { 'apache2':
-    subscribe => Package['libapache2-mod-php5'],
+    require => Package['libapache2-mod-php5'],
   }
 
   # Make sure the SSL directory exists.
@@ -72,7 +74,7 @@ class http_stack::apache(
       group => 'root',
     }
     # The symlink in sites-enabled.
-    file {"/etc/apache2/sites-enabled/20-$name":
+    file {"/etc/apache2/sites-enabled/20-$name.conf":
       ensure => 'link',
       target => "/etc/apache2/sites-available/$name",
       notify => Service['apache2'],

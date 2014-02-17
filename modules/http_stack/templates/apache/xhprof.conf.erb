@@ -1,0 +1,9 @@
+alias /xhprof "/usr/share/php/xhprof_html/"
+
+<Directory /usr/share/php/xhprof_html/>
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride All
+    Order allow,deny
+    allow from all
+    DirectoryIndex index.php
+</Directory>

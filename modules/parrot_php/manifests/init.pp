@@ -20,36 +20,20 @@ class parrot_php {
       package { $php_packages:
         ensure => 'latest',
         # This causes a dependency loop, not sure why though!
-        #require => Apt::Source["php5-oldstable"],
-      }
-      apt::source { 'php5-oldstable':
-        location   => 'http://ppa.launchpad.net/ondrej/php5-oldstable/ubuntu/',
-        key        => "E5267A6C",
-      }
-
-      package { 'php5-xhprof':
-        ensure => 'purged',
+        require => Class["parrot_repos"],
       }
     }
     '5.3', default: {
       package { $php_packages:
         ensure => 'latest',
-      }
-      apt::source { 'php5-oldstable':
-        location   => 'http://ppa.launchpad.net/ondrej/php5-oldstable/ubuntu/',
-        key        => "E5267A6C",
-        ensure     => 'absent',
-      }
-      apt::source { 'php5-xhprof':
-        location   => 'http://ppa.launchpad.net/brianmercer/php5-xhprof/ubuntu/',
-        key        => "8D0DC64F",
-      }
-
-      package { 'php5-xhprof':
-        require => Apt::Source["php5-xhprof"],
-        ensure => 'latest',
+        require => Class["parrot_repos"],
       }
     }
+  }
+
+  # We don't use xhprof from the ubuntu package any more.
+  package { 'php5-xhprof':
+    ensure => 'purged',
   }
 
 
@@ -81,9 +65,10 @@ class parrot_php {
   }
 
   # Pull in the pear class, which will install uploadprogress for us.
-  #class {'pear':
-  #  require => Package['php5'],
-  #}
+  class {'pear':
+    require => Package['php5'],
+    notify => Service['apache2'],
+  }
 
 
   host { 'host_machine.parrot':
