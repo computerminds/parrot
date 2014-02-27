@@ -2,7 +2,10 @@ class http_stack::apache(
   $apache_http_port  = 8080,
   $apache_https_port = 443
 ) {
-  package { 'apache2': }
+  package { 'apache2':
+    ensure => 'latest',
+    require => Class["parrot_repos"],
+  }
   package { 'libapache2-mod-php5':
     require => Class['parrot_php'],
   }
@@ -16,14 +19,28 @@ class http_stack::apache(
     require => Package['apache2'],
   }
 
-  file { '/etc/apache2/conf.d/xhprof':
-      content => template('http_stack/apache/xhprof.conf.erb'),
-      ensure => "present",
-      owner => 'root',
-      group => 'root',
-      notify => Service['apache2'],
-      require => Package['apache2'],
+  case $parrot_php_version {
+    '5.5': {
+      file { '/etc/apache2/conf-enabled/xhprof.conf':
+        content => template('http_stack/apache/xhprof.conf.erb'),
+        ensure => "present",
+        owner => 'root',
+        group => 'root',
+        notify => Service['apache2'],
+        require => Package['apache2'],
+      }
     }
+    default: {
+      file { '/etc/apache2/conf.d/xhprof':
+        content => template('http_stack/apache/xhprof.conf.erb'),
+        ensure => "present",
+        owner => 'root',
+        group => 'root',
+        notify => Service['apache2'],
+        require => Package['apache2'],
+      }
+    }
+  }
 
    # Ensure that mod-rewrite is running.
   exec { 'a2enmod-rewrite':

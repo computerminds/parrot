@@ -15,20 +15,9 @@ class parrot_php {
   ]
 
   #Install PHP
-  case $parrot_php_version {
-    '5.4': {
-      package { $php_packages:
-        ensure => 'latest',
-        # This causes a dependency loop, not sure why though!
-        require => Class["parrot_repos"],
-      }
-    }
-    '5.3', default: {
-      package { $php_packages:
-        ensure => 'latest',
-        require => Class["parrot_repos"],
-      }
-    }
+  package { $php_packages:
+    ensure => 'latest',
+    require => Class["parrot_repos"],
   }
 
   # We don't use xhprof from the ubuntu package any more.

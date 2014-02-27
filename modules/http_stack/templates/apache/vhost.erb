@@ -10,11 +10,15 @@
 	<Directory /vagrant_sites/<%= @name %>/>
 		Options Indexes FollowSymLinks MultiViews
 		AllowOverride All
-		# For apache 2.2
-		Order allow,deny
-		allow from all
-		# For Apache 2.4
-		#Require all granted
+		<IfModule mod_authz_core.c>
+			# For Apache 2.4
+      Require all granted
+   </IfModule>
+   <IfModule !mod_authz_core.c>
+   	# For apache 2.2
+     Order allow,deny
+     allow from all
+    </IfModule>
 	</Directory>
 
 	ErrorLog ${APACHE_LOG_DIR}/error.log
@@ -40,8 +44,15 @@
 		<Directory /vagrant_sites/<%= @name %>/>
 			Options Indexes FollowSymLinks MultiViews
 			AllowOverride All
-			Order allow,deny
-			allow from all
+      <IfModule mod_authz_core.c>
+        # For Apache 2.4
+        Require all granted
+      </IfModule>
+      <IfModule !mod_authz_core.c>
+   	    # For apache 2.2
+        Order allow,deny
+        allow from all
+      </IfModule>
 		</Directory>
 
 		ErrorLog ${APACHE_LOG_DIR}/error.log
