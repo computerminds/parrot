@@ -2,15 +2,44 @@ class http_stack::apache(
   $apache_http_port  = 8080,
   $apache_https_port = 443
 ) {
-  package { 'apache2': }
-  package { 'libapache2-mod-php5': }
+  package { 'apache2':
+    ensure => 'latest',
+    require => Class["parrot_repos"],
+  }
+  package { 'libapache2-mod-php5':
+    require => Class['parrot_php'],
+  }
 
   file { '/etc/apache2/ports.conf':
     content => template('http_stack/apache/ports.conf.erb'),
     ensure => "present",
     owner => 'root',
     group => 'root',
-    notify => Service['apache2']
+    notify => Service['apache2'],
+    require => Package['apache2'],
+  }
+
+  case $parrot_php_version {
+    '5.5': {
+      file { '/etc/apache2/conf-enabled/xhprof.conf':
+        content => template('http_stack/apache/xhprof.conf.erb'),
+        ensure => "present",
+        owner => 'root',
+        group => 'root',
+        notify => Service['apache2'],
+        require => Package['apache2'],
+      }
+    }
+    default: {
+      file { '/etc/apache2/conf.d/xhprof':
+        content => template('http_stack/apache/xhprof.conf.erb'),
+        ensure => "present",
+        owner => 'root',
+        group => 'root',
+        notify => Service['apache2'],
+        require => Package['apache2'],
+      }
+    }
   }
 
    # Ensure that mod-rewrite is running.
@@ -33,16 +62,10 @@ class http_stack::apache(
 
   class { 'phpmyadmin': }
 
-  file { "/etc/apache2/conf.d/xhprof":
-    source => 'puppet:///modules/http_stack/apache/xhprof',
-    owner => 'root',
-    group => 'root',
-    require => Package['apache2'],
-    notify => Service['apache2'],
-  }
-
   # Restart Apache after the config file is deployed.
-  service { 'apache2':  }
+  service { 'apache2':
+    require => Package['libapache2-mod-php5'],
+  }
 
   # Make sure the SSL directory exists.
   file { "/etc/apache2/ssl.d":
@@ -68,7 +91,7 @@ class http_stack::apache(
       group => 'root',
     }
     # The symlink in sites-enabled.
-    file {"/etc/apache2/sites-enabled/20-$name":
+    file {"/etc/apache2/sites-enabled/20-$name.conf":
       ensure => 'link',
       target => "/etc/apache2/sites-available/$name",
       notify => Service['apache2'],

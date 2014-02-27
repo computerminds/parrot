@@ -52,4 +52,25 @@ class pear {
     content => "extension=uploadprogress.so\n",
     require => Package["uploadprogress"],
   }
+
+  package { "xhprof-beta":
+      ensure   => installed,
+      provider => pecl,
+    }
+
+  file {"/tmp/xhprof":
+    ensure  => 'directory',
+    owner   => root,
+    group   => root,
+    mode    => 0777,
+  }
+
+  file { "/etc/php5/apache2/conf.d/xhprof.ini":
+    ensure  => present,
+    owner   => root,
+    group   => root,
+    mode    => 0644,
+    content => "extension=xhprof.so\nxhprof.output_dir='/tmp/xhprof'",
+    require => Package["xhprof-beta"],
+  }
 }
