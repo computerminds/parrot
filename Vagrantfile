@@ -9,7 +9,8 @@ def parse_config(
     'databases' => "databases",
     'memory' => '2048',
     'with_gui' => false,
-    'ip' => "192.168.50.4"
+    'ip' => "192.168.50.4",
+    'php_version' => '5.3'
   }
   if File.exists?(config_file)
     overrides = YAML.load_file(config_file)
@@ -119,7 +120,8 @@ Vagrant.configure('2') do |config|
     puppet.module_path = "modules"
     # Add a custom fact so we can reliably hit the host IP from the guest.
     puppet.facter = {
-      "vagrant_guest_ip" => custom_config['ip']
+      "vagrant_guest_ip" => custom_config['ip'],
+      "parrot_php_version" => custom_config['php_version']
     }
   end
 end

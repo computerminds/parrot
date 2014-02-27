@@ -6,21 +6,9 @@ class http_stack::varnish(
 
   # TODO: We should make the ports for Varnish configurable.
 
-	apt::source { 'varnish':
-	  location   => 'http://repo.varnish-cache.org/ubuntu/',
-	  repos      => 'varnish-3.0',
-	  release    => 'precise',
-	  require => Apt::Key['varnish'],
-	}
-
-	apt::key { "varnish":
-      key        => "C4DEFFEB",
-      key_source => "http://repo.varnish-cache.org/debian/GPG-key.txt",
-    }
-
     package { varnish:
        ensure => latest,
-       require => Apt::Source['varnish'],
+       require => Class["parrot_repos"],
     }
 
     file { "/etc/varnish/default.vcl":

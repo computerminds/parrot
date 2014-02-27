@@ -1,38 +1,31 @@
 class parrot_php {
 
+  $php_packages = [
+   'php5',
+#   'php5-suhosin',
+   'php5-cgi',
+   'php-apc',
+   'php5-cli',
+   'php5-curl',
+   'php5-mysql',
+   'php5-gd',
+   'php5-sqlite',
+   'php5-xmlrpc',
+   'php5-xdebug',
+  ]
+
   #Install PHP
-  package { ['php5',
-             'php5-suhosin',
-             'php5-cgi',
-             'php-apc',
-             'php5-cli',
-             'php5-curl',
-             'php5-mysql',
-             'php5-gd',
-             'php5-sqlite',
-             'php5-xmlrpc',
-             'php5-xdebug',
-  ]:
+  package { $php_packages:
     ensure => 'latest',
-#    notify => Exec["force-reload-apache"],
-
+    require => Class["parrot_repos"],
   }
 
-  apt::source { 'php5-xhprof':
-    location   => 'http://ppa.launchpad.net/brianmercer/php5-xhprof/ubuntu/',
-    repos      => 'main',
-    release    => 'precise',
-    require => Apt::Key['php5-xhprof'],
-  }
-
-  apt::key { "php5-xhprof":
-      key        => "8D0DC64F",
-      key_server => "keyserver.ubuntu.com",
-    }
-
+  # We don't use xhprof from the ubuntu package any more.
   package { 'php5-xhprof':
-    require => Apt::Source["php5-xhprof"],
+    ensure => 'purged',
   }
+
+
   package { 'graphviz': }
 
   # Set up APC
@@ -61,9 +54,10 @@ class parrot_php {
   }
 
   # Pull in the pear class, which will install uploadprogress for us.
-  #class {'pear':
-  #  require => Package['php5'],
-  #}
+  class {'pear':
+    require => Package['php5'],
+    notify => Service['apache2'],
+  }
 
 
   host { 'host_machine.parrot':
