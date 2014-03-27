@@ -53,6 +53,24 @@ class parrot_php {
     notify => Service['apache2'],
   }
 
+  case $parrot_php_version {
+    '5.5': {
+      file {'/etc/php5/apache2/conf.d/50-parrot.ini':
+        ensure => 'link',
+        target => '/etc/php5/conf.d/zy-parrot.ini',
+        notify => Service['apache2'],
+        require => File['/etc/php5/conf.d/zy-parrot.ini'],
+      }
+
+      file {'/etc/php5/apache2/conf.d/80-parrot.ini':
+        ensure => 'link',
+        target => '/etc/php5/conf.d/zz-parrot.ini',
+        notify => Service['apache2'],
+        require => File['/etc/php5/conf.d/zz-parrot.ini'],
+      }
+    }
+  }
+
   # Pull in the pear class, which will install uploadprogress for us.
   class {'pear':
     require => Package['php5'],
