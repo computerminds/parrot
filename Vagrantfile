@@ -10,7 +10,8 @@ def parse_config(
     'memory' => '2048',
     'with_gui' => false,
     'ip' => "192.168.50.4",
-    'php_version' => '5.3'
+    'php_version' => '5.3',
+    'box_name' => 'Parrot'
   }
   if File.exists?(config_file)
     overrides = YAML.load_file(config_file)
@@ -65,7 +66,7 @@ Vagrant.configure('2') do |config|
     end
 
     box.customize ['modifyvm', :id, '--memory', custom_config['memory']]
-    box.name = "Parrot"
+    box.name = custom_config['box_name']
     # Boot with a GUI so you can see the screen. (Default is headless)
     box.gui = custom_config['with_gui']
   end
