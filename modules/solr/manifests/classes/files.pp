@@ -23,7 +23,7 @@ class solr::files {
 
   exec { "deploy_solr":
     cwd => "/tmp",
-    command => "/bin/mv /tmp/solr-4.7.1/example/lib/ext/* /usr/share/tomcat6/lib/",
+    command => "/bin/cp /tmp/solr-4.7.1/dist/solr-4.7.1.war /var/lib/tomcat6/webapps/solr.war",
     creates => "/var/lib/tomcat6/webapps/solr.war",
     require => Exec["unpack_solr"],
   }
