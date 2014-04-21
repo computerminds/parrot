@@ -2,12 +2,12 @@
 	ServerAdmin webmaster@localhost
         ServerName <%= @name %>
 
-	DocumentRoot /vagrant_sites/<%= @name %>
+	DocumentRoot /vagrant_sites/<%= @name %><%= @apache_vhost_webroot_subdir %>
 	<Directory />
 		Options FollowSymLinks
 		AllowOverride None
 	</Directory>
-	<Directory /vagrant_sites/<%= @name %>/>
+	<Directory /vagrant_sites/<%= @name %><%= @apache_vhost_webroot_subdir %>/>
 		Options Indexes FollowSymLinks MultiViews
 		AllowOverride All
 		<IfModule mod_authz_core.c>
@@ -36,12 +36,12 @@
 		ServerAdmin webmaster@localhost
 	        ServerName <%= @name %>
 
-		DocumentRoot /vagrant_sites/<%= @name %>
+		DocumentRoot /vagrant_sites/<%= @name %><%= @apache_vhost_webroot_subdir %>
 		<Directory />
 			Options FollowSymLinks
 			AllowOverride None
 		</Directory>
-		<Directory /vagrant_sites/<%= @name %>/>
+		<Directory /vagrant_sites/<%= @name %><%= @apache_vhost_webroot_subdir %>/>
 			Options Indexes FollowSymLinks MultiViews
 			AllowOverride All
       <IfModule mod_authz_core.c>
