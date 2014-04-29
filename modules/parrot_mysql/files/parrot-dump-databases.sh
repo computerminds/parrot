@@ -14,7 +14,7 @@ databases=`$MYSQL --user=$MYSQL_USER -p$MYSQL_PASSWORD -e "SHOW DATABASES;" | gr
 
 for db in $databases; do
   echo "Dumping $db to $BACKUP_DIR/$db.sql"
-  $MYSQLDUMP --force --user=$MYSQL_USER -p$MYSQL_PASSWORD --quick --single-transaction --no-create-db --databases $db > "$BACKUP_DIR/$db.sql"
+  $MYSQLDUMP --force --user=$MYSQL_USER -p$MYSQL_PASSWORD --quick --single-transaction --no-create-db $db > "$BACKUP_DIR/$db.sql"
 done
 
 echo "All databases exported."
