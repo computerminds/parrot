@@ -106,7 +106,7 @@ Vagrant.configure('2') do |config|
 
   # Use Vagrant Cachier
   if Vagrant.has_plugin?("vagrant-cachier")
-    config.cache.auto_detect = true
+    config.cache.scope = :box
   end
 
   # Enable ssh key forwarding
