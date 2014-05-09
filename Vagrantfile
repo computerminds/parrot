@@ -6,6 +6,7 @@ def parse_config(
   require 'yaml'
   config = {
     'sites' => "sites",
+    'webroot_subdir' => "",
     'databases' => "databases",
     'memory' => '2048',
     'with_gui' => false,
@@ -122,7 +123,8 @@ Vagrant.configure('2') do |config|
     # Add a custom fact so we can reliably hit the host IP from the guest.
     puppet.facter = {
       "vagrant_guest_ip" => custom_config['ip'],
-      "parrot_php_version" => custom_config['php_version']
+      "parrot_php_version" => custom_config['php_version'],
+      "apache_vhost_webroot_subdir" => custom_config['webroot_subdir']
     }
   end
 end
