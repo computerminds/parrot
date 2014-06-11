@@ -14,7 +14,7 @@ Simple and repeatable, that is what the Parrot VM is all about.
 Requirements
 ------------
 
-* [Vagrant](http://www.vagrantup.com/)
+* [Vagrant](http://www.vagrantup.com/) (version 1.3.0 or higher)
 * [Virtualbox](https://www.virtualbox.org/) or [VMWare Fusion](http://www.vmware.com/uk/products/fusion)
 * Unix based host system
 * [Lots of free RAM](http://lmgtfy.com/?q=computer+memory+upgrade)
