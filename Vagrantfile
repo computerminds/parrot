@@ -1,3 +1,4 @@
+Vagrant.require_version ">= 1.3.0"
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 def parse_config(
