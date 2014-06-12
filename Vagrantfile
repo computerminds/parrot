@@ -12,6 +12,7 @@ def parse_config(
     'with_gui' => false,
     'ip' => "192.168.50.4",
     'php_version' => '5.3',
+    'mysql_version' => '5.5',
     'box_name' => 'Parrot'
   }
   if File.exists?(config_file)
@@ -126,6 +127,7 @@ Vagrant.configure('2') do |config|
     puppet.facter = {
       "vagrant_guest_ip" => custom_config['ip'],
       "parrot_php_version" => custom_config['php_version'],
+      "parrot_mysql_version" => custom_config['mysql_version'],
       "apache_vhost_webroot_subdir" => custom_config['webroot_subdir']
     }
   end

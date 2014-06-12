@@ -8,7 +8,7 @@ query_cache_size        = <%= scope.lookupvar('parrot_mysql::config::mysql_query
 innodb_buffer_pool_size = <%= scope.lookupvar('parrot_mysql::config::innodb_buffer_pool_size') %>
 key_buffer_size = <%= scope.lookupvar('parrot_mysql::config::key_buffer_size') %>
 max_connections = <%= scope.lookupvar('parrot_mysql::config::mysql_max_connections') %>
-table_cache = <%= scope.lookupvar('parrot_mysql::config::table_cache') %>
+table_open_cache = <%= scope.lookupvar('parrot_mysql::config::table_cache') %>
 
 default_storage_engine  = innodb
 <% if (lsbdistcodename == 'precise') %># Not needed for Precise

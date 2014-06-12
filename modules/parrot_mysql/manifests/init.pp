@@ -7,6 +7,7 @@ class parrot_mysql {
     ensure => latest,
     module_name => 'parrot_mysql',
     before => File['/etc/mysql/conf.d/parrot.cnf'],
+    require => Class["parrot_repos"],
   }
 
   file {'/etc/mysql/conf.d/parrot.cnf':
@@ -23,7 +24,9 @@ class parrot_mysql {
     #subscribe => File['/etc/mysql/conf.d/parrot.cnf'],
   }
 
-  package {'mysql-client': }
+  package {'mysql-client': 
+    require => Class["parrot_repos"],
+  }
 
   # Create the user for the DB from the host machine
   exec { "create-db-schema-and-user":
