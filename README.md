@@ -55,5 +55,5 @@ Features
 * [HTTP Stack](https://github.com/computerminds/parrot/wiki/HTTP-stack)
   * [Varnish 3](https://github.com/computerminds/parrot/wiki/Varnish-3)
   * [Apache 2](https://github.com/computerminds/parrot/wiki/Apache-2)
-* [PHP](https://github.com/computerminds/parrot/wiki/PHP)
+* [PHP](https://github.com/computerminds/parrot/wiki/PHP) using PHP-FPM for extra cool points.
 * [XDebug](https://github.com/computerminds/parrot/wiki/PHP-XDebug)
