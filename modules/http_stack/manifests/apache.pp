@@ -2,12 +2,17 @@ class http_stack::apache(
   $apache_http_port  = 8080,
   $apache_https_port = 443
 ) {
-  package { 'apache2':
+
+  $apache_packages = [
+    'apache2',
+    'apache2-mpm-worker',
+    'apache2-threaded-dev',
+    'apache2-utils',
+    'libapache2-mod-fastcgi',
+  ]
+  package { $apache_packages:
     ensure => 'latest',
     require => Class["parrot_repos"],
-  }
-  package { 'libapache2-mod-php5':
-    require => Class['parrot_php'],
   }
 
   file { '/etc/apache2/ports.conf':
@@ -64,7 +69,7 @@ class http_stack::apache(
 
   # Restart Apache after the config file is deployed.
   service { 'apache2':
-    require => Package['libapache2-mod-php5'],
+    require => Package['libapache2-mod-fastcgi'],
   }
 
   # Make sure the SSL directory exists.

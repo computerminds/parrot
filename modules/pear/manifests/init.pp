@@ -44,7 +44,7 @@ class pear {
     provider => pecl,
   } 
 
-  file { "/etc/php5/apache2/conf.d/uploadprogress.ini":
+  file { "/etc/php5/fpm/conf.d/uploadprogress.ini":
     ensure  => present,
     owner   => root,
     group   => root,
@@ -65,7 +65,7 @@ class pear {
     mode    => 0777,
   }
 
-  file { "/etc/php5/apache2/conf.d/xhprof.ini":
+  file { "/etc/php5/fpm/conf.d/xhprof.ini":
     ensure  => present,
     owner   => root,
     group   => root,
