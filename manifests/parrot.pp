@@ -7,7 +7,14 @@ node default {
   class { parrot_php:  }
   class { oh_my_zsh:  }
   class { sudoers: }
-  class { 'http_stack::without_varnish': }
+  case $parrot_varnish_enabled {
+    'true', true: {
+      class { 'http_stack::with_varnish': }
+    }
+    default: {
+      class { 'http_stack::without_varnish': }
+    }
+  }
   class { mailcollect: }
 
   package { 'vim': }
