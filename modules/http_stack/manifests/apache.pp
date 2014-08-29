@@ -15,6 +15,10 @@ class http_stack::apache(
     require => Class["parrot_repos"],
   }
 
+  package {'libapache2-mod-php5':
+    ensure => 'absent',
+  }
+
   file { '/etc/apache2/ports.conf':
     content => template('http_stack/apache/ports.conf.erb'),
     ensure => "present",
@@ -36,6 +40,14 @@ class http_stack::apache(
       }
     }
     default: {
+      file { '/etc/apache2/conf.d/php-fpm':
+        content => template('http_stack/apache/php-fpm.conf.erb'),
+        ensure => "present",
+        owner => 'root',
+        group => 'root',
+        notify => Service['apache2'],
+        require => Package['apache2'],
+      }
       file { '/etc/apache2/conf.d/xhprof':
         content => template('http_stack/apache/xhprof.conf.erb'),
         ensure => "present",
@@ -57,10 +69,28 @@ class http_stack::apache(
   }
 
   # Ensure that mod-ssl is running.
+  exec { 'a2enmod-fastcgi':
+    command => '/usr/sbin/a2enmod fastcgi',
+    require => Package['apache2'],
+    creates => '/etc/apache2/mods-enabled/fastcgi.load',
+    user => 'root',
+    group => 'root',
+  }
+
+  # Ensure that mod-ssl is running.
   exec { 'a2enmod-ssl':
     command => '/usr/sbin/a2enmod ssl',
     require => Package['apache2'],
     creates => '/etc/apache2/mods-enabled/ssl.load',
+    user => 'root',
+    group => 'root',
+  }
+
+  # Ensure that mod-php5 cgi is not running.
+  exec { 'a2dismod-php5_cgi':
+    command => '/usr/sbin/a2dismod php5_cgi',
+    require => Package['apache2'],
+    onlyif => '/usr/bin/test -f /etc/apache2/mods-enabled/php5_cgi.load',
     user => 'root',
     group => 'root',
   }

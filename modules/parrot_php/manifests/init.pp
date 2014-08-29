@@ -72,6 +72,14 @@ class parrot_php {
     }
   }
 
+  file {'/etc/php5/fpm/pool.d/www.conf':
+    content => template('parrot_php/www.conf.erb'),
+    require => Package['php5-fpm'],
+    owner => 'root',
+    group => 'root',
+    notify => Service['apache2'],
+  }
+
   # Pull in the pear class, which will install uploadprogress for us.
   class {'pear':
     require => Package['php5'],
