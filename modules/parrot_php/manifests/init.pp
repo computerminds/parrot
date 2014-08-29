@@ -30,6 +30,13 @@ class parrot_php (
     ensure => 'purged',
   }
 
+  # We need a user to exist that will run our PHP.
+  user {'host_user':
+    ensure => 'present',
+    uid => $fpm_user_uid,
+    gid => $fpm_user_gid,
+  }
+
 
   package { 'graphviz': }
 
