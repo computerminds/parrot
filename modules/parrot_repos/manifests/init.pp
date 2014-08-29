@@ -29,7 +29,7 @@ class parrot_repos {
 
   case $parrot_mysql_version {
     '5.6': {
-      apt::source { 'php5':
+      apt::source { 'mysql56':
         location   => 'http://ppa.launchpad.net/ondrej/mysql-5.6/ubuntu/',
         key        => "E5267A6C",
       }
