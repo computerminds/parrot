@@ -6,6 +6,10 @@ class parrot_repos {
         location   => 'http://ppa.launchpad.net/ondrej/php5/ubuntu/',
         key        => "E5267A6C",
       }
+      apt::source { 'apache':
+        location   => 'http://ppa.launchpad.net/ondrej/apache2/ubuntu/',
+        key        => "E5267A6C",
+      }
       apt::source { 'php5-oldstable':
         location   => 'http://ppa.launchpad.net/ondrej/php5-oldstable/ubuntu/',
         key        => "E5267A6C",
