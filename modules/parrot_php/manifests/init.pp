@@ -1,4 +1,8 @@
-class parrot_php {
+class parrot_php (
+  $fpm_user_uid  = $vagrant_host_user_uid,
+  $fpm_user_gid  = $vagrant_host_user_gid,
+)
+{
 
   $php_packages = [
    'php5',
@@ -77,7 +81,7 @@ class parrot_php {
     require => Package['php5-fpm'],
     owner => 'root',
     group => 'root',
-    notify => Service['apache2'],
+    notify => Service['apache2', 'php5-fpm'],
   }
 
   # Pull in the pear class, which will install uploadprogress for us.

@@ -102,6 +102,11 @@ class http_stack::apache(
     require => Package['libapache2-mod-fastcgi'],
   }
 
+  # Restart Apache after the config file is deployed.
+  service { 'php5-fpm':
+    require => Package['libapache2-mod-fastcgi'],
+  }
+
   # Make sure the SSL directory exists.
   file { "/etc/apache2/ssl.d":
     owner => 'root',
