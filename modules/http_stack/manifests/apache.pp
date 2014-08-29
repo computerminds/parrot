@@ -38,6 +38,14 @@ class http_stack::apache(
         notify => Service['apache2'],
         require => Package['apache2'],
       }
+      file { '/etc/apache2/conf-enabled/php-fpm.conf':
+        content => template('http_stack/apache/php-fpm.conf.erb'),
+        ensure => "present",
+        owner => 'root',
+        group => 'root',
+        notify => Service['apache2'],
+        require => Package['apache2'],
+      }
     }
     default: {
       file { '/etc/apache2/conf.d/php-fpm':

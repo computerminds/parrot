@@ -67,17 +67,17 @@ class parrot_php (
 
   case $parrot_php_version {
     '5.5': {
-      file {'/etc/php5/apache2/conf.d/50-parrot.ini':
+      file {'/etc/php5/fpm/conf.d/50-parrot.ini':
         ensure => 'link',
         target => '/etc/php5/conf.d/zy-parrot.ini',
-        notify => Service['apache2'],
+        notify => Service['php5-fpm'],
         require => File['/etc/php5/conf.d/zy-parrot.ini'],
       }
 
-      file {'/etc/php5/apache2/conf.d/80-parrot.ini':
+      file {'/etc/php5/fpm/conf.d/80-parrot.ini':
         ensure => 'link',
         target => '/etc/php5/conf.d/zz-parrot.ini',
-        notify => Service['apache2'],
+        notify => Service['php5-fpm'],
         require => File['/etc/php5/conf.d/zz-parrot.ini'],
       }
     }
