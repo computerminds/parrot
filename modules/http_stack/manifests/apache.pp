@@ -48,14 +48,6 @@ class http_stack::apache(
         notify => Service['apache2'],
         require => Package['apache2'],
       }
-      # Ensure that mod-rewrite is running.
-      exec { 'a2enmod-actions':
-        command => '/usr/sbin/a2enmod actions',
-        require => Package['apache2'],
-        creates => '/etc/apache2/mods-enabled/actions.load',
-        user => 'root',
-        group => 'root',
-      }
     }
     default: {
       package { "apache2-threaded-dev":
@@ -108,7 +100,7 @@ class http_stack::apache(
     group => 'root',
   }
 
-  # Ensure that mod-ssl is running.
+  # Ensure that mod-fastcgi is running.
   exec { 'a2enmod-fastcgi':
     command => '/usr/sbin/a2enmod fastcgi',
     require => Package['apache2'],
@@ -125,6 +117,15 @@ class http_stack::apache(
     user => 'root',
     group => 'root',
   }
+
+  # Ensure that mod-actions is running.
+    exec { 'a2enmod-actions':
+      command => '/usr/sbin/a2enmod actions',
+      require => Package['apache2'],
+      creates => '/etc/apache2/mods-enabled/actions.load',
+      user => 'root',
+      group => 'root',
+    }
 
   # Ensure that mod-php5 cgi is not running.
   exec { 'a2dismod-php5_cgi':
