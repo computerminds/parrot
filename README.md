@@ -57,3 +57,4 @@ Features
   * [Apache 2](https://github.com/computerminds/parrot/wiki/Apache-2)
 * [PHP](https://github.com/computerminds/parrot/wiki/PHP) using PHP-FPM for extra cool points.
 * [XDebug](https://github.com/computerminds/parrot/wiki/PHP-XDebug)
+* Redis / Memcache (optional)

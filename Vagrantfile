@@ -15,6 +15,8 @@ def parse_config(
     'mysql_version' => '5.5',
     'box_name' => 'Parrot',
     'varnish_enabled' => false,
+    'memcache_enabled' => false,
+    'redis_enabled' => false,
     'local_user_uid' => Process.uid,
     'local_user_gid' => Process.gid,
   }
@@ -133,6 +135,8 @@ Vagrant.configure('2') do |config|
       "parrot_mysql_version" => custom_config['mysql_version'],
       "apache_vhost_webroot_subdir" => custom_config['webroot_subdir'],
       "parrot_varnish_enabled" => custom_config['varnish_enabled'],
+      "parrot_memcache_enabled" => custom_config['memcache_enabled'],
+      "parrot_redis_enabled" => custom_config['redis_enabled'],
       "vagrant_host_user_uid" => custom_config['local_user_uid'],
       "vagrant_host_user_gid" => custom_config['local_user_gid'],
     }
