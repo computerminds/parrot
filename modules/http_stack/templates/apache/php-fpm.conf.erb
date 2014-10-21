@@ -1,0 +1,12 @@
+<IfModule mod_fastcgi.c>
+  Alias /usr/sbin/php-fpm.fcgi /usr/sbin/php-fpm
+  AddHandler php-fastcgi .php
+  Action php-fastcgi /usr/sbin/php-fpm.fcgi
+  FastCGIExternalServer /usr/sbin/php-fpm -host 127.0.0.1:9999 -pass-header Authorization -idle-timeout 6000
+  <Directory /usr/sbin>
+    Options ExecCGI FollowSymLinks
+    SetHandler fastcgi-script
+    Order allow,deny
+    Allow from all
+  </Directory>
+</IfModule>

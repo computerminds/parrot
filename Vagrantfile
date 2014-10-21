@@ -15,6 +15,8 @@ def parse_config(
     'mysql_version' => '5.5',
     'box_name' => 'Parrot',
     'varnish_enabled' => false,
+    'local_user_uid' => Process.uid,
+    'local_user_gid' => Process.gid,
   }
   if File.exists?(config_file)
     overrides = YAML.load_file(config_file)
@@ -131,6 +133,8 @@ Vagrant.configure('2') do |config|
       "parrot_mysql_version" => custom_config['mysql_version'],
       "apache_vhost_webroot_subdir" => custom_config['webroot_subdir'],
       "parrot_varnish_enabled" => custom_config['varnish_enabled'],
+      "vagrant_host_user_uid" => custom_config['local_user_uid'],
+      "vagrant_host_user_gid" => custom_config['local_user_gid'],
     }
   end
 end

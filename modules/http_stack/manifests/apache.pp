@@ -2,12 +2,20 @@ class http_stack::apache(
   $apache_http_port  = 8080,
   $apache_https_port = 443
 ) {
-  package { 'apache2':
+
+  $apache_packages = [
+    'apache2',
+    'apache2-mpm-worker',
+    'apache2-utils',
+    'libapache2-mod-fastcgi',
+  ]
+  package { $apache_packages:
     ensure => 'latest',
     require => Class["parrot_repos"],
   }
-  package { 'libapache2-mod-php5':
-    require => Class['parrot_php'],
+
+  package {'libapache2-mod-php5':
+    ensure => 'absent',
   }
 
   file { '/etc/apache2/ports.conf':
@@ -21,6 +29,9 @@ class http_stack::apache(
 
   case $parrot_php_version {
     '5.5': {
+      package { "apache2-threaded-dev":
+        ensure => absent,
+      }
       file { '/etc/apache2/conf-enabled/xhprof.conf':
         content => template('http_stack/apache/xhprof.conf.erb'),
         ensure => "present",
@@ -29,8 +40,28 @@ class http_stack::apache(
         notify => Service['apache2'],
         require => Package['apache2'],
       }
+      file { '/etc/apache2/conf-enabled/php-fpm.conf':
+        content => template('http_stack/apache/2.4-php-fpm.conf.erb'),
+        ensure => "present",
+        owner => 'root',
+        group => 'root',
+        notify => Service['apache2'],
+        require => Package['apache2'],
+      }
     }
     default: {
+      package { "apache2-threaded-dev":
+        ensure => latest,
+        require => Class["parrot_repos"],
+      }
+      file { '/etc/apache2/conf.d/php-fpm':
+        content => template('http_stack/apache/php-fpm.conf.erb'),
+        ensure => "present",
+        owner => 'root',
+        group => 'root',
+        notify => Service['apache2'],
+        require => Package['apache2'],
+      }
       file { '/etc/apache2/conf.d/xhprof':
         content => template('http_stack/apache/xhprof.conf.erb'),
         ensure => "present",
@@ -42,11 +73,38 @@ class http_stack::apache(
     }
   }
 
-   # Ensure that mod-rewrite is running.
+  # Ensure that mod-rewrite is running.
   exec { 'a2enmod-rewrite':
     command => '/usr/sbin/a2enmod rewrite',
     require => Package['apache2'],
     creates => '/etc/apache2/mods-enabled/rewrite.load',
+    user => 'root',
+    group => 'root',
+  }
+
+  # Ensure that mod-deflate is running.
+  exec { 'a2enmod-deflate':
+    command => '/usr/sbin/a2enmod deflate',
+    require => Package['apache2'],
+    creates => '/etc/apache2/mods-enabled/deflate.load',
+    user => 'root',
+    group => 'root',
+  }
+
+  # Ensure that mod-expires is running.
+  exec { 'a2enmod-expires':
+    command => '/usr/sbin/a2enmod expires',
+    require => Package['apache2'],
+    creates => '/etc/apache2/mods-enabled/expires.load',
+    user => 'root',
+    group => 'root',
+  }
+
+  # Ensure that mod-fastcgi is running.
+  exec { 'a2enmod-fastcgi':
+    command => '/usr/sbin/a2enmod fastcgi',
+    require => Package['apache2'],
+    creates => '/etc/apache2/mods-enabled/fastcgi.load',
     user => 'root',
     group => 'root',
   }
@@ -60,11 +118,34 @@ class http_stack::apache(
     group => 'root',
   }
 
+  # Ensure that mod-actions is running.
+    exec { 'a2enmod-actions':
+      command => '/usr/sbin/a2enmod actions',
+      require => Package['apache2'],
+      creates => '/etc/apache2/mods-enabled/actions.load',
+      user => 'root',
+      group => 'root',
+    }
+
+  # Ensure that mod-php5 cgi is not running.
+  exec { 'a2dismod-php5_cgi':
+    command => '/usr/sbin/a2dismod php5_cgi',
+    require => Package['apache2'],
+    onlyif => '/usr/bin/test -f /etc/apache2/mods-enabled/php5_cgi.load',
+    user => 'root',
+    group => 'root',
+  }
+
   class { 'phpmyadmin': }
 
   # Restart Apache after the config file is deployed.
   service { 'apache2':
-    require => Package['libapache2-mod-php5'],
+    require => Package['libapache2-mod-fastcgi'],
+  }
+
+  # Restart Apache after the config file is deployed.
+  service { 'php5-fpm':
+    require => Package['libapache2-mod-fastcgi'],
   }
 
   # Make sure the SSL directory exists.
