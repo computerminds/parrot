@@ -103,6 +103,17 @@ Vagrant.configure('2') do |config|
   # Dovecot - IMAP
   config.vm.network :forwarded_port, :guest => 143, :host => 1143
 
+  if (custom_config['memcache_enabled'])
+    # Memcache
+    config.vm.network :forwarded_port, :guest => 11211, :host => 11211
+  end
+
+  if (custom_config['redis_enabled'])
+    # Redis
+    config.vm.network :forwarded_port, :guest => 6379, :host => 6379
+  end
+
+
   # Share an additional folder to the guest VM. The first argument is
   # an identifier, the second is the path on the guest to mount the
   # folder, and the third is the path on the host to the actual folder.
