@@ -58,7 +58,8 @@ class parrot_php (
 
   # Set up php.ini.
   file {'/etc/php5/conf.d/zz-parrot.ini':
-    source => '/vagrant_parrot_config/php/parrot-local.ini',
+    source => ['/vagrant_parrot_config/php/parrot-local.ini',
+               '/vagrant_parrot_config/php/parrot-local.ini.template'],
     require => Package['php5'],
     owner => 'root',
     group => 'root',

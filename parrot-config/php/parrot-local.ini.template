@@ -2,4 +2,4 @@
 ; 
 ; Make a duplicate of this file called: parrot-local.ini and run parrot provision.
 
-memory_limit = 1G
+; memory_limit = 1G
