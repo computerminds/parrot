@@ -1,0 +1,5 @@
+; These options can override the ones that come from the parrot-base.ini file.
+; 
+; Make a duplicate of this file called: parrot-local.ini and run parrot provision.
+
+; memory_limit = 1G
