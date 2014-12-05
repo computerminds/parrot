@@ -9,6 +9,7 @@ def parse_config(
     'webroot_subdir' => "",
     'databases' => "databases",
     'memory' => '2048',
+    'cpus' => '2',
     'with_gui' => false,
     'ip' => "192.168.50.4",
     'php_version' => '5.3',
@@ -77,6 +78,9 @@ Vagrant.configure('2') do |config|
     else
       override.vm.box_url = "http://files.vagrantup.com/precise64.box"
     end
+
+    # Specify number of cpus/cores to use
+    box.customize ["modifyvm", :id, "--cpus", custom_config['cpus']]
 
     box.customize ['modifyvm', :id, '--memory', custom_config['memory']]
     box.name = custom_config['box_name']
