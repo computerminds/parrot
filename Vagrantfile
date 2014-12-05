@@ -17,6 +17,12 @@ def parse_config(
     'varnish_enabled' => false,
     'local_user_uid' => Process.uid,
     'local_user_gid' => Process.gid,
+    'forward_solr' => true,
+    'forward_mysql' => true,
+    'forward_varnish' => true,
+    'forward_apache' => true,
+    'forward_https' => true,
+    'forward_dovecot' => true,
   }
   if File.exists?(config_file)
     overrides = YAML.load_file(config_file)
@@ -89,17 +95,29 @@ Vagrant.configure('2') do |config|
 
 
   # Solr
-  config.vm.network :forwarded_port, :guest => 8983, :host => 8983
+  if custom_config['forward_solr']
+    config.vm.network :forwarded_port, :guest => 8983, :host => 8983
+  end
   # MySQL
-  config.vm.network :forwarded_port, :guest => 3306, :host => 3306
+  if custom_config['forward_mysql']
+    config.vm.network :forwarded_port, :guest => 3306, :host => 3306
+  end
   # Varnish
-  config.vm.network :forwarded_port, :guest => 80, :host => 8181
+  if custom_config['forward_varnish']
+    config.vm.network :forwarded_port, :guest => 80, :host => 8181
+  end
   # Apache
-  config.vm.network :forwarded_port, :guest => 8080, :host => 8080
+  if custom_config['forward_apache']
+    config.vm.network :forwarded_port, :guest => 8080, :host => 8080
+  end
   # HTTPS
-  config.vm.network :forwarded_port, :guest => 443, :host => 1443
+  if custom_config['forward_https']
+    config.vm.network :forwarded_port, :guest => 443, :host => 1443
+  end
   # Dovecot - IMAP
-  config.vm.network :forwarded_port, :guest => 143, :host => 1143
+  if custom_config['forward_imap']
+    config.vm.network :forwarded_port, :guest => 143, :host => 1143
+  end
 
   # Share an additional folder to the guest VM. The first argument is
   # an identifier, the second is the path on the guest to mount the
