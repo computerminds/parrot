@@ -36,7 +36,7 @@ class parrot_mysql {
   }
 
   # Find the DBs.
-  $db_names_string = generate('/usr/bin/find', '/vagrant_databases/' ,'-name', '*.sql', '-type', 'f', '-printf', '%f\0', '-maxdepth', '1', '-mindepth', '1')
+  $db_names_string = generate('/usr/bin/find', '/vagrant_databases/' ,'-name', '*.sql','-or', '-name', '*.sql.gz', '-type', 'f', '-printf', '%f\0', '-maxdepth', '1', '-mindepth', '1')
   $db_names = split($db_names_string, '\0')
 
   # Set up the DBs
