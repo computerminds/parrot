@@ -67,6 +67,7 @@ Vagrant.configure('2') do |config|
     override.vm.box_url = "http://files.vagrantup.com/precise64_vmware.box"
 
     box.vmx["memsize"] = custom_config['memory']
+    box.vmx["numvcpus"] = custom_config['cpus']
     # Boot with a GUI so you can see the screen. (Default is headless)
     box.gui = custom_config['with_gui']
   end
