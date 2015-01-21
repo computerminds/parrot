@@ -1,6 +1,8 @@
 define parrot_mysql::database_import {
 
-  $db_name = regsubst($name, '\.sql(\.gz)?$', '')
+  $raw_db_name = regsubst($name, '\.sql(\.gz)?$', '')
+
+  $db_name = regsubst($raw_db_name, '[\.-]', '_', 'G')
 
   # Create the user for the DB from the host machine
   exec { "create-db-$name":
