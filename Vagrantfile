@@ -120,7 +120,7 @@ Vagrant.configure('2') do |config|
     config.vm.network :forwarded_port, :guest => 443, :host => 1443
   end
   # Dovecot - IMAP
-  if custom_config['forward_imap']
+  if custom_config['forward_dovecot']
     config.vm.network :forwarded_port, :guest => 143, :host => 1143
   end
 
