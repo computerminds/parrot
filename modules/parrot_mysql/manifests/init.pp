@@ -43,6 +43,14 @@ class parrot_mysql {
   # Puppet magically turns our array into lots of resources.
   parrot_mysql::database_import { $db_names: }
 
+  # Find the DBs.
+  $compressed_db_names_string = generate('/usr/bin/find', '/vagrant_databases/' , '-name', '*.sql.gz', '-type', 'f', '-printf', '%f\0', '-maxdepth', '1', '-mindepth', '1')
+  $compressed_db_names = split($compressed_db_names_string, '\0')
+
+  # Set up the DBs
+  # Puppet magically turns our array into lots of resources.
+  parrot_mysql::database_import { $compressed_db_names: }
+
   file {'/var/parrot-dump-databases.sh':
     ensure => file,
     source => 'puppet:///modules/parrot_mysql/parrot-dump-databases.sh',

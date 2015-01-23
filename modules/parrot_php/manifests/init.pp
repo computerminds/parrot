@@ -1,4 +1,8 @@
-class parrot_php {
+class parrot_php (
+  $fpm_user_uid  = $vagrant_host_user_uid,
+  $fpm_user_gid  = $vagrant_host_user_gid,
+)
+{
 
   $php_packages = [
    'php5',
@@ -12,6 +16,7 @@ class parrot_php {
    'php5-sqlite',
    'php5-xmlrpc',
    'php5-xdebug',
+   'php5-fpm',
   ]
 
   #Install PHP
@@ -23,6 +28,13 @@ class parrot_php {
   # We don't use xhprof from the ubuntu package any more.
   package { 'php5-xhprof':
     ensure => 'purged',
+  }
+
+  # We need a user to exist that will run our PHP.
+  user {'host_user':
+    ensure => 'present',
+    uid => $fpm_user_uid,
+    gid => $fpm_user_gid,
   }
 
 
@@ -46,7 +58,8 @@ class parrot_php {
 
   # Set up php.ini.
   file {'/etc/php5/conf.d/zz-parrot.ini':
-    source => '/vagrant_parrot_config/php/parrot-local.ini',
+    source => ['/vagrant_parrot_config/php/parrot-local.ini',
+               '/vagrant_parrot_config/php/parrot-local.ini.template'],
     require => Package['php5'],
     owner => 'root',
     group => 'root',
@@ -55,20 +68,28 @@ class parrot_php {
 
   case $parrot_php_version {
     '5.5': {
-      file {'/etc/php5/apache2/conf.d/50-parrot.ini':
+      file {'/etc/php5/fpm/conf.d/50-parrot.ini':
         ensure => 'link',
         target => '/etc/php5/conf.d/zy-parrot.ini',
-        notify => Service['apache2'],
+        notify => Service['php5-fpm'],
         require => File['/etc/php5/conf.d/zy-parrot.ini'],
       }
 
-      file {'/etc/php5/apache2/conf.d/80-parrot.ini':
+      file {'/etc/php5/fpm/conf.d/80-parrot.ini':
         ensure => 'link',
         target => '/etc/php5/conf.d/zz-parrot.ini',
-        notify => Service['apache2'],
+        notify => Service['php5-fpm'],
         require => File['/etc/php5/conf.d/zz-parrot.ini'],
       }
     }
+  }
+
+  file {'/etc/php5/fpm/pool.d/www.conf':
+    content => template('parrot_php/www.conf.erb'),
+    require => Package['php5-fpm'],
+    owner => 'root',
+    group => 'root',
+    notify => Service['apache2', 'php5-fpm'],
   }
 
   # Pull in the pear class, which will install uploadprogress for us.
