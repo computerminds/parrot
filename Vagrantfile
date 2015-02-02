@@ -24,6 +24,7 @@ def parse_config(
     'forward_apache' => true,
     'forward_https' => true,
     'forward_dovecot' => true,
+    'pagespeed_enabled' => false,
   }
   if File.exists?(config_file)
     overrides = YAML.load_file(config_file)
@@ -158,6 +159,7 @@ Vagrant.configure('2') do |config|
       "parrot_varnish_enabled" => custom_config['varnish_enabled'],
       "vagrant_host_user_uid" => custom_config['local_user_uid'],
       "vagrant_host_user_gid" => custom_config['local_user_gid'],
+      "parrot_pagespeed_enabled" => custom_config['pagespeed_enabled'],
     }
   end
 end

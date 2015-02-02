@@ -3,6 +3,7 @@
 config.yml
 parrot-config/solr/*
 parrot-config/php/parrot-local.ini
+parrot-config/pagespeed/pagespeed.conf
 sites/*
 .DS_Store
 tmp/*
