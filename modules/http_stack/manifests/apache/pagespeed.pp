@@ -7,6 +7,8 @@ class http_stack::apache::pagespeed (
     repos => 'main',
     release => 'stable',
     include_src => false,
+    key => 'C07CB649',
+    key_source => 'https://dl-ssl.google.com/linux/linux_signing_key.pub',
    }
 
   # Package
