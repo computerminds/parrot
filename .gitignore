@@ -9,3 +9,4 @@ sites/*
 tmp/*
 databases/*
 .idea/*
+parrot-config/pagespeed/pagespeed.conf
