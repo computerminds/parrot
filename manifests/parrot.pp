@@ -43,31 +43,5 @@ node default {
     ensure => present,
     provider => 'npm',
   }
-  # class { 'nodejs':
-  #   repo_url_suffix => 'node_0.12',
-  #   'serve': ensure => present,
-  #   provider => 'npm',
-  # }
-
-  # Install the bower package using the npm provider.
-  # package { 'bower':
-  #   ensure   => 'present',
-  #   provider => 'npm',
-  #   require => Package['nodejs']
-  # }
-  #
-  # # Install the gulp package using the npm provider.
-  # package { 'gulp':
-  #   ensure   => 'present',
-  #   provider => 'npm',
-  #   require => Package['nodejs']
-  # }
-  #
-  # # Install the grunt package using the npm provider.
-  # package { 'grunt':
-  #   ensure   => 'present',
-  #   provider => 'npm',
-  #   require => Package['nodejs']
-  # }
 
 }
