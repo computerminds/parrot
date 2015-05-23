@@ -129,7 +129,7 @@ Vagrant.configure('2') do |config|
   # folder, and the third is the path on the host to the actual folder.
   config.vm.synced_folder "parrot-config", "/vagrant_parrot_config"
 
-  config.vm.synced_folder custom_config['sites'], "/vagrant_sites", :nfs => true
+  config.vm.synced_folder custom_config['sites'], "/vagrant_sites", :nfs => true, :mount_options => ['actimeo=2']
   config.vm.synced_folder custom_config['databases'], "/vagrant_databases"
 
 
