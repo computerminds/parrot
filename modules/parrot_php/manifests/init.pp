@@ -17,6 +17,7 @@ class parrot_php (
    'php5-xmlrpc',
    'php5-xdebug',
    'php5-fpm',
+   'php5-readline',
   ]
 
   #Install PHP
