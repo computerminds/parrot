@@ -49,7 +49,7 @@ class drush (
           environment => [ "COMPOSER_HOME=/opt/drush" ],
           cwd => '/opt/drush',
           refreshonly => true,
-          require => Exec['clone_drush'],
+          require => [Exec['clone_drush'],Package["php5-readline"]],
         }
 
       }
