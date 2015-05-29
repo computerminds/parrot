@@ -1,16 +1,18 @@
-require 'rake'
-require 'rspec/core/rake_task'
+require 'rubygems'
+require 'puppetlabs_spec_helper/rake_tasks'
+require 'puppet-lint/tasks/puppet-lint'
+PuppetLint.configuration.send('disable_80chars')
+PuppetLint.configuration.ignore_paths = ["spec/**/*.pp", "pkg/**/*.pp"]
 
-task :default => [:test]
-
-desc 'Run RSpec'
-RSpec::Core::RakeTask.new(:test) do |t|
-  t.pattern = 'spec/{unit}/**/*.rb'
-  t.rspec_opts = ['--color']
-end
-
-desc 'Generate code coverage'
-RSpec::Core::RakeTask.new(:coverage) do |t|
-  t.rcov = true
-  t.rcov_opts = ['--exclude', 'spec']
+desc "Validate manifests, templates, and ruby files in lib."
+task :validate do
+  Dir['manifests/**/*.pp'].each do |manifest|
+    sh "puppet parser validate --noop #{manifest}"
+  end
+  Dir['lib/**/*.rb'].each do |lib_file|
+    sh "ruby -c #{lib_file}"
+  end
+  Dir['templates/**/*.erb'].each do |template|
+    sh "erb -P -x -T '-' #{template} | ruby -c"
+  end
 end

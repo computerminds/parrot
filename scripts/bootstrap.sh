@@ -4,11 +4,10 @@
 if [ ! -f /var/.parrot-bootstrapped ]; then
   # Run some bootstrapping stuff here.
 
-  # Need to update the apt cache.
+  wget -O /tmp/puppetlabs-release-precise.deb http://apt.puppetlabs.com/puppetlabs-release-precise.deb
+  dpkg -i /tmp/puppetlabs-release-precise.deb
   apt-get update
-
-  # Need to make sure we have the latest version of puppet.
-  DEBIAN_FRONTEND=noninteractive apt-get -q -y install puppet
+  apt-get --assume-yes install puppet
 
   # Ensure that we only run once.
   touch /var/.parrot-bootstrapped

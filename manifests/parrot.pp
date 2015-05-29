@@ -1,6 +1,6 @@
 node default {
 
-  class {apt: }
+  class { apt: }
   class { parrot_repos: }
   class { solr_server:  }
   class { parrot_mysql:  }
@@ -27,6 +27,30 @@ node default {
     autoupdate => true,
   }
 
-
+  # Ensure nodejs is installed.
+  class { 'nodejs':
+    repo_url_suffix => 'node_0.12',
+  }
+  -> package { 'bower':
+    ensure => present,
+    provider => 'npm',
+  }
+  -> package { 'gulp':
+    ensure => present,
+    provider => 'npm',
+  }
+  -> package { 'grunt-cli':
+    ensure => present,
+    provider => 'npm',
+  }
+  
+  # Optionally install drush
+  case $parrot_drush_installed {
+    'true', true: {
+      class {'drush':
+        drush_branch => $parrot_drush_branch,
+      }
+    }
+  }
 
 }

@@ -18,6 +18,8 @@ def parse_config(
     'varnish_enabled' => false,
     'local_user_uid' => Process.uid,
     'local_user_gid' => Process.gid,
+    'drush_installed' => false,
+    'drush_branch' => '6.x',
     'forward_solr' => true,
     'forward_mysql' => true,
     'forward_varnish' => true,
@@ -129,7 +131,7 @@ Vagrant.configure('2') do |config|
   # folder, and the third is the path on the host to the actual folder.
   config.vm.synced_folder "parrot-config", "/vagrant_parrot_config"
 
-  config.vm.synced_folder custom_config['sites'], "/vagrant_sites", :nfs => true
+  config.vm.synced_folder custom_config['sites'], "/vagrant_sites", :nfs => true, :mount_options => ['actimeo=2']
   config.vm.synced_folder custom_config['databases'], "/vagrant_databases"
 
 
@@ -158,6 +160,8 @@ Vagrant.configure('2') do |config|
       "parrot_varnish_enabled" => custom_config['varnish_enabled'],
       "vagrant_host_user_uid" => custom_config['local_user_uid'],
       "vagrant_host_user_gid" => custom_config['local_user_gid'],
+      "parrot_drush_installed" => custom_config['drush_installed'],
+      "parrot_drush_branch" => custom_config['drush_branch'],
     }
   end
 end
