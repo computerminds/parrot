@@ -28,7 +28,7 @@ class drush (
         # Run once to download console table etc.
         exec { "drush_first_run":
           command => "/opt/drush/drush",
-          require => Exec['clone_drush'],
+          require => [Exec['clone_drush'],Package["php5-readline"]],
         }
 
       }
