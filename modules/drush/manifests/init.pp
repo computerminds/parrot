@@ -28,7 +28,7 @@ class drush (
         # Run once to download console table etc.
         exec { "drush_first_run":
           command => "/opt/drush/drush",
-          require => [Exec['clone_drush'],Package["php5-readline"]],
+          require => [Exec['clone_drush']],
         }
 
       }
@@ -49,7 +49,7 @@ class drush (
           environment => [ "COMPOSER_HOME=/opt/drush" ],
           cwd => '/opt/drush',
           refreshonly => true,
-          require => [Exec['clone_drush'],Package["php5-readline"]],
+          require => [Exec['clone_drush']],
         }
 
       }
