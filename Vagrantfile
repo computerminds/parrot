@@ -72,6 +72,17 @@ Vagrant.configure('2') do |config|
     box.gui = custom_config['with_gui']
   end
 
+  # Provide specific settings for Parallels
+  config.vm.provider "parallels" do |box, override|
+    override.vm.box = "parallels/ubuntu-12.04"
+    override.vm.box_url = "https://atlas.hashicorp.com/parallels/boxes/ubuntu-12.04/versions/1.0.4/providers/parallels.box"
+
+    box.memory = custom_config['memory']
+    box.cpus = custom_config['cpus']
+
+    box.name = custom_config['box_name']
+  end
+
   # Give the created VM 768M of RAM
   config.vm.provider :virtualbox do |box, override|
     if (bits == 32)
