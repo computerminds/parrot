@@ -15,7 +15,7 @@ Requirements
 ------------
 
 * [Vagrant](http://www.vagrantup.com/) (version 1.3.0 or higher)
-* [Virtualbox](https://www.virtualbox.org/) or [VMWare Fusion](http://www.vmware.com/uk/products/fusion)
+* [Virtualbox](https://www.virtualbox.org/) or [VMWare Fusion](http://www.vmware.com/uk/products/fusion)  or [Parallels](http://www.parallels.com)
 * Unix based host system
 * [Lots of free RAM](http://lmgtfy.com/?q=computer+memory+upgrade)
 * [Vagrant cachier plugin](https://github.com/fgrehm/vagrant-cachier#installation) (optional)
@@ -33,6 +33,10 @@ That's it!
 If you want to use your [VMWare Fusion Vagrant provider](http://www.vagrantup.com/vmware), then run:
 
     vagrant up --provider=vmware_fusion
+    
+If you want to use your [Parallels Vagrant provider](http://parallels.github.io/vagrant-parallels/), then run:
+
+    vagrant up --provider=parallels
 
 
 Usage
