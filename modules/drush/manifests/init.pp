@@ -42,16 +42,28 @@ class drush (
           require => [Class['parrot_php::composer'], Package["git-core"]],
           notify => Exec['composer_drush_install'],
         }
-
+        
         # Complete Drush install by running "composer install" in the Drush directory.
-        exec { 'composer_drush_install':
-          command => '/usr/local/bin/composer install',
-          environment => [ "COMPOSER_HOME=/opt/drush" ],
-          cwd => '/opt/drush',
-          refreshonly => true,
-          require => [Exec['clone_drush'],Package["php5-readline"]],
+        case $parrot_php_version {
+          '5.3', default: {
+            exec { 'composer_drush_install':
+              command => '/usr/local/bin/composer install',
+              environment => [ "COMPOSER_HOME=/opt/drush" ],
+              cwd => '/opt/drush',
+              refreshonly => true,
+              require => Exec['clone_drush'],
+            }
+          }
+          '5.4', '5.5': {
+            exec { 'composer_drush_install':
+              command => '/usr/local/bin/composer install',
+              environment => [ "COMPOSER_HOME=/opt/drush" ],
+              cwd => '/opt/drush',
+              refreshonly => true,
+              require => [ Exec['clone_drush'], Package["php5-readline"] ],
+            }
+          }
         }
-
       }
     }
 

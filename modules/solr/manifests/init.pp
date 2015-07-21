@@ -1,5 +1,3 @@
-import 'classes/*'
-
 class solr (
   $backend = $solr::params::backend,
   $home_dir = $solr::params::solr_home_dir,

@@ -27,21 +27,24 @@ node default {
     autoupdate => true,
   }
 
-  # Ensure nodejs is installed.
+  # Install nodejs and associated node packages
   class { 'nodejs':
     repo_url_suffix => 'node_0.12',
   }
-  -> package { 'bower':
-    ensure => present,
+  package { 'bower':
+    ensure   => present,
     provider => 'npm',
+    require  => Class['nodejs'],
   }
-  -> package { 'gulp':
-    ensure => present,
+  package { 'gulp':
+    ensure   => present,
     provider => 'npm',
+    require  => Class['nodejs'],
   }
-  -> package { 'grunt-cli':
-    ensure => present,
+  package { 'grunt-cli':
+    ensure   => present,
     provider => 'npm',
+    require  => Class['nodejs'],
   }
   
   # Optionally install drush
