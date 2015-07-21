@@ -1,8 +1,12 @@
-Parrot development VM
-=====================
+Parrot development VM - Agile Collective version
+================================================
 
-Parrot is a utility VM for Drupal development. It's not your development environment,
-but it's the complex, hard to set up, servers you'll need.
+
+Parrot is a utility VM for Drupal development. It's not your development environment, but it's the complex, hard to set up, servers you'll need. 
+
+This is the Agile Collective development version that installs Drush, Compass and libsass. The master branch of this repo tracks the Computerminds Parrot master branch while the develop branch contains the extra Agile Collective stuff.
+
+The Agile Collective stuff requires the latest version of Puppet. This is installed automatically, but if you are upgrading from Computerminds Parrot you must delete the /var/.parrot-bootstrapped file from inside the box. If you don't the installation will fail with Puppet errors.
 
 
 Name
