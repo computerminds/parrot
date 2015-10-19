@@ -90,9 +90,9 @@ Vagrant.configure('2') do |config|
   ################# Virtual Box ########################
   config.vm.provider :virtualbox do |box, override|
     if (bits == 32)
-      override.vm.box_url = "https://atlas.hashicorp.com/ubuntu/boxes/trusty32"
+      override.vm.box = "ubuntu/trusty32"
     else
-      override.vm.box_url = "https://atlas.hashicorp.com/ubuntu/boxes/trusty64"
+      override.vm.box = "ubuntu/trusty64"
     end
 
     # Specify number of cpus/cores to use
