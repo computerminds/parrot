@@ -11,8 +11,7 @@ max_connections = <%= scope.lookupvar('parrot_mysql::config::mysql_max_connectio
 table_open_cache = <%= scope.lookupvar('parrot_mysql::config::table_cache') %>
 
 default_storage_engine  = innodb
-<% if (lsbdistcodename == 'precise') %># Not needed for Precise
-# <% end %>default_character_set   = utf8
+
 collation_server        = utf8_general_ci
 character_set_server    = utf8
 #safe to set to 0 only if raid card has battery backup

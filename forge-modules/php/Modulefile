@@ -1,0 +1,11 @@
+name 'nodes-php'
+version '0.9.0'
+author 'jippi'
+license 'MIT'
+summary 'Puppet module to manage PHP, PECL & PEAR on debian / ubuntu - easily expandable to support other platforms. (FPM, Apache, CLI)'
+description 'Puppet module to manage PHP, PECL & PEAR on debian / ubuntu - easily expandable to support other platforms (FPM, Apache, CLI)'
+project_page 'https://github.com/jippi/puppet-php'
+
+dependency 'puppetlabs/stdlib', '> 0.0.0'
+dependency 'puppetlabs/apt', '> 0.0.0'
+dependency 'puppetlabs/inifile', '> 0.0.0'

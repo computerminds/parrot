@@ -27,51 +27,25 @@ class http_stack::apache(
     require => Package['apache2'],
   }
 
-  case $parrot_php_version {
-    '5.5': {
-      package { "apache2-threaded-dev":
-        ensure => absent,
-      }
-      file { '/etc/apache2/conf-enabled/xhprof.conf':
-        content => template('http_stack/apache/xhprof.conf.erb'),
-        ensure => "present",
-        owner => 'root',
-        group => 'root',
-        notify => Service['apache2'],
-        require => Package['apache2'],
-      }
-      file { '/etc/apache2/conf-enabled/php-fpm.conf':
-        content => template('http_stack/apache/2.4-php-fpm.conf.erb'),
-        ensure => "present",
-        owner => 'root',
-        group => 'root',
-        notify => Service['apache2'],
-        require => Package['apache2'],
-      }
+    package { "apache2-threaded-dev":
+      ensure => absent,
     }
-    default: {
-      package { "apache2-threaded-dev":
-        ensure => latest,
-        require => Class["parrot_repos"],
-      }
-      file { '/etc/apache2/conf.d/php-fpm':
-        content => template('http_stack/apache/php-fpm.conf.erb'),
-        ensure => "present",
-        owner => 'root',
-        group => 'root',
-        notify => Service['apache2'],
-        require => Package['apache2'],
-      }
-      file { '/etc/apache2/conf.d/xhprof':
-        content => template('http_stack/apache/xhprof.conf.erb'),
-        ensure => "present",
-        owner => 'root',
-        group => 'root',
-        notify => Service['apache2'],
-        require => Package['apache2'],
-      }
+    file { '/etc/apache2/conf-enabled/xhprof.conf':
+      content => template('http_stack/apache/xhprof.conf.erb'),
+      ensure => "present",
+      owner => 'root',
+      group => 'root',
+      notify => Service['apache2'],
+      require => Package['apache2'],
     }
-  }
+    file { '/etc/apache2/conf-enabled/php-fpm.conf':
+      content => template('http_stack/apache/2.4-php-fpm.conf.erb'),
+      ensure => "present",
+      owner => 'root',
+      group => 'root',
+      notify => Service['apache2'],
+      require => Package['apache2'],
+    }
 
   # Ensure that mod-rewrite is running.
   exec { 'a2enmod-rewrite':
@@ -136,17 +110,13 @@ class http_stack::apache(
     group => 'root',
   }
 
-  class { 'phpmyadmin': }
+#  class { 'phpmyadmin': }
 
   # Restart Apache after the config file is deployed.
   service { 'apache2':
     require => Package['libapache2-mod-fastcgi'],
   }
 
-  # Restart Apache after the config file is deployed.
-  service { 'php5-fpm':
-    require => Package['libapache2-mod-fastcgi'],
-  }
 
   # Make sure the SSL directory exists.
   file { "/etc/apache2/ssl.d":
@@ -201,9 +171,5 @@ class http_stack::apache(
   }
   # Puppet magically turns our array into lots of resources.
   apacheSiteResource { $site_names: }
-
-
-
-
 
 }

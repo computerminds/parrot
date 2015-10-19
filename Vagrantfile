@@ -14,7 +14,7 @@ def parse_config(
     'ip' => "192.168.50.4",
     'php_version' => '5.3',
     'mysql_version' => '5.5',
-    'box_name' => 'Parrot',
+    'box_name' => 'Parrot-Trusty',
     'varnish_enabled' => false,
     'local_user_uid' => Process.uid,
     'local_user_gid' => Process.gid,
@@ -55,16 +55,21 @@ Vagrant.configure('2') do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  if (bits == 32)
-    config.vm.box = "precise32"
-  else
-    config.vm.box = "precise64"
-  end
+  #if (bits == 32)
+  #  config.vm.box = "trusty32"
+  #else
+  #  config.vm.box = "trusty64"
+  #end
 
-  # Provide specific settings for VMWare Fusion
+  ################# VMWare Fusion ########################
   config.vm.provider "vmware_fusion" do |box, override|
-    override.vm.box = "precise64"
-    override.vm.box_url = "http://files.vagrantup.com/precise64_vmware.box"
+    if (bits == 32)
+      override.vm.box_url = "https://atlas.hashicorp.com/puphpet/boxes/ubuntu1404-x32"
+      override.vm.box = "puphpet/ubuntu1404-x32"
+    else
+      override.vm.box_url = "https://atlas.hashicorp.com/puphpet/boxes/ubuntu1404-x64"
+      override.vm.box = "puphpet/ubuntu1404-x64"
+    end
 
     box.vmx["memsize"] = custom_config['memory']
     box.vmx["numvcpus"] = custom_config['cpus']
@@ -72,10 +77,9 @@ Vagrant.configure('2') do |config|
     box.gui = custom_config['with_gui']
   end
 
-  # Provide specific settings for Parallels
+  #################   Parallels   ########################
   config.vm.provider "parallels" do |box, override|
-    override.vm.box = "parallels/ubuntu-12.04"
-    override.vm.box_url = "https://atlas.hashicorp.com/parallels/boxes/ubuntu-12.04/versions/1.0.4/providers/parallels.box"
+    override.vm.box_url = "https://atlas.hashicorp.com/puphpet/boxes/ubuntu1404-x64"
 
     box.memory = custom_config['memory']
     box.cpus = custom_config['cpus']
@@ -83,12 +87,12 @@ Vagrant.configure('2') do |config|
     box.name = custom_config['box_name']
   end
 
-  # Give the created VM 768M of RAM
+  ################# Virtual Box ########################
   config.vm.provider :virtualbox do |box, override|
     if (bits == 32)
-      override.vm.box_url = "http://files.vagrantup.com/precise32.box"
+      override.vm.box_url = "https://atlas.hashicorp.com/ubuntu/boxes/trusty32"
     else
-      override.vm.box_url = "http://files.vagrantup.com/precise64.box"
+      override.vm.box_url = "https://atlas.hashicorp.com/ubuntu/boxes/trusty64"
     end
 
     # Specify number of cpus/cores to use
@@ -153,13 +157,14 @@ Vagrant.configure('2') do |config|
   config.ssh.forward_agent = true
 
   # A quick bootstrap to get Puppet installed.
-  config.vm.provision "shell", path: "scripts/bootstrap.sh"
+#  config.vm.provision "shell", path: "scripts/bootstrap.sh"
 
   # And now the meat.
   config.vm.provision :puppet do |puppet|
+    #puppet.options = "--verbose --debug"
     puppet.manifests_path = "manifests"
     puppet.manifest_file  = "parrot.pp"
-    puppet.module_path = "modules"
+    puppet.module_path = ["forge-modules", "modules"]
     # Add a custom fact so we can reliably hit the host IP from the guest.
     puppet.facter = {
       "vagrant_guest_ip" => custom_config['ip'],
