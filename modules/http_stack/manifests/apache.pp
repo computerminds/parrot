@@ -7,7 +7,6 @@ class http_stack::apache(
     'apache2',
     'apache2-mpm-worker',
     'apache2-utils',
-    'libapache2-mod-fastcgi',
   ]
   package { $apache_packages:
     ensure => 'latest',
@@ -74,11 +73,11 @@ class http_stack::apache(
     group => 'root',
   }
 
-  # Ensure that mod-fastcgi is running.
-  exec { 'a2enmod-fastcgi':
-    command => '/usr/sbin/a2enmod fastcgi',
+  # Ensure that mod-proxy-fcgi is running.
+  exec { 'a2enmod-fcgi':
+    command => '/usr/sbin/a2enmod proxy_fcgi',
     require => Package['apache2'],
-    creates => '/etc/apache2/mods-enabled/fastcgi.load',
+    creates => '/etc/apache2/mods-enabled/proxy_fcgi.load',
     user => 'root',
     group => 'root',
   }
@@ -114,7 +113,7 @@ class http_stack::apache(
 
   # Restart Apache after the config file is deployed.
   service { 'apache2':
-    require => Package['libapache2-mod-fastcgi'],
+    ensure => 'running',
   }
 
 

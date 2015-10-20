@@ -139,25 +139,40 @@ class parrot_php (
 #    notify => Service['apache2'],
 #  }
 #
-#  package { "uploadprogress":
-#    ensure   => installed,
-#    provider => pecl,
-#  }
-#
-#  file { "/etc/php5/fpm/conf.d/uploadprogress.ini":
-#    ensure  => present,
-#    owner   => root,
-#    group   => root,
-#    mode    => 0644,
-#    content => "extension=uploadprogress.so\n",
-#    require => Package["uploadprogress"],
-#  }
-#
-#  package { "xhprof-beta":
-#    ensure   => installed,
-#    provider => pecl,
-#  }
-#
+# Upload progress is being re-installed every time Puppet runs.
+  # We'll need to fix this at some point.
+  class {
+    '::php::extension::uploadprogress':
+    package => 'uploadprogress',
+    require => Class['::php::dev'],
+    ensure => 'present',
+  }
+  file { '/etc/php5/fpm/conf.d/20-uploadprogress.ini':
+    ensure => 'link',
+    target => '../../mods-available/uploadprogress.ini',
+    require => Class['::php::extension::uploadprogress'],
+    notify => Service['php5-fpm'],
+  }
+
+  php::extension { 'xhprof':
+    require => Class['::php::dev'],
+    ensure   => 'present',
+    package  => 'xhprof-0.9.4',
+    provider => 'pecl',
+  }
+  php::config { 'php-extension-xhprof':
+    file    => "${php::params::config_root_ini}/xhprof.ini",
+    config  => [
+      'set ".anon/extension" "xhprof.so"'
+    ],
+    notify => Service['php5-fpm'],
+  }
+  file { '/etc/php5/fpm/conf.d/20-xhprof.ini':
+    ensure => 'link',
+    target => '../../mods-available/xhprof.ini',
+    require => Php::Extension['xhprof'],
+    notify => Service['php5-fpm'],
+  }
 #  file {"/tmp/xhprof":
 #    ensure  => 'directory',
 #    owner   => root,
@@ -165,15 +180,6 @@ class parrot_php (
 #    mode    => 0777,
 #  }
 #
-#  file { "/etc/php5/fpm/conf.d/xhprof.ini":
-#    ensure  => present,
-#    owner   => root,
-#    group   => root,
-#    mode    => 0644,
-#    content => "extension=xhprof.so\nxhprof.output_dir='/tmp/xhprof'",
-#    require => Package["xhprof-beta"],
-#  }
-
   host { 'host_machine.parrot':
     ip => regsubst($vagrant_guest_ip,'^(\d+)\.(\d+)\.(\d+)\.(\d+)$','\1.\2.\3.1'),
     comment => 'Added automatically by Parrot',
