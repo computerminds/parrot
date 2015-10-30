@@ -6,7 +6,7 @@ class parrot_repos {
       repos      => 'varnish-3.0',
       release    => 'trusty',
       key        => {
-        "id"     => "C4DEFFEB",
+        "id"     => "E98C6BBBA1CBC5C3EB2DF21C60E7C096C4DEFFEB",
         "source" => "http://repo.varnish-cache.org/debian/GPG-key.txt",
       },
   }
