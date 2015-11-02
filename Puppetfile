@@ -28,3 +28,4 @@ forge "https://forgeapi.puppetlabs.com"
 mod 'nodes/php'
 mod 'puppetlabs/ntp'
 mod 'acme/ohmyzsh'
+mod 'saz/memcached'

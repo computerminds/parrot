@@ -9,13 +9,18 @@ FORGE
       puppetlabs-stdlib (> 0.0.0)
     puppetlabs-apt (2.2.0)
       puppetlabs-stdlib (< 5.0.0, >= 4.5.0)
+    puppetlabs-firewall (1.7.1)
     puppetlabs-inifile (1.4.2)
     puppetlabs-ntp (4.1.0)
       puppetlabs-stdlib (< 5.0.0, >= 4.6.0)
     puppetlabs-stdlib (4.9.0)
+    saz-memcached (2.8.1)
+      puppetlabs-firewall (>= 0.1.0)
+      puppetlabs-stdlib (>= 3.2.0)
 
 DEPENDENCIES
   acme-ohmyzsh (>= 0)
   nodes-php (>= 0)
   puppetlabs-ntp (>= 0)
+  saz-memcached (>= 0)
 
