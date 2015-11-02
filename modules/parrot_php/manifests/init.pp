@@ -18,6 +18,7 @@ class parrot_php (
     '::php::extension::curl',
     '::php::extension::gd',
     '::php::extension::mysql',
+    '::php::extension::memcached',
     '::php::pear',
     '::php::dev',
 

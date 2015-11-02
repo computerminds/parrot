@@ -4,6 +4,7 @@ node default {
   class { parrot_repos: }
   class { solr_server:  }
   class { parrot_mysql: }
+  class { 'memcached': }
   class { parrot_php:  }
   class { 'ohmyzsh': }
   ohmyzsh::install { ['root', 'vagrant']: }
