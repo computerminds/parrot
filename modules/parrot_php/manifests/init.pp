@@ -19,7 +19,15 @@ class parrot_php (
    'php5-fpm',
   ]
 
-  #Install PHP
+  case $parrot_php_version {
+    '5.4', '5.5': {
+      package { 'php5-readline':
+        ensure => 'installed',
+      }
+    }
+  }
+
+  # Install PHP
   package { $php_packages:
     ensure => 'latest',
     require => Class["parrot_repos"],
