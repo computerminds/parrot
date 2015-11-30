@@ -15,6 +15,16 @@ node default {
       class { 'http_stack::without_varnish': }
     }
   }
+  case $parrot_pagespeed_enabled {
+    'true', true: {
+      class { 'http_stack::apache::pagespeed': }
+    }
+    default: {
+     class { 'http_stack::apache::pagespeed': 
+       ensure => absent,
+     }
+    }
+  }
   class { mailcollect: }
 
   package { 'vim': }
@@ -26,7 +36,5 @@ node default {
     ensure     => running,
     autoupdate => true,
   }
-
-
 
 }
