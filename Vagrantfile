@@ -66,6 +66,7 @@ Vagrant.configure('2') do |config|
   #else
   #  config.vm.box = "trusty64"
   #end
+  config.vm.box_version = "20151128"
 
   ################# VMWare Fusion ########################
   config.vm.provider "vmware_fusion" do |box, override|
