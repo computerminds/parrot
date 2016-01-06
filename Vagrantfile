@@ -55,27 +55,16 @@ Vagrant.configure('2') do |config|
     bits = 32
   end
 
-
-  # All Vagrant configuration is done here. The most common configuration
-  # options are documented and commented below. For a complete reference,
-  # please see the online documentation at vagrantup.com.
-
-  # Every Vagrant virtual environment requires a box to build off of.
-  #if (bits == 32)
-  #  config.vm.box = "trusty32"
-  #else
-  #  config.vm.box = "trusty64"
-  #end
-  config.vm.box_version = "20151128"
-
   ################# VMWare Fusion ########################
   config.vm.provider "vmware_fusion" do |box, override|
     if (bits == 32)
       override.vm.box_url = "https://atlas.hashicorp.com/puphpet/boxes/ubuntu1404-x32"
       override.vm.box = "puphpet/ubuntu1404-x32"
+      override.vm.box_version = "20151128"
     else
       override.vm.box_url = "https://atlas.hashicorp.com/puphpet/boxes/ubuntu1404-x64"
       override.vm.box = "puphpet/ubuntu1404-x64"
+      override.vm.box_version = "20151128"
     end
 
     box.vmx["memsize"] = custom_config['memory']
