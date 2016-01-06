@@ -164,7 +164,7 @@ Vagrant.configure('2') do |config|
   config.ssh.forward_agent = true
 
   # A quick bootstrap to get Puppet installed.
-#  config.vm.provision "shell", path: "scripts/bootstrap.sh"
+  config.vm.provision "shell", path: "scripts/bootstrap.sh"
 
   # And now the meat.
   config.vm.provision :puppet do |puppet|
