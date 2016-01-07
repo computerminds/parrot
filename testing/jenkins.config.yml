@@ -1,2 +1,3 @@
 use_nfs: false
 local_user_gid: 100
+sites: testing/sites
