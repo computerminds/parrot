@@ -80,7 +80,7 @@ Puppet::Type.type(:package).provide :pecl, :parent => Puppet::Provider::Package 
   end
 
   def install(useversion = true)
-    command = ["upgrade"]
+    command = ["upgrade", '-Z']
 
     if source = @resource[:source]
       command << source
