@@ -27,6 +27,15 @@ node default {
     autoupdate => true,
   }
 
+  # Optionally install drush
+  case $parrot_drush_installed {
+    'true', true: {
+      class {'drush':
+        drush_branch => $parrot_drush_branch,
+      }
+    }
+  }
+
 
 
 }
