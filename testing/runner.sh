@@ -11,3 +11,6 @@ vagrant up
 
 # Now do some testing
 curl http://localhost:8181/qwertyuiop.php
+
+# Make sure we can execute Drush.
+vagrant ssh -c 'drush --version'
