@@ -17,6 +17,7 @@ node default {
       class { 'http_stack::without_varnish': }
     }
   }
+  class { parrot_drush: }
   class { mailcollect: }
 
   package { 'vim': }

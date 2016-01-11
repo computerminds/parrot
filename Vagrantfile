@@ -13,7 +13,7 @@ def parse_config(
     'use_nfs' => true,
     'with_gui' => false,
     'ip' => "192.168.50.4",
-    'php_version' => '5.3',
+    'php_version' => '5.5',
     'mysql_version' => '5.5',
     'box_name' => 'Parrot-Trusty',
     'varnish_enabled' => false,
@@ -31,6 +31,7 @@ def parse_config(
     'apache_port' => 8080,
     'https_port' => 1443,
     'dovecot_port' => 1143,
+    'drush_version' => 'drush/drush',
   }
   if File.exists?(config_file)
     overrides = YAML.load_file(config_file)
@@ -169,6 +170,7 @@ Vagrant.configure('2') do |config|
     puppet.module_path = ["forge-modules", "modules"]
     # Add a custom fact so we can reliably hit the host IP from the guest.
     puppet.facter = {
+      "parrot_drush_version" => custom_config['drush_version'],
       "vagrant_guest_ip" => custom_config['ip'],
       "parrot_php_version" => custom_config['php_version'],
       "parrot_mysql_version" => custom_config['mysql_version'],

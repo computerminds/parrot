@@ -185,4 +185,8 @@ class parrot_php (
     comment => 'Added automatically by Parrot',
     ensure => 'present',
   }
+
+  # Add composer with autoupdate.
+  class { ['php::composer', 'php::composer::auto_update']:}
+
 }
