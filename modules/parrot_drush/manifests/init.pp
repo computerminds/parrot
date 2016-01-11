@@ -20,7 +20,7 @@ class parrot_drush {
   # making a symlink for the drush file.
   file { '/usr/local/bin/drush':
      ensure => 'link',
-     target => '/home/vagrant/.composer/vendor/drush/drush/drush.php',
+     target => '/home/vagrant/vendor/drush/drush/drush.php',
   }
 
 }
