@@ -9,8 +9,15 @@ echo "box_name: Parrot-build-${BUILD_NUMBER}" >> config.yml
 # Run a simple vagrant up.
 vagrant up
 
-# Now do some testing
+# Now do some base testing
 curl http://localhost:8181/qwertyuiop.php
 
 # Make sure we can execute Drush.
 vagrant ssh -c 'drush --version'
+
+# Test PHP 5.6.
+echo "php_version: 5.6" >> config.yml
+vagrant provision
+
+# Now do some version testing
+curl http://localhost:8181/is_php_56.php
