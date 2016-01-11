@@ -10,6 +10,7 @@ def parse_config(
     'databases' => "databases",
     'memory' => '2048',
     'cpus' => '1',
+    'use_nfs' => true,
     'with_gui' => false,
     'ip' => "192.168.50.4",
     'php_version' => '5.5',
@@ -56,26 +57,16 @@ Vagrant.configure('2') do |config|
     bits = 32
   end
 
-
-  # All Vagrant configuration is done here. The most common configuration
-  # options are documented and commented below. For a complete reference,
-  # please see the online documentation at vagrantup.com.
-
-  # Every Vagrant virtual environment requires a box to build off of.
-  #if (bits == 32)
-  #  config.vm.box = "trusty32"
-  #else
-  #  config.vm.box = "trusty64"
-  #end
-
   ################# VMWare Fusion ########################
   config.vm.provider "vmware_fusion" do |box, override|
     if (bits == 32)
       override.vm.box_url = "https://atlas.hashicorp.com/puphpet/boxes/ubuntu1404-x32"
       override.vm.box = "puphpet/ubuntu1404-x32"
+      override.vm.box_version = "20151128"
     else
       override.vm.box_url = "https://atlas.hashicorp.com/puphpet/boxes/ubuntu1404-x64"
       override.vm.box = "puphpet/ubuntu1404-x64"
+      override.vm.box_version = "20151128"
     end
 
     box.vmx["memsize"] = custom_config['memory']
@@ -150,8 +141,13 @@ Vagrant.configure('2') do |config|
   # an identifier, the second is the path on the guest to mount the
   # folder, and the third is the path on the host to the actual folder.
   config.vm.synced_folder "parrot-config", "/vagrant_parrot_config"
+ 
+  if custom_config['use_nfs']
+    config.vm.synced_folder custom_config['sites'], "/vagrant_sites", :nfs => true
+  else
+    config.vm.synced_folder custom_config['sites'], "/vagrant_sites"
+  end
 
-  config.vm.synced_folder custom_config['sites'], "/vagrant_sites", :nfs => true
   config.vm.synced_folder custom_config['databases'], "/vagrant_databases"
 
 
@@ -164,7 +160,7 @@ Vagrant.configure('2') do |config|
   config.ssh.forward_agent = true
 
   # A quick bootstrap to get Puppet installed.
-#  config.vm.provision "shell", path: "scripts/bootstrap.sh"
+  config.vm.provision "shell", path: "scripts/bootstrap.sh"
 
   # And now the meat.
   config.vm.provision :puppet do |puppet|
