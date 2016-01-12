@@ -6,6 +6,12 @@ class parrot_php (
 
   include '::php'
 
+  $php_packages = [
+   'php5-cgi',
+   'php5-sqlite',
+   'php5-xmlrpc',
+  ]
+
   class { [
     '::php::fpm',
     '::php::cli',
@@ -14,9 +20,8 @@ class parrot_php (
     '::php::extension::mysql',
     '::php::pear',
     '::php::dev',
-    ]:
-    require => Class["parrot_repos"],
-  }
+
+  ]: }
 
   php::fpm::config { 'parrot-settings':
     config => [
