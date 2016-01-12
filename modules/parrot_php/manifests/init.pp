@@ -105,6 +105,10 @@ class parrot_php (
     # Configure extensions
     -> Php::Config <| |>
 
+  # Restart FPM if an extension is installed or configured.
+  Php::Extension <| |> ~> Service['php5-fpm']
+  Php::Config <| |>    ~> Service['php5-fpm']
+
 #  # Set up php.ini.
 #  file {'/etc/php5/conf.d/zz-parrot.ini':
 #    source => ['/vagrant_parrot_config/php/parrot-local.ini',
