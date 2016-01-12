@@ -17,6 +17,8 @@ def parse_config(
     'mysql_version' => '5.5',
     'box_name' => 'Parrot',
     'varnish_enabled' => false,
+    'memcache_enabled' => false,
+    'redis_enabled' => false,
     'local_user_uid' => Process.uid,
     'local_user_gid' => Process.gid,
     'forward_solr' => true,
@@ -136,6 +138,17 @@ Vagrant.configure('2') do |config|
     config.vm.network :forwarded_port, :guest => 143, :host => 1143
   end
 
+  if (custom_config['memcache_enabled'])
+    # Memcache
+    config.vm.network :forwarded_port, :guest => 11211, :host => 11211
+  end
+
+  if (custom_config['redis_enabled'])
+    # Redis
+    config.vm.network :forwarded_port, :guest => 6379, :host => 6379
+  end
+
+
   # Share an additional folder to the guest VM. The first argument is
   # an identifier, the second is the path on the guest to mount the
   # folder, and the third is the path on the host to the actual folder.
@@ -173,6 +186,8 @@ Vagrant.configure('2') do |config|
       "parrot_mysql_version" => custom_config['mysql_version'],
       "apache_vhost_webroot_subdir" => custom_config['webroot_subdir'],
       "parrot_varnish_enabled" => custom_config['varnish_enabled'],
+      "parrot_memcache_enabled" => custom_config['memcache_enabled'],
+      "parrot_redis_enabled" => custom_config['redis_enabled'],
       "vagrant_host_user_uid" => custom_config['local_user_uid'],
       "vagrant_host_user_gid" => custom_config['local_user_gid'],
     }

@@ -16,6 +16,18 @@ node default {
     }
   }
   class { mailcollect: }
+  case $parrot_redis_enabled {
+    'true', true: {
+      include redis
+    }
+  }
+  case $parrot_memcache_enabled {
+    'true', true: {
+      class { 'memcached':
+        max_memory => 1024
+      }
+    }
+  }
 
   package { 'vim': }
   package { 'vim-puppet': }

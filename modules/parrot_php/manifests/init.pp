@@ -25,6 +25,15 @@ class parrot_php (
     require => Class["parrot_repos"],
   }
 
+  case $parrot_memcache_enabled {
+    'true', true: {
+      package { 'php5-memcached':
+        ensure => 'latest',
+        require => [Class["parrot_repos"], Package['php5']],
+      }
+    }
+  }
+
   # We don't use xhprof from the ubuntu package any more.
   package { 'php5-xhprof':
     ensure => 'purged',
