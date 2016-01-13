@@ -4,9 +4,10 @@ class parrot_php (
 )
 {
 
-  include '::php'
+  require parrot_repos
 
   class { [
+    '::php',
     '::php::fpm',
     '::php::cli',
     '::php::extension::curl',
@@ -15,7 +16,6 @@ class parrot_php (
     '::php::pear',
     '::php::dev',
     ]:
-    require => Class["parrot_repos"],
   }
 
   php::fpm::config { 'parrot-settings':
