@@ -12,19 +12,19 @@ class parrot_repos {
   }
 
   #Install PHP repos
-  case $parrot_php_version {
-    '5.5': {
-
-    }
-    '5.6': {
-      apt::source { 'php5-5.6':
-        location   => 'http://ppa.launchpad.net/ondrej/php5-5.6/ubuntu/',
-        # TODO: this needs to be the full key.
-        key        => "E5267A6C",
-      }
-    }
-    default: {
-      # Todo: Notify that we don't support this version.
-    }
-  }
+#  case $parrot_php_version {
+#    '5.5': {
+#
+#    }
+#    '5.6': {
+#      apt::source { 'php5-5.6':
+#        location   => 'http://ppa.launchpad.net/ondrej/php5-5.6/ubuntu/',
+#        # TODO: this needs to be the full key.
+#        key        => "E5267A6C",
+#      }
+#    }
+#    default: {
+#      # Todo: Notify that we don't support this version.
+#    }
+#  }
 }
