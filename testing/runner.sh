@@ -21,6 +21,10 @@ vagrant ssh -c 'drush --version'
 # Test PHP 5.6.
 echo "php_version: 5.6" >> config.yml
 vagrant provision
+# Give parrot VM a kick.
+vagrant reload --provision
+# Give parrot VM a kick.
+vagrant reload --provision
 
 # Now do some version testing
 curl http://localhost:8181/is_php_56.php
