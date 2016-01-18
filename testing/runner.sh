@@ -8,6 +8,8 @@ echo "box_name: Parrot-build-${BUILD_NUMBER}" >> config.yml
 
 # Run a simple vagrant up.
 vagrant up
+# Give parrot VM a kick.
+vagrant reload --provision
 
 # Now do some base testing
 curl http://localhost:8181/qwertyuiop.php
