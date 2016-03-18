@@ -21,7 +21,14 @@ class parrot_php (
     '::php::pear',
     '::php::dev',
 
-  ]: }
+  ]: } ->
+  # Fix a bug in Ubuntu https://bugs.launchpad.net/ubuntu/+source/php5/+bug/1242376
+  file {'/etc/init/php5-fpm.override':
+    ensure => 'file',
+    owner => 'root',
+    group => 'root',
+    content => inline_template("reload signal SIGUSR2", "\n"),
+  }
 
   php::fpm::config { 'parrot-settings':
     config => [
