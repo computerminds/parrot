@@ -2,12 +2,12 @@
 	ServerAdmin webmaster@localhost
         ServerName <%= @name %>
 
-	DocumentRoot /vagrant_sites/<%= @name %><%= @apache_vhost_webroot_subdir %>
+	DocumentRoot /vagrant_sites/<%= @name %><%= @webroot_subdir %>
 	<Directory />
 		Options FollowSymLinks
 		AllowOverride None
 	</Directory>
-	<Directory /vagrant_sites/<%= @name %><%= @apache_vhost_webroot_subdir %>/>
+	<Directory /vagrant_sites/<%= @name %><%= @webroot_subdir %>/>
 		Options Indexes FollowSymLinks MultiViews
 		AllowOverride All
         Require all granted
@@ -21,7 +21,7 @@
 
 	CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-	ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9999/vagrant_sites/<%= @name %><%= @apache_vhost_webroot_subdir %>/$1
+	ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9999/vagrant_sites/<%= @name %><%= @webroot_subdir %>/$1
 
 </VirtualHost>
 
@@ -30,12 +30,12 @@
 		ServerAdmin webmaster@localhost
 	        ServerName <%= @name %>
 
-		DocumentRoot /vagrant_sites/<%= @name %><%= @apache_vhost_webroot_subdir %>
+		DocumentRoot /vagrant_sites/<%= @name %><%= @webroot_subdir %>
 		<Directory />
 			Options FollowSymLinks
 			AllowOverride None
 		</Directory>
-		<Directory /vagrant_sites/<%= @name %><%= @apache_vhost_webroot_subdir %>/>
+		<Directory /vagrant_sites/<%= @name %><%= @webroot_subdir %>/>
 			Options Indexes FollowSymLinks MultiViews
 			AllowOverride All
             Require all granted
@@ -53,7 +53,7 @@
 		SSLCertificateFile /etc/apache2/ssl.d/<%= @name %>.crt
         SSLCertificateKeyFile /etc/apache2/ssl.d/<%= @name %>.key
 
-        ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9999/vagrant_sites/<%= @name %><%= @apache_vhost_webroot_subdir %>/$1
+        ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9999/vagrant_sites/<%= @name %><%= @webroot_subdir %>/$1
 
 	</VirtualHost>
 </IfModule>

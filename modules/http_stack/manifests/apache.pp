@@ -125,50 +125,10 @@ class http_stack::apache(
     ensure => "directory",
   }
 
-  # Find the cores.
+  # Find the sites.
   $site_names_string = generate('/usr/bin/find', '-L', '/vagrant_sites/' , '-type', 'd', '-printf', '%f\0', '-maxdepth', '1', '-mindepth', '1')
   $site_names = split($site_names_string, '\0')
-
-  # Set up the cores
-  define apacheSiteResource {
-    # The file in sites-available.
-    file {"/etc/apache2/sites-available/$name":
-      ensure => 'file',
-      content => template('http_stack/apache/vhost.erb'),
-      notify => Service['apache2'],
-      require => Package['apache2'],
-      owner => 'root',
-      group => 'root',
-    }
-    # The symlink in sites-enabled.
-    file {"/etc/apache2/sites-enabled/20-$name.conf":
-      ensure => 'link',
-      target => "/etc/apache2/sites-available/$name",
-      notify => Service['apache2'],
-      require => Package['apache2'],
-      owner => 'root',
-      group => 'root',
-    }
-
-    # Add this virtual host to the hosts file
-    host { $name:
-      ip => '127.0.0.1',
-      comment => 'Added automatically by Parrot',
-      ensure => 'present',
-    }
-
-    # Add an SSL cert just for this host.
-    exec { "ssl-cert-$name":
-      command => "/usr/bin/openssl req -new -x509 -days 3650 -sha1 -newkey rsa:1024 -nodes -keyout $name.key -out $name.crt -subj '/O=Company/OU=Department/CN=$name'",
-      require => File['/etc/apache2/ssl.d'],
-      cwd => '/etc/apache2/ssl.d',
-      creates => "/etc/apache2/ssl.d/$name.key",
-      user => 'root',
-      group => 'root',
-    }
-
-  }
   # Puppet magically turns our array into lots of resources.
-  apacheSiteResource { $site_names: }
+  http_stack::apache::site { $site_names: }
 
 }
