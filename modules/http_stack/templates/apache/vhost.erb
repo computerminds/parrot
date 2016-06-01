@@ -1,17 +1,8 @@
 <VirtualHost *:<%= @apache_http_port %>>
 	ServerAdmin webmaster@localhost
-        ServerName <%= @name %>
+  ServerName <%= @name %>
 
 	DocumentRoot /vagrant_sites/<%= @name %><%= @webroot_subdir %>
-	<Directory />
-		Options FollowSymLinks
-		AllowOverride None
-	</Directory>
-	<Directory /vagrant_sites/<%= @name %><%= @webroot_subdir %>/>
-		Options Indexes FollowSymLinks MultiViews
-		AllowOverride All
-        Require all granted
-	</Directory>
 
 	ErrorLog ${APACHE_LOG_DIR}/error.log
 
@@ -21,25 +12,25 @@
 
 	CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-	ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9999/vagrant_sites/<%= @name %><%= @webroot_subdir %>/$1
+	<FilesMatch "\.php$">
+    SetHandler  "proxy:fcgi://127.0.0.1:9999"
+  </FilesMatch>
 
 </VirtualHost>
+
+
+<Directory /vagrant_sites/<%= @name %><%= @webroot_subdir %>>
+	Options Indexes FollowSymLinks MultiViews
+	AllowOverride All
+	Require all granted
+</Directory>
 
 <IfModule mod_ssl.c>
 	<VirtualHost *:<%= @apache_https_port %>>
 		ServerAdmin webmaster@localhost
-	        ServerName <%= @name %>
+	  ServerName <%= @name %>
 
 		DocumentRoot /vagrant_sites/<%= @name %><%= @webroot_subdir %>
-		<Directory />
-			Options FollowSymLinks
-			AllowOverride None
-		</Directory>
-		<Directory /vagrant_sites/<%= @name %><%= @webroot_subdir %>/>
-			Options Indexes FollowSymLinks MultiViews
-			AllowOverride All
-            Require all granted
-		</Directory>
 
 		ErrorLog ${APACHE_LOG_DIR}/error.log
 
@@ -51,9 +42,11 @@
 
 		SSLEngine on
 		SSLCertificateFile /etc/apache2/ssl.d/<%= @name %>.crt
-        SSLCertificateKeyFile /etc/apache2/ssl.d/<%= @name %>.key
+    SSLCertificateKeyFile /etc/apache2/ssl.d/<%= @name %>.key
 
-        ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9999/vagrant_sites/<%= @name %><%= @webroot_subdir %>/$1
+		<FilesMatch "\.php$">
+	    SetHandler  "proxy:fcgi://127.0.0.1:9999"
+	  </FilesMatch>
 
 	</VirtualHost>
 </IfModule>
