@@ -1,6 +1,7 @@
 # == Class: php::extension::gearman::params
 #
 # Defaults file for the gearman PHP extension
+# todo: When github back up add link to new type of provider...
 #
 # === Parameters
 #
@@ -36,14 +37,16 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::extension::gearman::params {
 
   $ensure   = $php::params::ensure
-  $package  = 'php5-gearman'
+  $package  = "php5-gearman"
   $provider = undef
   $inifile  = "${php::params::config_root_ini}/gearman.ini"
-  $settings = [ ]
+  $settings = [
+    'set ".anon/extension" "gearman.so"'
+  ]
 
 }

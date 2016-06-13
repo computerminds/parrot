@@ -36,7 +36,7 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::extension::imagick(
   $ensure   = $php::extension::imagick::params::ensure,
@@ -53,8 +53,8 @@ class php::extension::imagick(
   }
 
   php::config { 'php-extension-imagick':
-    file    => $inifile,
-    config  => $settings
+    file   => $inifile,
+    config => $settings
   }
 
 }

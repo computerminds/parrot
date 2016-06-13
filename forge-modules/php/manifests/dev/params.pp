@@ -29,12 +29,12 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::dev::params {
 
   $ensure   = $php::params::ensure
-  $package  = 'php5-dev'
+  $package  = "php${php::params::major_version}-dev"
   $provider = undef
 
 }

@@ -36,14 +36,16 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::extension::curl::params {
 
   $ensure   = $php::params::ensure
-  $package  = 'php5-curl'
+  $package  = "php${php::params::major_version}-curl"
   $provider = undef
   $inifile  = "${php::params::config_root_ini}/curl.ini"
-  $settings = [ ]
+  $settings = [
+    'set ".anon/extension" "curl.so"'
+  ]
 
 }

@@ -16,5 +16,8 @@ class parrot_repos {
   apt::ppa { 'ppa:ondrej/apache2':
     package_manage => true,
   }
+  apt::ppa { 'ppa:ondrej/php':
+    package_manage => true,
+  }
 
 }

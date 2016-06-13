@@ -36,13 +36,15 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Nodes, unless otherwise noted.
+# Copyright 2012-2015 Nodes, unless otherwise noted.
 #
 class php::extension::ldap::params {
 
   $ensure   = $php::params::ensure
-  $package  = 'php5-ldap'
+  $package  = "php${php::params::major_version}-ldap"
   $provider = undef
-  $inifile  = '/etc/php5/conf.d/20-ldap.ini'
-  $settings = []
+  $inifile  = "${php::params::config_root_ini}/ldap.ini"
+  $settings = [
+    'set ".anon/extension" "ldap.so"'
+  ]
 }

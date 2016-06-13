@@ -25,6 +25,8 @@ forge "https://forgeapi.puppetlabs.com"
 # mod 'puppetlabs-apache', '0.6.0', :github_tarball => 'puppetlabs/puppetlabs-apache'
 
 
-mod 'nodes/php'
+mod 'nodes/php',
+  :git => 'https://github.com/vpassapera/puppet-php.git',
+  :ref => 'feature/php7-support'
 mod 'puppetlabs/ntp'
 mod 'acme/ohmyzsh'

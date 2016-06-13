@@ -40,11 +40,11 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::extension::uploadprogress(
   $ensure   = $php::extension::uploadprogress::params::ensure,
-  $package  = $php::extension::uploadprogress::params,
+  $package  = $php::extension::uploadprogress::params::package,
   $provider = $php::extension::uploadprogress::params::provider,
   $inifile  = $php::extension::uploadprogress::params::inifile,
   $settings = $php::extension::uploadprogress::params::settings
@@ -57,8 +57,8 @@ class php::extension::uploadprogress(
   }
 
   php::config { 'php-extension-uploadprogress':
-    file    => $inifile,
-    config  => $settings
+    file   => $inifile,
+    config => $settings
   }
 
 }

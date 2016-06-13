@@ -36,7 +36,7 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::extension::ssh2(
   $ensure   = $php::extension::ssh2::params::ensure,
@@ -53,8 +53,8 @@ class php::extension::ssh2(
   }
 
   php::config { 'php-extension-ssh2':
-    file    => $inifile,
-    config  => $settings
+    file   => $inifile,
+    config => $settings
   }
 
 }

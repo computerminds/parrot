@@ -36,13 +36,15 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::extension::sqlite::params {
 
   $ensure   = $php::params::ensure
-  $package  = 'php5-sqlite'
+  $package  = "php${php::params::major_version}-sqlite"
   $provider = undef
   $inifile  = "${php::params::config_root_ini}/sqlite.ini"
-  $settings = [ ]
+  $settings = [
+    'set ".anon/extension" "sqlite.so"'
+  ]
 }

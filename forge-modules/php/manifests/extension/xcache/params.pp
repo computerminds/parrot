@@ -1,6 +1,7 @@
 # == Class: php::extension::xcache::params
 #
 # Defaults file for the Xcache PHP extension
+# No PHP 7
 #
 # === Parameters
 #
@@ -36,14 +37,16 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::extension::xcache::params {
 
   $ensure   = $php::params::ensure
   $package  = 'php5-xcache'
   $provider = undef
-  $inifile  = '/etc/php5/conf.d/20-xcache.ini'
-  $settings = []
+  $inifile  = "${php::params::config_root_ini}/xcache.ini"
+  $settings = [
+    'set ".anon/extension" "xcache.so"'
+  ]
 
 }

@@ -36,7 +36,7 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::extension::curl(
   $ensure   = $php::extension::curl::params::ensure,
@@ -53,8 +53,8 @@ class php::extension::curl(
   }
 
   php::config { 'php-extension-curl':
-    file    => $inifile,
-    config  => $settings
+    file   => $inifile,
+    config => $settings
   }
 
 }

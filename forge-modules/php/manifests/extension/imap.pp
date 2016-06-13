@@ -36,7 +36,7 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Nodes, unless otherwise noted.
+# Copyright 2012-2015 Nodes, unless otherwise noted.
 #
 class php::extension::imap(
   $ensure   = $php::extension::imap::params::ensure,
@@ -53,7 +53,7 @@ class php::extension::imap(
   }
 
   php::config { 'php-extension-imap':
-    file    => $inifile,
-    config  => $settings
+    file   => $inifile,
+    config => $settings
   }
 }

@@ -37,7 +37,7 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::apache(
   $ensure       = $php::apache::params::ensure,
@@ -59,8 +59,8 @@ class php::apache(
   }
 
   php::apache::config { 'php-apache':
-    file    => $inifile,
-    config  => $settings
+    file   => $inifile,
+    config => $settings
   }
 
 }

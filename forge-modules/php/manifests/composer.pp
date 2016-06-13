@@ -24,7 +24,7 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::composer (
   $source       = $php::composer::params::source,
@@ -36,7 +36,7 @@ class php::composer (
     creates => $destination,
     path    => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/' ],
     require => [
-      Package['php5-cli']
+      Package[$php::cli::params::package]
     ]
   }
 

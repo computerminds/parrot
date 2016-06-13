@@ -36,7 +36,7 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Nodes, unless otherwise noted.
+# Copyright 2012-2015 Nodes, unless otherwise noted.
 #
 class php::extension::pgsql(
   $ensure   = $php::extension::pgsql::params::ensure,
@@ -53,7 +53,7 @@ class php::extension::pgsql(
   }
 
   php::config { 'php-extension-pgsql':
-    file    => $inifile,
-    config  => $settings
+    file   => $inifile,
+    config => $settings
   }
 }

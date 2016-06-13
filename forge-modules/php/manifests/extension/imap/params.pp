@@ -36,13 +36,15 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Nodes, unless otherwise noted.
+# Copyright 2012-2015 Nodes, unless otherwise noted.
 #
 class php::extension::imap::params {
 
   $ensure   = $php::params::ensure
-  $package  = 'php5-imap'
+  $package  = "php${php::params::major_version}-imap"
   $provider = undef
-  $inifile  = '/etc/php5/conf.d/20-imap.ini'
-  $settings = []
+  $inifile  = "${php::params::config_root_ini}/imap.ini"
+  $settings = [
+    'set ".anon/extension" "imap.so"'
+  ]
 }

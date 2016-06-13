@@ -20,15 +20,15 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::apt(
-    $location     = 'http://packages.dotdeb.org',
-    $release      = 'wheezy-php55',
-    $repos        = 'all',
-    $include_src  = false,
-    $dotdeb       = true
-  ) {
+  $location     = 'http://packages.dotdeb.org',
+  $release      = 'wheezy-php55',
+  $repos        = 'all',
+  $include_src  = false,
+  $dotdeb       = true
+) {
 
   apt::source { "source_php_${release}":
     location    => $location,
@@ -49,14 +49,10 @@ class php::apt(
       }
     }
 
-    exec { 'add_dotdeb_key':
-      command =>
-        'curl -L --silent "http://www.dotdeb.org/dotdeb.gpg" | apt-key add -',
-      unless  => 'apt-key list | grep -q dotdeb',
-      path    => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/' ];
+    apt::key { 'add_dotdeb_key':
+      key => '6572BBEF1B5FF28B28B706837E3F070089DF5277',
     }
 
-    Exec['add_dotdeb_key'] -> Apt::Source["source_php_${release}"]
+    Apt::Key['add_dotdeb_key'] -> Apt::Source["source_php_${release}"]
   }
-
 }

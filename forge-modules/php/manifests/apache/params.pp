@@ -36,14 +36,14 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::apache::params {
 
   $ensure   = $php::params::ensure
   $package  = 'libapache2-mod-php5'
   $provider = undef
-  $inifile  = '/etc/php5/apache2/php.ini'
+  $inifile  = "${php::params::config_root}/apache2/php.ini"
   $settings = [ ]
 
   $service_name = 'apache2'

@@ -36,7 +36,7 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::extension::mcrypt(
   $ensure   = $php::extension::mcrypt::params::ensure,
@@ -53,8 +53,8 @@ class php::extension::mcrypt(
   }
 
   php::config { 'php-extension-mcrypt':
-    file    => $inifile,
-    config  => $settings
+    file   => $inifile,
+    config => $settings
   }
 
 }

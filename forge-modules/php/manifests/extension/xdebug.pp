@@ -36,7 +36,7 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::extension::xdebug (
   $ensure   = $php::extension::xdebug::params::ensure,
@@ -51,10 +51,10 @@ class php::extension::xdebug (
     package  => $package,
     provider => $provider
   }
-
+  ->
   php::config { 'php-extension-xdebug':
-    file    => $inifile,
-    config  => $settings
+    file   => $inifile,
+    config => $settings
   }
 
 }

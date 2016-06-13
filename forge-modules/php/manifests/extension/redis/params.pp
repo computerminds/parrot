@@ -36,14 +36,20 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::extension::redis::params {
 
   $ensure   = $php::params::ensure
-  $package  = 'php5-redis'
   $provider = undef
   $inifile  = "${php::params::config_root_ini}/redis.ini"
-  $settings = [ ]
+  $settings = [
+    'set ".anon/extension" "redis.so"'
+  ]
 
+  if (versioncmp($php::params::major_version, "7") >= 0) {
+    $package  = 'php-redis'
+  } else {
+    $package  = 'php5-redis'
+  }
 }

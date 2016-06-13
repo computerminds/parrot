@@ -36,13 +36,15 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Nodes, unless otherwise noted.
+# Copyright 2012-2015 Nodes, unless otherwise noted.
 #
 class php::extension::pgsql::params {
 
   $ensure   = $php::params::ensure
-  $package  = 'php5-pgsql'
+  $package  = "php${php::params::major_version}-pgsql"
   $provider = undef
   $inifile  = "${php::params::config_root_ini}/pgsql.ini"
-  $settings = [ ]
+  $settings = [
+    'set ".anon/extension" "pgsql.so"'
+  ]
 }

@@ -33,8 +33,9 @@ define php::contrib::base_package(
   $provider = undef
 ) {
 
-  if !defined(Package['php5-common']) {
-    package { 'php5-common':
+  $base_package_name = "php${php::params::major_version}-common"
+  if !defined(Package[$base_package_name]) {
+    package { $base_package_name:
       ensure   => $ensure,
       provider => $provider
     }

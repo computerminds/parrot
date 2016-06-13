@@ -36,14 +36,20 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::extension::http::params {
 
   $ensure   = $php::params::ensure
-  $package  = 'php5-http'
   $provider = undef
   $inifile  = "${php::params::config_root_ini}/http.ini"
-  $settings = [ ]
+  $settings = [
+    'set ".anon/extension" "http.so"'
+  ]
 
+  if (versioncmp($php::params::major_version, "7") >= 0) {
+    $package  = 'php-http'
+  } else {
+    $package  = 'php5-http'
+  }
 }

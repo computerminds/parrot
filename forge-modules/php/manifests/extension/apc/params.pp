@@ -36,7 +36,7 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::extension::apc::params {
 
@@ -59,6 +59,8 @@ class php::extension::apc::params {
   }
   $provider = undef
   $inifile  = "${php::params::config_root_ini}/apc.ini"
-  $settings = [ ]
+  $settings = [
+    'set ".anon/extension" "apc.so"'
+  ]
 
 }

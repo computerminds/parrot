@@ -302,11 +302,22 @@ Determines whether the specified setting should exist. Valid options: 'present' 
 
 ##### `section`
 
-*Required.* Designates a section of the specified INI file containing the setting to manage. To manage a global setting (at the beginning of the file, before any named sections) enter "". Valid options: a string.
+*Optional.* Designates a section of the specified INI file containing the setting to manage. To manage a global setting (at the beginning of the file, before any named sections) enter "". Defaults to "". Valid options: a string.
 
 ##### `setting`
 
-*Optional.* The name of the setting to define. Valid options: a string.
+*Required.* Designates a setting to manage within the specified INI file and section. Valid options: a string.
+
+##### `show_diff`
+
+*Optional.* Prevents outputting actual values to the logfile. Useful for handling of passwords and other sensitive information. Possible values are:
+  * `true`: This allows all values to be passed to logfiles. (default)
+  * `false`: The values in the logfiles will be replaced with `[redacted sensitive information]`. 
+  * `md5`: The values in the logfiles will be replaced with their md5 hash.
+
+Global show_diff configuraton takes priority over this one -
+[https://docs.puppetlabs.com/references/latest/configuration.html#showdiff]([https://docs.puppetlabs.com/references/latest/configuration.html#showdiff].
+). Default value: 'true'.
 
 ##### `value`
 
@@ -351,6 +362,17 @@ Specifies whether the subsetting should be present. Valid options: 'present' and
 ##### `setting`
 
 *Required.* Designates a setting within the specified section containing the subsetting to manage. Valid options: a string.
+
+##### `show_diff`
+
+*Optional.* Prevents outputting actual values to the logfile. Useful for handling of passwords and other sensitive information. Possible values are:
+  * `true`: This allows all values to be passed to logfiles. (default)
+  * `false`: The values in the logfiles will be replaced with `[redacted sensitive information]`. 
+  * `md5`: The values in the logfiles will be replaced with their md5 hash.
+
+Global show_diff configuraton takes priority over this one -
+[https://docs.puppetlabs.com/references/latest/configuration.html#showdiff]([https://docs.puppetlabs.com/references/latest/configuration.html#showdiff].
+). Default value: 'true'.
 
 ##### `subsetting`
 

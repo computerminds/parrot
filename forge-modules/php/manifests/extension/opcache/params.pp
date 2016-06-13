@@ -36,14 +36,18 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::extension::opcache::params {
-
   $ensure   = $php::params::ensure
-  $package  = undef
   $provider = undef
   $inifile  = "${php::params::config_root_ini}/opcache.ini"
-  $settings = [ ]
-
+  $settings = [
+    'set ".anon/zend_extension" "opcache.so"'
+  ]
+  if (versioncmp($php::params::major_version, "7") >= 0) {
+    $package  = "php${php::params::major_version}-opcache"
+  } else {
+    $package  = undef
+  }
 }

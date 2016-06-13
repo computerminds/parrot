@@ -24,7 +24,7 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 
 define php::fpm::config(
@@ -34,6 +34,7 @@ define php::fpm::config(
   $setting  = undef,
   $section  = 'PHP',
   $value    = undef,
+  $service_name = $::php::fpm::params::service_name
 ) {
   include ::php::fpm::params
 
@@ -44,7 +45,7 @@ define php::fpm::config(
     section => $section,
     setting => $setting,
     value   => $value,
-    notify  => Service[$::php::fpm::params::service_name],
+    notify  => Service[$service_name],
     source  => 'fpm',
   }
 }

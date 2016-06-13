@@ -39,6 +39,8 @@ define php::fpm::pool (
   $request_terminate_timeout = '0',
   $request_slowlog_timeout = '0',
   $slowlog = "/var/log/php-fpm/${name}-slow.log",
+  $access_log = undef,
+  $access_log_format = undef,
   $rlimit_files = undef,
   $rlimit_core = undef,
   $chroot = undef,
@@ -51,7 +53,9 @@ define php::fpm::pool (
   $php_admin_value = {},
   $php_admin_flag = {},
   $php_directives = [],
-  $error_log = true
+  $log_errors = true,
+  $error_log = true,
+  $config_mode = '0644',
 ) {
 
   $pool = $title
@@ -60,19 +64,20 @@ define php::fpm::pool (
   $group_final = $group ? { undef => $user, default => $group }
 
   if ($ensure == 'absent') {
-    file { "/etc/php5/fpm/pool.d/${pool}.conf":
+    file { "${php::params::config_root}/fpm/pool.d/${pool}.conf":
       ensure => absent,
-      notify => Service['php5-fpm']
+      notify => Service[$php::fpm::params::service_name],
+      require => Package[$php::fpm::params::package],
     }
   } else {
-    file { "/etc/php5/fpm/pool.d/${pool}.conf":
+    file { "${php::params::config_root}/fpm/pool.d/${pool}.conf":
       ensure  => file,
-      notify  => Service['php5-fpm'],
-      require => Package['php5-fpm'],
+      notify  => Service[$php::fpm::params::service_name],
+      require => Package[$php::fpm::params::package],
       content => template('php/fpm/pool.conf.erb'),
       owner   => root,
       group   => root,
-      mode    => '0644'
+      mode    => $config_mode,
     }
   }
 

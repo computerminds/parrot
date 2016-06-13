@@ -1,0 +1,10 @@
+pkg/
+.idea/
+atlassian-ide-plugin.xml
+docs/_build/
+Gemfile.lock
+spec/fixtures/
+.*.sw*
+
+.DS_Store
+.project

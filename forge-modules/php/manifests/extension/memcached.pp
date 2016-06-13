@@ -37,7 +37,7 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::extension::memcached(
   $ensure   = $php::extension::memcached::params::ensure,
@@ -54,8 +54,8 @@ class php::extension::memcached(
   }
 
   php::config { 'php-extension-memcached':
-    file    => $inifile,
-    config  => $settings
+    file   => $inifile,
+    config => $settings
   }
 
 }

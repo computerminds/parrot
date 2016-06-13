@@ -36,7 +36,7 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::extension::opcache(
   $ensure   = $php::extension::opcache::params::ensure,
@@ -55,8 +55,8 @@ class php::extension::opcache(
   }
 
   php::config { 'php-extension-opcache':
-    file    => $inifile,
-    config  => $settings
+    file   => $inifile,
+    config => $settings
   }
 
 }

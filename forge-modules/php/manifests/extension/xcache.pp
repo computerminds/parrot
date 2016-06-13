@@ -36,7 +36,7 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::extension::xcache(
   $ensure   = $php::extension::xcache::params::ensure,
@@ -53,8 +53,8 @@ class php::extension::xcache(
   }
 
   php::config { 'php-extension-xcache':
-    file    => $inifile,
-    config  => $settings
+    file   => $inifile,
+    config => $settings
   }
 
 }

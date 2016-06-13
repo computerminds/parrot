@@ -36,14 +36,16 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Nodes, unless otherwise noted.
+# Copyright 2012-2015 Nodes, unless otherwise noted.
 #
 class php::extension::intl::params {
 
   $ensure   = $php::params::ensure
-  $package  = 'php5-intl'
+  $package  = "php${php::params::major_version}-intl"
   $provider = undef
   $inifile  = "${php::params::config_root_ini}/intl.ini"
-  $settings = [ ]
+  $settings = [
+    'set ".anon/extension" "intl.so"'
+  ]
 
 }

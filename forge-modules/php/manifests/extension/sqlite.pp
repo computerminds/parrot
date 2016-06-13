@@ -40,7 +40,7 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::extension::sqlite(
   $ensure   = $php::extension::sqlite::params::ensure,
@@ -57,7 +57,7 @@ class php::extension::sqlite(
   }
 
   php::config { 'php-extension-sqlite':
-    file    => $inifile,
-    config  => $settings
+    file   => $inifile,
+    config => $settings
   }
 }

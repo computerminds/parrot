@@ -41,7 +41,7 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::extension::mongo(
   $ensure   = $php::extension::mongo::params::ensure,
@@ -58,7 +58,7 @@ class php::extension::mongo(
   }
 
   php::config { 'php-extension-mongo':
-    file    => $inifile,
-    config  => $settings
+    file   => $inifile,
+    config => $settings
   }
 }

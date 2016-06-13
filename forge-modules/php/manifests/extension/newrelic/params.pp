@@ -1,6 +1,7 @@
 # == Class: php::extension::newrelic::params
 #
 # Defaults file for the newrelic PHP extension
+# No support for PHP7 Yet.
 #
 # === Parameters
 #
@@ -36,7 +37,7 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::extension::newrelic::params {
 
@@ -44,6 +45,8 @@ class php::extension::newrelic::params {
   $package  = 'newrelic-php5'
   $provider = undef
   $inifile  = "${php::params::config_root_ini}/newrelic.ini"
-  $settings = [ ]
+  $settings = [
+    'set ".anon/extension" "newrelic.so"'
+  ]
 
 }

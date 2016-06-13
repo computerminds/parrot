@@ -36,14 +36,16 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::extension::gd::params {
 
   $ensure   = $php::params::ensure
-  $package  = 'php5-gd'
+  $package  = "php${php::params::major_version}-gd"
   $provider = undef
   $inifile  = "${php::params::config_root_ini}/gd.ini"
-  $settings = [ ]
+  $settings = [
+    'set ".anon/extension" "gd.so"'
+  ]
 
 }

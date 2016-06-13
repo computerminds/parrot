@@ -37,14 +37,20 @@
 #
 # === Copyright
 #
-# Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
+# Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::extension::memcache::params {
 
   $ensure   = $php::params::ensure
-  $package  = 'php5-memcache'
   $provider = undef
-  $inifile  = '/etc/php5/conf.d/20-memcache.ini'
-  $settings = []
-
+  $inifile  = "${php::params::config_root_ini}/memcache.ini"
+  $settings = [
+    'set ".anon/extension" "memcache.so"'
+  ]
+  if (versioncmp($php::params::major_version, "7") >= 0) {
+    # Leave alone as there's no php7.0-imagick yet...so we'll have to phpize
+    $package  = 'php-memcache'
+  } else {
+    $package  = 'php5-memcache'
+  }
 }
