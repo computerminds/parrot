@@ -74,13 +74,6 @@ class parrot_php (
   $emergency_restart_threshold = '0'
   $emergency_restart_interval  = '0'
   $process_control_timeout     = '0'
-  file { '/etc/php5/fpm/php-fpm.conf':
-    notify  => Service['php5-fpm'],
-    content => template('php/fpm/php-fpm.conf.erb'),
-    owner   => root,
-    group   => root,
-    mode    => '0644',
-  }
 
   # Manually install the xmlrpc extension.
   php::extension { 'xmlrpc':
