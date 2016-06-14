@@ -15,7 +15,7 @@ $extensions = array(
   'pdo',
   'xdebug',
   'xmlrpc',
-  'uploadprogress',
+  // 'uploadprogress',
 
   // Drupal 7 required extensions
   'date',
