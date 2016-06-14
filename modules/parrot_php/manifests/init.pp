@@ -116,6 +116,9 @@ class parrot_php (
     ensure => 'absent',
   }
 
+  parrot_php::config{'5.6': }
+  parrot_php::config{'7.0': }
+
   # include '::php'
   #
   # $php_packages = [
