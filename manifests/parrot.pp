@@ -4,7 +4,9 @@ node default {
   class { parrot_repos: }
   class { solr_server:  }
   class { parrot_mysql: }
-  class { parrot_php:  }
+  class { parrot_php:
+    require => Class['parrot_repos'],
+  }
   class { 'ohmyzsh': }
   ohmyzsh::install { ['root', 'vagrant']: }
   ohmyzsh::theme { ['root', 'vagrant']: theme => 'steeef' } # specific theme
