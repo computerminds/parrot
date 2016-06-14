@@ -13,6 +13,8 @@ node default {
   ->
   class { parrot_php: }
   ->
+  class { parrot_drush: }
+  ->
   anchor {"parrot:end": }
 
   class { 'ohmyzsh': }
@@ -31,7 +33,6 @@ node default {
       }
     }
   }
-  # class { parrot_drush: }
   class { mailcollect:
     require => Anchor["parrot:repos"],
   }
