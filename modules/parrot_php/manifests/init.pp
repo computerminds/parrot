@@ -4,6 +4,15 @@ class parrot_php (
 )
 {
 
+  $php_packages = [
+    'php5.6',
+    'php7.0',
+  ]
+
+  package {$php_packages:
+    ensure => latest,
+  }
+
   # include '::php'
   #
   # $php_packages = [
