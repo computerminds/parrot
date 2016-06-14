@@ -8,7 +8,6 @@ echo "box_name: Parrot-build-${BUILD_NUMBER}" >> config.yml
 
 # Run a simple vagrant up.
 vagrant up
-vagrant provision
 vagrant reload
 
 # Now do some base testing
