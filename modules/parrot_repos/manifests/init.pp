@@ -1,7 +1,12 @@
 class parrot_repos {
-
-  include apt
-
+  anchor {'parrot_repos::begin': }
+  ->
+  class { 'apt':
+    update => {
+      frequency => 'always',
+    },
+  }
+  ->
   # Add a repo for Varnish.
   apt::source { 'varnish':
       location   => 'http://repo.varnish-cache.org/ubuntu/',
@@ -12,12 +17,15 @@ class parrot_repos {
         "source" => "http://repo.varnish-cache.org/debian/GPG-key.txt",
       },
   }
+  ->
   # Add a repo for Apache 2.4.8+.
   apt::ppa { 'ppa:ondrej/apache2':
     package_manage => true,
   }
+  ->
   apt::ppa { 'ppa:ondrej/php':
     package_manage => true,
   }
-
+  ->
+  anchor {'parrot_repos::end': }
 }

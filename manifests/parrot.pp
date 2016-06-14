@@ -1,22 +1,29 @@
 node default {
-
-  class {apt: }
+  anchor {"parrot:begin": }
+  ->
   class { parrot_repos: }
+  ->
+  class { parrot_php:  }
+  ->
+  anchor {"parrot:end": }
+
   class { solr_server:  }
   class { parrot_mysql: }
-  class { parrot_php:
-    require => Class['parrot_repos'],
-  }
+
   class { 'ohmyzsh': }
   ohmyzsh::install { ['root', 'vagrant']: }
   ohmyzsh::theme { ['root', 'vagrant']: theme => 'steeef' } # specific theme
   class { sudoers: }
   case $parrot_varnish_enabled {
     'true', true: {
-      class { 'http_stack::with_varnish': }
+      class { 'http_stack::with_varnish':
+        require => Class['parrot_repos'],
+      }
     }
     default: {
-      class { 'http_stack::without_varnish': }
+      class { 'http_stack::without_varnish':
+        require => Class['parrot_repos'],
+      }
     }
   }
   # class { parrot_drush: }
