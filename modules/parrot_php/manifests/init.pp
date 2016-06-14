@@ -17,8 +17,7 @@ class parrot_php (
     'php5.6-xmlrpc',
     'php5.6-mysql',
     'php5.6-common',
-    'php5.6-xdebug',
-    'php5.6-xhprof',
+    'php-xhprof',
 
     'php7.0',
     'php7.0-fpm',
@@ -32,7 +31,7 @@ class parrot_php (
     'php7.0-xmlrpc',
     'php7.0-mysql',
     'php7.0-common',
-    'php7.0-xdebug',
+    'php-xdebug',
     # 'php7.0-xhprof',
 
     'php-uploadprogress',
