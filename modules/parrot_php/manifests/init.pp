@@ -12,6 +12,7 @@ class parrot_php (
     'php5.6-opcache',
     'php5.6-gd',
     'php5.6-curl',
+    'php5.6-xml',
     'php5.6-xmlrpc',
     'php5.6-mysql',
     'php5.6-common',
