@@ -8,6 +8,14 @@ define http_stack::apache::site () {
       "true": { $webroot_subdir = "/webroot$apache_vhost_webroot_subdir" }
       "false": { $webroot_subdir = $apache_vhost_webroot_subdir }
   }
+  # @TODO: replace the above with hiera.
+  $f2 = "/vagrant_sites/$name/.parrot-php7"
+  $_exists2 = inline_template("<%= File.exists?('$f2') %>")
+  case $_exists2 {
+      "true": { $fpm_port = "9998" }
+      "false": { $fpm_port = "9999" }
+  }
+  # @TODO: replace the above with hiera.
 
   # The file in sites-available.
   file {"/etc/apache2/sites-available/$name":
