@@ -40,6 +40,44 @@ class parrot_php (
   package {$php_packages:
     ensure => latest,
   }
+  # ->
+  # Fix a bug in Ubuntu https://bugs.launchpad.net/ubuntu/+source/php5/+bug/1242376
+  file {['/etc/init/php5.6-fpm.override', '/etc/init/php7.0-fpm.override']:
+    ensure => 'file',
+    owner => 'root',
+    group => 'root',
+    content => inline_template("reload signal SIGUSR2", "\n"),
+  }
+  # ->
+  service { 'php7.0-fpm':
+    ensure    => 'running',
+    enable    => true,
+    restart   => "service php7.0-fpm reload",
+    hasstatus => true,
+  }
+  # We need a user to exist that will run our PHP.
+  user {'host_user':
+    ensure => 'present',
+    uid => $fpm_user_uid,
+    gid => $fpm_user_gid,
+  }
+  # ->
+  parrot_php::fpm::pool { 'www-7.0':
+    listen => '127.0.0.1:9999',
+    pm_max_children => 10,
+    pm_start_servers => 2,
+    pm_max_requests => 100,
+    chdir => '/',
+    pm_min_spare_servers => 1,
+    pm_max_spare_servers => 4,
+    user => 'host_user',
+    group => $fpm_user_gid,
+
+    pool => 'www',
+    php_version => '7.0',
+    php_fpm_package => 'php7.0-fpm',
+    php_fpm_service => 'php7.0-fpm',
+  }
 
   package {['libapache2-mod-php5', 'libapache2-mod-php7.0', 'libapache2-mod-php5.6']:
     ensure => 'absent',
@@ -54,22 +92,10 @@ class parrot_php (
   # ]
   #
   # class { [
-  #   '::php::fpm',
-  #   '::php::cli',
-  #   '::php::extension::curl',
   #   '::php::extension::gd',
-  #   '::php::extension::mysql',
   #   '::php::pear',
-  #   '::php::dev',
   #
   # ]: } ->
-  # # Fix a bug in Ubuntu https://bugs.launchpad.net/ubuntu/+source/php5/+bug/1242376
-  # file {'/etc/init/php5-fpm.override':
-  #   ensure => 'file',
-  #   owner => 'root',
-  #   group => 'root',
-  #   content => inline_template("reload signal SIGUSR2", "\n"),
-  # }
   #
   # php::fpm::config { 'parrot-settings':
   #   config => [
@@ -190,11 +216,11 @@ class parrot_php (
   #   notify => Service['php5-fpm'],
   # }
   #
-  # host { 'host_machine.parrot':
-  #   ip => regsubst($vagrant_guest_ip,'^(\d+)\.(\d+)\.(\d+)\.(\d+)$','\1.\2.\3.1'),
-  #   comment => 'Added automatically by Parrot',
-  #   ensure => 'present',
-  # }
+  host { 'host_machine.parrot':
+   ip => regsubst($vagrant_guest_ip,'^(\d+)\.(\d+)\.(\d+)\.(\d+)$','\1.\2.\3.1'),
+   comment => 'Added automatically by Parrot',
+   ensure => 'present',
+  }
   #
   # # Add composer with autoupdate.
   # class { ['php::composer', 'php::composer::auto_update']:}

@@ -3,12 +3,17 @@ node default {
   ->
   class { parrot_repos: }
   ->
-  class { parrot_php:  }
+  anchor {"parrot:repos": }
+  ->
+  class { parrot_mysql: }
+  ->
+  class { solr_server: }
+  ->
+  anchor {"parrot:http_stack": }
+  ->
+  class { parrot_php: }
   ->
   anchor {"parrot:end": }
-
-  class { solr_server:  }
-  class { parrot_mysql: }
 
   class { 'ohmyzsh': }
   ohmyzsh::install { ['root', 'vagrant']: }
@@ -17,24 +22,28 @@ node default {
   case $parrot_varnish_enabled {
     'true', true: {
       class { 'http_stack::with_varnish':
-        require => Class['parrot_repos'],
+        require => Anchor["parrot:http_stack"],
       }
     }
     default: {
       class { 'http_stack::without_varnish':
-        require => Class['parrot_repos'],
+        require => Anchor["parrot:http_stack"],
       }
     }
   }
   # class { parrot_drush: }
-  class { mailcollect: }
+  class { mailcollect:
+    require => Anchor["parrot:repos"],
+  }
 
-  package { 'vim': }
-  package { 'vim-puppet': }
-  package { 'curl': }
+  package { ['vim', 'vim-puppet', 'curl']:
+    require => Anchor["parrot:repos"],
+  }
 
   # Ensure ntp is installed.
-  class { '::ntp': }
+  class { '::ntp':
+    require => Anchor["parrot:repos"],
+  }
 
 
 
