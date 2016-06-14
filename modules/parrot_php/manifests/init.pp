@@ -10,20 +10,22 @@ class parrot_php (
     'php5.6-cli',
     'php5.6-dev',
     'php5.6-opcache',
+    'php5.6-gd',
     'php5.6-curl',
     'php5.6-xmlrpc',
     'php5.6-mysql',
-    'php5.6-pdo',
+    'php5.6-common',
 
     'php7.0',
     'php7.0-fpm',
     'php7.0-cli',
     'php7.0-dev',
     'php7.0-opcache',
+    'php7.0-gd',
     'php7.0-curl',
     'php7.0-xmlrpc',
     'php7.0-mysql',
-    'php7.0-pdo',
+    'php7.0-common',
 
   ]
 
@@ -40,7 +42,7 @@ class parrot_php (
   package {$php_packages:
     ensure => latest,
   }
-  # ->
+  ->
   # Fix a bug in Ubuntu https://bugs.launchpad.net/ubuntu/+source/php5/+bug/1242376
   file {['/etc/init/php5.6-fpm.override', '/etc/init/php7.0-fpm.override']:
     ensure => 'file',
