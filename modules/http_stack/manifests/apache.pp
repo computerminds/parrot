@@ -12,7 +12,7 @@ class http_stack::apache(
     require => Class["parrot_repos"],
   }
 
-  package {['libapache2-mod-php5', 'apache2-mpm-worker']:
+  package {'apache2-mpm-worker':
     ensure => 'absent',
   }
 

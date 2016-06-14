@@ -6,11 +6,43 @@ class parrot_php (
 
   $php_packages = [
     'php5.6',
+    'php5.6-fpm',
+    'php5.6-cli',
+    'php5.6-dev',
+    'php5.6-opcache',
+    'php5.6-curl',
+    'php5.6-xmlrpc',
+    'php5.6-mysql',
+    'php5.6-pdo',
+
     'php7.0',
+    'php7.0-fpm',
+    'php7.0-cli',
+    'php7.0-dev',
+    'php7.0-opcache',
+    'php7.0-curl',
+    'php7.0-xmlrpc',
+    'php7.0-mysql',
+    'php7.0-pdo',
+
   ]
+
+  # Extensions:
+  # - GD
+  # - curl
+  # - xmlrpc
+  # - mysql
+  # - mysqli
+  # - xdebug
+  # - xhprof
+  # - uploadprogress
 
   package {$php_packages:
     ensure => latest,
+  }
+
+  package {['libapache2-mod-php5', 'libapache2-mod-php7.0', 'libapache2-mod-php5.6']:
+    ensure => 'absent',
   }
 
   # include '::php'
