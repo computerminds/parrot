@@ -31,6 +31,8 @@ class parrot_php (
     'php7.0-xdebug',
     # 'php7.0-xhprof',
 
+    'php-uploadprogress',
+
   ]
 
   # Extensions:
