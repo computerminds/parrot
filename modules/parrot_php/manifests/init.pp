@@ -63,6 +63,12 @@ class parrot_php (
     restart   => "service php7.0-fpm reload",
     hasstatus => true,
   }
+  service { 'php5.6-fpm':
+    ensure    => 'running',
+    enable    => true,
+    restart   => "service php5.6-fpm reload",
+    hasstatus => true,
+  }
   # We need a user to exist that will run our PHP.
   user {'host_user':
     ensure => 'present',
@@ -71,7 +77,7 @@ class parrot_php (
   }
   # ->
   parrot_php::fpm::pool { 'www-7.0':
-    listen => '127.0.0.1:9999',
+    listen => '127.0.0.1:9998',
     pm_max_children => 10,
     pm_start_servers => 2,
     pm_max_requests => 100,
@@ -85,6 +91,22 @@ class parrot_php (
     php_version => '7.0',
     php_fpm_package => 'php7.0-fpm',
     php_fpm_service => 'php7.0-fpm',
+  }
+  parrot_php::fpm::pool { 'www-5.6':
+    listen => '127.0.0.1:9999',
+    pm_max_children => 10,
+    pm_start_servers => 2,
+    pm_max_requests => 100,
+    chdir => '/',
+    pm_min_spare_servers => 1,
+    pm_max_spare_servers => 4,
+    user => 'host_user',
+    group => $fpm_user_gid,
+
+    pool => 'www',
+    php_version => '5.6',
+    php_fpm_package => 'php5.6-fpm',
+    php_fpm_service => 'php5.6-fpm',
   }
 
   package {['libapache2-mod-php5', 'libapache2-mod-php7.0', 'libapache2-mod-php5.6']:
