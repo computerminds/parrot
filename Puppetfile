@@ -24,6 +24,6 @@ forge "https://forgeapi.puppetlabs.com"
 # A module from Github pre-packaged tarball
 # mod 'puppetlabs-apache', '0.6.0', :github_tarball => 'puppetlabs/puppetlabs-apache'
 
-mod 'puppetlabs/apt'
-mod 'puppetlabs/ntp'
-mod 'acme/ohmyzsh'
+mod 'puppetlabs-apt'
+mod 'puppetlabs-ntp'
+mod 'acme-ohmyzsh'
