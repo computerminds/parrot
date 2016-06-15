@@ -4,7 +4,7 @@
 vagrant destroy -f || true
 
 cp -f testing/jenkins.config.yml config.yml
-echo "box_name: Parrot-build-${BUILD_NUMBER}" >> config.yml
+echo "box_name: Parrot-build-${BUILD_TAG}" >> config.yml
 
 # Run a simple vagrant up.
 vagrant up
