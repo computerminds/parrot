@@ -9,14 +9,13 @@ $fail = array();
 
 // 1. Test that we correctly installed some key PHP extensions.
 $extensions = array(
-  // Parror installed extensions.
+  // Parrot installed extensions.
   'curl',
   'mysqli',
   'pdo',
   'xdebug',
   'xmlrpc',
   'uploadprogress',
-  'xhprof',
 
   // Drupal 7 required extensions
   'date',
@@ -33,6 +32,11 @@ $extensions = array(
   'xml',
 
 );
+
+// We are not able to install xhprof for PHP7 yet.
+if (PHP_MAJOR_VERSION < 7) {
+  $extensions[] = 'xhprof';
+}
 foreach ($extensions as $extension) {
   if (extension_loaded($extension)) {
     $success[] = 'Extension: ' . $extension . ' is loaded.';

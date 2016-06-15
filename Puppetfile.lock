@@ -3,19 +3,14 @@ FORGE
   specs:
     acme-ohmyzsh (0.1.2)
       puppetlabs-stdlib (>= 0)
-    nodes-php (0.9.0)
-      puppetlabs-apt (> 0.0.0)
-      puppetlabs-inifile (> 0.0.0)
-      puppetlabs-stdlib (> 0.0.0)
-    puppetlabs-apt (2.2.0)
+    puppetlabs-apt (2.2.2)
       puppetlabs-stdlib (< 5.0.0, >= 4.5.0)
-    puppetlabs-inifile (1.4.2)
-    puppetlabs-ntp (4.1.0)
+    puppetlabs-ntp (4.2.0)
       puppetlabs-stdlib (< 5.0.0, >= 4.6.0)
-    puppetlabs-stdlib (4.9.0)
+    puppetlabs-stdlib (4.12.0)
 
 DEPENDENCIES
   acme-ohmyzsh (>= 0)
-  nodes-php (>= 0)
+  puppetlabs-apt (>= 0)
   puppetlabs-ntp (>= 0)
 

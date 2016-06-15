@@ -13,7 +13,7 @@
 	CustomLog ${APACHE_LOG_DIR}/access.log combined
 
 	<FilesMatch "\.php$">
-    SetHandler  "proxy:fcgi://127.0.0.1:9999"
+    SetHandler  "proxy:fcgi://127.0.0.1:<%= @fpm_port %>"
   </FilesMatch>
 
 </VirtualHost>
@@ -45,7 +45,7 @@
     SSLCertificateKeyFile /etc/apache2/ssl.d/<%= @name %>.key
 
 		<FilesMatch "\.php$">
-	    SetHandler  "proxy:fcgi://127.0.0.1:9999"
+	    SetHandler  "proxy:fcgi://127.0.0.1:<%= @fpm_port %>"
 	  </FilesMatch>
 
 	</VirtualHost>
