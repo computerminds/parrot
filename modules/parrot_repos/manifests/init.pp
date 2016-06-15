@@ -1,54 +1,31 @@
 class parrot_repos {
-  #Install PHP repos
-  case $parrot_php_version {
-    '5.5': {
-      apt::source { 'php5':
-        location   => 'http://ppa.launchpad.net/ondrej/php5/ubuntu/',
-        key        => "E5267A6C",
-      }
-      apt::source { 'apache':
-        location   => 'http://ppa.launchpad.net/ondrej/apache2/ubuntu/',
-        key        => "E5267A6C",
-      }
-      apt::source { 'php5-oldstable':
-        location   => 'http://ppa.launchpad.net/ondrej/php5-oldstable/ubuntu/',
-        key        => "E5267A6C",
-        ensure     => 'absent',
-      }
-    }
-    '5.4': {
-      apt::source { 'php5-oldstable':
-        location   => 'http://ppa.launchpad.net/ondrej/php5-oldstable/ubuntu/',
-        key        => "E5267A6C",
-      }
-    }
-    '5.3', default: {
-      apt::source { 'php5-oldstable':
-        location   => 'http://ppa.launchpad.net/ondrej/php5-oldstable/ubuntu/',
-        key        => "E5267A6C",
-        ensure     => 'absent',
-      }
-    }
+  anchor {'parrot_repos::begin': }
+  ->
+  class { 'apt':
+    update => {
+      frequency => 'daily',
+    },
   }
-
-  case $parrot_mysql_version {
-    '5.6': {
-      apt::source { 'mysql56':
-        location   => 'http://ppa.launchpad.net/ondrej/mysql-5.6/ubuntu/',
-        key        => "E5267A6C",
-      }
-    }
-    default: {
-      
-    }
-  }
-
+  ->
   # Add a repo for Varnish.
   apt::source { 'varnish':
-  	  location   => 'http://repo.varnish-cache.org/ubuntu/',
-  	  repos      => 'varnish-3.0',
-  	  release    => 'precise',
-  	  key        => "C4DEFFEB",
-      key_source => "http://repo.varnish-cache.org/debian/GPG-key.txt",
+      location   => 'http://repo.varnish-cache.org/ubuntu/',
+      repos      => 'varnish-3.0',
+      release    => 'trusty',
+      key        => {
+        "id"     => "E98C6BBBA1CBC5C3EB2DF21C60E7C096C4DEFFEB",
+        "source" => "http://repo.varnish-cache.org/debian/GPG-key.txt",
+      },
   }
+  ->
+  # Add a repo for Apache 2.4.8+.
+  apt::ppa { 'ppa:ondrej/apache2':
+    package_manage => true,
+  }
+  ->
+  apt::ppa { 'ppa:ondrej/php':
+    package_manage => true,
+  }
+  ->
+  anchor {'parrot_repos::end': }
 }

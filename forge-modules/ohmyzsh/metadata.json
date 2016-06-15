@@ -1,0 +1,36 @@
+{
+  "name": "acme-ohmyzsh",
+  "version": "0.1.2",
+  "source": "https://github.com/acme/puppet-acme-oh-my-zsh",
+  "author": "acme",
+  "license": "Apache License, Version 2.0",
+  "summary": "ohmyzsh module",
+  "description": "This is the ohmyzsh module. It installs oh-my-zsh for a user and changes their shell to zsh. It also manages themes, plugins and more",
+  "project_page": "https://github.com/acme/puppet-acme-oh-my-zsh",
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib"
+    }
+  ],
+  "types": [
+
+  ],
+  "checksums": {
+    "LICENSE": "3b83ef96387f14655fc854ddc3c6bd57",
+    "Modulefile": "83738b4d108f71c1d317749bbb2fa325",
+    "README.md": "3c8778b5d089301f225cd30c84ca4c29",
+    "Rakefile": "834274004f9abf98a4026f43886f00b5",
+    "Vagrantfile": "3da2ff73984d818bddac4acdddba2bd7",
+    "manifests/init.pp": "deec6c2b58fae328dda742ae90448018",
+    "manifests/install.pp": "6a371710f6c21375557f69d2e9db91e9",
+    "manifests/params.pp": "4c8f762d736a80402e650a0ecac5c902",
+    "manifests/plugins.pp": "6f9337dcc4a1cab3e447eadb6a288f8b",
+    "manifests/theme.pp": "d4d63c755f1214968669fe80684aed1e",
+    "manifests/upgrade.pp": "84bdfe18a978d01b6e0dbe3e4a71a814",
+    "manifests/vagrant.pp": "2e25d833cd6681d2faf7434f81c5ca93",
+    "spec/fixtures/manifests/site.pp": "d41d8cd98f00b204e9800998ecf8427e",
+    "spec/simple_spec.rb": "5e2e4ed21aa2d8cb84ad796a2cda0b79",
+    "spec/spec_helper.rb": "3094c2ea26f514e42e8d36da912e0df7",
+    "tests/init.pp": "601471c50aa86307383e60661eab0e7e"
+  }
+}

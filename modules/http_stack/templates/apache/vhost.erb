@@ -1,25 +1,8 @@
 <VirtualHost *:<%= @apache_http_port %>>
 	ServerAdmin webmaster@localhost
-        ServerName <%= @name %>
+  ServerName <%= @name %>
 
-	DocumentRoot /vagrant_sites/<%= @name %><%= @apache_vhost_webroot_subdir %>
-	<Directory />
-		Options FollowSymLinks
-		AllowOverride None
-	</Directory>
-	<Directory /vagrant_sites/<%= @name %><%= @apache_vhost_webroot_subdir %>/>
-		Options Indexes FollowSymLinks MultiViews
-		AllowOverride All
-		<IfModule mod_authz_core.c>
-			# For Apache 2.4
-      Require all granted
-   </IfModule>
-   <IfModule !mod_authz_core.c>
-   	# For apache 2.2
-     Order allow,deny
-     allow from all
-    </IfModule>
-	</Directory>
+	DocumentRoot /vagrant_sites/<%= @name %><%= @webroot_subdir %>
 
 	ErrorLog ${APACHE_LOG_DIR}/error.log
 
@@ -29,31 +12,25 @@
 
 	CustomLog ${APACHE_LOG_DIR}/access.log combined
 
+	<FilesMatch "\.php$">
+    SetHandler  "proxy:fcgi://127.0.0.1:<%= @fpm_port %>"
+  </FilesMatch>
+
 </VirtualHost>
+
+
+<Directory /vagrant_sites/<%= @name %><%= @webroot_subdir %>>
+	Options Indexes FollowSymLinks MultiViews
+	AllowOverride All
+	Require all granted
+</Directory>
 
 <IfModule mod_ssl.c>
 	<VirtualHost *:<%= @apache_https_port %>>
 		ServerAdmin webmaster@localhost
-	        ServerName <%= @name %>
+	  ServerName <%= @name %>
 
-		DocumentRoot /vagrant_sites/<%= @name %><%= @apache_vhost_webroot_subdir %>
-		<Directory />
-			Options FollowSymLinks
-			AllowOverride None
-		</Directory>
-		<Directory /vagrant_sites/<%= @name %><%= @apache_vhost_webroot_subdir %>/>
-			Options Indexes FollowSymLinks MultiViews
-			AllowOverride All
-      <IfModule mod_authz_core.c>
-        # For Apache 2.4
-        Require all granted
-      </IfModule>
-      <IfModule !mod_authz_core.c>
-   	    # For apache 2.2
-        Order allow,deny
-        allow from all
-      </IfModule>
-		</Directory>
+		DocumentRoot /vagrant_sites/<%= @name %><%= @webroot_subdir %>
 
 		ErrorLog ${APACHE_LOG_DIR}/error.log
 
@@ -65,7 +42,11 @@
 
 		SSLEngine on
 		SSLCertificateFile /etc/apache2/ssl.d/<%= @name %>.crt
-        SSLCertificateKeyFile /etc/apache2/ssl.d/<%= @name %>.key
+    SSLCertificateKeyFile /etc/apache2/ssl.d/<%= @name %>.key
+
+		<FilesMatch "\.php$">
+	    SetHandler  "proxy:fcgi://127.0.0.1:<%= @fpm_port %>"
+	  </FilesMatch>
 
 	</VirtualHost>
 </IfModule>

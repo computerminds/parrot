@@ -4,13 +4,13 @@ class http_stack(
   $varnish_port      = 80
 ) {
 
-  # We're going to install Varnish on Port 80 by default.
+  # Install varnish on the specified port.
   class { http_stack::varnish:
     varnish_port => $varnish_port,
     backend_port => $apache_http_port,
   }
 
-  # And then apache on port 8080 by default.
+  # Install apache on the specified port.
   class { http_stack::apache:
     before => Class['http_stack::varnish'],
     apache_http_port => $apache_http_port,

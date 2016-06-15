@@ -13,9 +13,7 @@ def parse_config(
     'use_nfs' => true,
     'with_gui' => false,
     'ip' => "192.168.50.4",
-    'php_version' => '5.3',
-    'mysql_version' => '5.5',
-    'box_name' => 'Parrot',
+    'box_name' => 'Parrot-Trusty',
     'varnish_enabled' => false,
     'local_user_uid' => Process.uid,
     'local_user_gid' => Process.gid,
@@ -25,6 +23,13 @@ def parse_config(
     'forward_apache' => true,
     'forward_https' => true,
     'forward_dovecot' => true,
+    'solr_port' => 8983,
+    'mysql_port' => 3306,
+    'varnish_port' => 8181,
+    'apache_port' => 8080,
+    'https_port' => 1443,
+    'dovecot_port' => 1143,
+    'drush_version' => 'drush/drush',
   }
   if File.exists?(config_file)
     overrides = YAML.load_file(config_file)
@@ -50,22 +55,17 @@ Vagrant.configure('2') do |config|
     bits = 32
   end
 
-
-  # All Vagrant configuration is done here. The most common configuration
-  # options are documented and commented below. For a complete reference,
-  # please see the online documentation at vagrantup.com.
-
-  # Every Vagrant virtual environment requires a box to build off of.
-  if (bits == 32)
-    config.vm.box = "precise32"
-  else
-    config.vm.box = "precise64"
-  end
-
-  # Provide specific settings for VMWare Fusion
+  ################# VMWare Fusion ########################
   config.vm.provider "vmware_fusion" do |box, override|
-    override.vm.box = "precise64"
-    override.vm.box_url = "http://files.vagrantup.com/precise64_vmware.box"
+    if (bits == 32)
+      override.vm.box_url = "https://atlas.hashicorp.com/puphpet/boxes/ubuntu1404-x32"
+      override.vm.box = "puphpet/ubuntu1404-x32"
+      override.vm.box_version = "20151128"
+    else
+      override.vm.box_url = "https://atlas.hashicorp.com/puphpet/boxes/ubuntu1404-x64"
+      override.vm.box = "puphpet/ubuntu1404-x64"
+      override.vm.box_version = "20151128"
+    end
 
     box.vmx["memsize"] = custom_config['memory']
     box.vmx["numvcpus"] = custom_config['cpus']
@@ -73,10 +73,9 @@ Vagrant.configure('2') do |config|
     box.gui = custom_config['with_gui']
   end
 
-  # Provide specific settings for Parallels
+  #################   Parallels   ########################
   config.vm.provider "parallels" do |box, override|
-    override.vm.box = "parallels/ubuntu-12.04"
-    override.vm.box_url = "https://atlas.hashicorp.com/parallels/boxes/ubuntu-12.04/versions/1.0.4/providers/parallels.box"
+    override.vm.box_url = "https://atlas.hashicorp.com/puphpet/boxes/ubuntu1404-x64"
 
     box.memory = custom_config['memory']
     box.cpus = custom_config['cpus']
@@ -84,12 +83,12 @@ Vagrant.configure('2') do |config|
     box.name = custom_config['box_name']
   end
 
-  # Give the created VM 768M of RAM
+  ################# Virtual Box ########################
   config.vm.provider :virtualbox do |box, override|
     if (bits == 32)
-      override.vm.box_url = "http://files.vagrantup.com/precise32.box"
+      override.vm.box = "ubuntu/trusty32"
     else
-      override.vm.box_url = "http://files.vagrantup.com/precise64.box"
+      override.vm.box = "ubuntu/trusty64"
     end
 
     # Specify number of cpus/cores to use
@@ -113,34 +112,34 @@ Vagrant.configure('2') do |config|
 
   # Solr
   if custom_config['forward_solr']
-    config.vm.network :forwarded_port, :guest => 8983, :host => 8983
+    config.vm.network :forwarded_port, :guest => 8983, :host => custom_config['solr_port']
   end
   # MySQL
   if custom_config['forward_mysql']
-    config.vm.network :forwarded_port, :guest => 3306, :host => 3306
+    config.vm.network :forwarded_port, :guest => 3306, :host => custom_config['mysql_port']
   end
   # Varnish
   if custom_config['forward_varnish']
-    config.vm.network :forwarded_port, :guest => 80, :host => 8181
+    config.vm.network :forwarded_port, :guest => 80, :host => custom_config['varnish_port']
   end
   # Apache
   if custom_config['forward_apache']
-    config.vm.network :forwarded_port, :guest => 8080, :host => 8080
+    config.vm.network :forwarded_port, :guest => 8080, :host => custom_config['apache_port']
   end
   # HTTPS
   if custom_config['forward_https']
-    config.vm.network :forwarded_port, :guest => 443, :host => 1443
+    config.vm.network :forwarded_port, :guest => 443, :host => custom_config['https_port']
   end
   # Dovecot - IMAP
   if custom_config['forward_dovecot']
-    config.vm.network :forwarded_port, :guest => 143, :host => 1143
+    config.vm.network :forwarded_port, :guest => 143, :host => custom_config['dovecot_port']
   end
 
   # Share an additional folder to the guest VM. The first argument is
   # an identifier, the second is the path on the guest to mount the
   # folder, and the third is the path on the host to the actual folder.
   config.vm.synced_folder "parrot-config", "/vagrant_parrot_config"
- 
+
   if custom_config['use_nfs']
     config.vm.synced_folder custom_config['sites'], "/vagrant_sites", :nfs => true
   else
@@ -163,11 +162,13 @@ Vagrant.configure('2') do |config|
 
   # And now the meat.
   config.vm.provision :puppet do |puppet|
+    #puppet.options = "--verbose --debug"
     puppet.manifests_path = "manifests"
     puppet.manifest_file  = "parrot.pp"
-    puppet.module_path = "modules"
+    puppet.module_path = ["forge-modules", "modules"]
     # Add a custom fact so we can reliably hit the host IP from the guest.
     puppet.facter = {
+      "parrot_drush_version" => custom_config['drush_version'],
       "vagrant_guest_ip" => custom_config['ip'],
       "parrot_php_version" => custom_config['php_version'],
       "parrot_mysql_version" => custom_config['mysql_version'],

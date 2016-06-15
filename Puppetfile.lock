@@ -1,0 +1,16 @@
+FORGE
+  remote: https://forgeapi.puppetlabs.com
+  specs:
+    acme-ohmyzsh (0.1.2)
+      puppetlabs-stdlib (>= 0)
+    puppetlabs-apt (2.2.2)
+      puppetlabs-stdlib (< 5.0.0, >= 4.5.0)
+    puppetlabs-ntp (4.2.0)
+      puppetlabs-stdlib (< 5.0.0, >= 4.6.0)
+    puppetlabs-stdlib (4.12.0)
+
+DEPENDENCIES
+  acme-ohmyzsh (>= 0)
+  puppetlabs-apt (>= 0)
+  puppetlabs-ntp (>= 0)
+
