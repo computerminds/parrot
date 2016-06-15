@@ -59,13 +59,21 @@ class parrot_php (
     group => 'root',
     content => inline_template("reload signal SIGUSR2", "\n"),
   }
-  # ->
+  ->
+  # uploadprogress doesn't get symlinked correctly for some reason.
+  file { '/etc/php/5.6/fpm/conf.d/20-uploadprogress.ini':
+    ensure => 'link',
+    target => '/etc/php/5.6/mods-available/uploadprogress.ini',
+    notify => Service['php5.6-fpm'],
+  }
+
   service { 'php7.0-fpm':
     ensure    => 'running',
     enable    => true,
     restart   => "service php7.0-fpm reload",
     hasstatus => true,
   }
+
   service { 'php5.6-fpm':
     ensure    => 'running',
     enable    => true,
