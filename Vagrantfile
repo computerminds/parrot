@@ -13,8 +13,6 @@ def parse_config(
     'use_nfs' => true,
     'with_gui' => false,
     'ip' => "192.168.50.4",
-    'php_version' => '5.5',
-    'mysql_version' => '5.5',
     'box_name' => 'Parrot-Trusty',
     'varnish_enabled' => false,
     'local_user_uid' => Process.uid,
@@ -141,7 +139,7 @@ Vagrant.configure('2') do |config|
   # an identifier, the second is the path on the guest to mount the
   # folder, and the third is the path on the host to the actual folder.
   config.vm.synced_folder "parrot-config", "/vagrant_parrot_config"
- 
+
   if custom_config['use_nfs']
     config.vm.synced_folder custom_config['sites'], "/vagrant_sites", :nfs => true
   else
