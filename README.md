@@ -1,6 +1,8 @@
 Parrot development VM
 =====================
 
+[![Build Status](https://jenkins.computerminds.co.uk/buildStatus/icon?job=Parrot master branch Testing)](https://jenkins.computerminds.co.uk/job/Parrot master branch Testing)
+
 Parrot is a utility VM for Drupal development. It's not your development environment,
 but it's the complex, hard to set up, servers you'll need.
 
