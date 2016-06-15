@@ -14,6 +14,9 @@ disable monitor
 <% if @disable_auth == true -%>
 disable auth
 <% end -%>
+<% if @disable_kernel == true -%>
+disable kernel
+<% end -%>
 
 <% if @restrict != [] -%>
 # Permit time synchronization with our time source, but do not
@@ -24,9 +27,15 @@ restrict <%= restrict %>
 <% end -%>
 
 <% if @interfaces != [] -%>
+<% if @interfaces_ignore != [] -%>
+<% @interfaces_ignore.flatten.each do |interface| -%>
+interface ignore <%= interface %>
+<% end -%>
+<% else -%>
 # Ignore wildcard interface and only listen on the following specified
 # interfaces
 interface ignore wildcard
+<% end -%>
 <% @interfaces.flatten.each do |interface| -%>
 interface listen <%= interface %>
 <% end -%>
@@ -62,6 +71,11 @@ driftfile <%= @driftfile %>
 logfile <%= @logfile %>
 <% end -%>
 
+<% unless @ntpsigndsocket.nil? -%>
+# Enable signed packets
+ntpsigndsocket <%= @ntpsigndsocket %>
+<% end -%>
+
 <% unless @peers.empty? -%>
 # Peers
 <% [@peers].flatten.each do |peer| -%>
@@ -89,4 +103,12 @@ fudge <%= entry %>
 <% unless @leapfile.nil? -%>
 # Leapfile
 leapfile <%= @leapfile %>
+<% end -%>
+
+<% if @tos == true -%>
+tos <% if @tos_minclock -%> minclock <%= @tos_minclock %><% end %><% if @tos_minsane -%> minsane <%= @tos_minsane %><% end %><% if @tos_floor -%> floor <%= @tos_floor %><% end %><% if @tos_ceiling -%> ceiling <%= @tos_ceiling %><% end %><% if @tos_cohort -%> cohort <%= @tos_cohort %><% end %>
+<% end %>
+
+<% unless @authprov.nil? -%>
+authprov <%= @authprov %>
 <% end -%>

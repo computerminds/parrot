@@ -5,23 +5,12 @@ FORGE
       puppetlabs-stdlib (>= 0)
     puppetlabs-apt (2.2.2)
       puppetlabs-stdlib (< 5.0.0, >= 4.5.0)
-    puppetlabs-inifile (1.5.0)
-    puppetlabs-ntp (4.1.0)
+    puppetlabs-ntp (4.2.0)
       puppetlabs-stdlib (< 5.0.0, >= 4.6.0)
-    puppetlabs-stdlib (4.9.0)
-
-GIT
-  remote: https://github.com/vpassapera/puppet-php.git
-  ref: feature/php7-support
-  sha: 9a7ed2e664fe0355dc7765e7b85f61106eed7101
-  specs:
-    nodes-php (0.9.0)
-      puppetlabs-apt (> 0.0.0)
-      puppetlabs-inifile (> 0.0.0)
-      puppetlabs-stdlib (> 0.0.0)
+    puppetlabs-stdlib (4.12.0)
 
 DEPENDENCIES
   acme-ohmyzsh (>= 0)
-  nodes-php (>= 0)
+  puppetlabs-apt (>= 0)
   puppetlabs-ntp (>= 0)
 
