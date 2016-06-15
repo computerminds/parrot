@@ -3,7 +3,7 @@ class parrot_repos {
   ->
   class { 'apt':
     update => {
-      frequency => 'always',
+      frequency => 'daily',
     },
   }
   ->
