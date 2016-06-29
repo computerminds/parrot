@@ -16,6 +16,7 @@ $extensions = array(
   'xdebug',
   'xmlrpc',
   'uploadprogress',
+  'soap',
 
   // Drupal 7 required extensions
   'date',
