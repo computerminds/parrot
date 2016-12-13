@@ -30,6 +30,7 @@ def parse_config(
     'https_port' => 1443,
     'dovecot_port' => 1143,
     'drush_version' => 'drush/drush',
+    'gulp_enabled' => false,
   }
   if File.exists?(config_file)
     overrides = YAML.load_file(config_file)
@@ -174,6 +175,7 @@ Vagrant.configure('2') do |config|
       "parrot_mysql_version" => custom_config['mysql_version'],
       "apache_vhost_webroot_subdir" => custom_config['webroot_subdir'],
       "parrot_varnish_enabled" => custom_config['varnish_enabled'],
+      "parrot_gulp_enabled" => custom_config['gulp_enabled'],
       "vagrant_host_user_uid" => custom_config['local_user_uid'],
       "vagrant_host_user_gid" => custom_config['local_user_gid'],
     }

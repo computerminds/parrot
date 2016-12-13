@@ -46,6 +46,27 @@ node default {
     require => Anchor["parrot:repos"],
   }
 
-
+  # Install gulp with nodejs if required.
+  case $parrot_gulp_enabled {
+    'true', true: {
+      # Add sources for nodejs binaries and install nodejs package.
+      # See: https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions
+      exec { 'nodejs_sources' :
+        command => 'curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -',
+        path => '/usr/bin',
+        creates => '/etc/apt/sources.list.d/nodesource.list',
+      }
+      package { 'nodejs':
+        ensure => installed,
+        require => Exec['nodejs_sources'],
+      }
+      exec { 'install_gulp' :
+        command => 'npm install --global gulp-cli',
+        path => '/usr/bin',
+        creates => '/usr/bin/gulp',
+        require => Package['nodejs'],
+      }
+    }
+  }
 
 }
