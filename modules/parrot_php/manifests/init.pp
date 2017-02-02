@@ -39,6 +39,7 @@ class parrot_php (
     # 'php7.0-xhprof',
 
     'php-uploadprogress',
+    'php-mysql',
 
   ]
 
