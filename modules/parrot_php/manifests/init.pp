@@ -139,4 +139,17 @@ class parrot_php (
    ensure => 'present',
   }
 
+  # Add some special config for xhprof to get it working.
+  file {'/usr/share/php-xhprof/xhprof_lib':
+    ensure => 'link',
+    target => '/usr/share/php-xhprof/lib/',
+    require => Package['php-xhprof'],
+  }
+
+  file {'/usr/share/php/xhprof_html':
+    ensure => 'link',
+    target => '/usr/share/php-xhprof/html/',
+    require => Package['php-xhprof'],
+  }
+
 }
