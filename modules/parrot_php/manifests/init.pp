@@ -87,7 +87,7 @@ class parrot_php (
   }
   # uploadprogress doesn't get symlinked correctly for some reason.
   file { '/etc/php/7.0/fpm/conf.d/20-uploadprogress.ini':
-    ensure => 'file',
+    ensure => 'link',
     target => '/etc/php/7.0/mods-available/uploadprogress.ini',
     notify => Service['php7.0-fpm'],
   }
