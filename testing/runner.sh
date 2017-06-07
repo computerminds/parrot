@@ -22,7 +22,7 @@ curl -f http://localhost:8181/is_php_56.php
 vagrant ssh -c 'drush --version'
 
 # Test PHP 7.0.
-touch testing/sites/localhost/.parrot-php7
+touch testing/sites/localhost/.parrot-php7.0
 vagrant provision
 
 # Now do some base testing
@@ -32,3 +32,15 @@ curl -f http://localhost:8181/qwertyuiop.php
 # Now do some version testing
 curl http://localhost:8181/is_php_70.php
 curl -f http://localhost:8181/is_php_70.php
+
+# Test PHP 7.1.
+touch testing/sites/localhost/.parrot-php7.1
+vagrant provision
+
+# Now do some base testing
+curl http://localhost:8181/qwertyuiop.php
+curl -f http://localhost:8181/qwertyuiop.php
+
+# Now do some version testing
+curl http://localhost:8181/is_php_71.php
+curl -f http://localhost:8181/is_php_71.php

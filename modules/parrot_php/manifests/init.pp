@@ -19,7 +19,6 @@ class parrot_php (
     'php5.6-mysql',
     'php5.6-common',
     'php5.6-soap',
-    'php-xhprof',
 
     'php7.0',
     'php7.0-fpm',
@@ -35,10 +34,26 @@ class parrot_php (
     'php7.0-mysql',
     'php7.0-common',
     'php7.0-soap',
-    'php-xdebug',
-    # 'php7.0-xhprof',
 
+    'php7.1',
+    'php7.1-fpm',
+    'php7.1-cli',
+    'php7.1-dev',
+    'php7.1-opcache',
+    'php7.1-gd',
+    'php7.1-curl',
+    'php7.1-mbstring',
+    'php7.1-mcrypt',
+    'php7.1-xml',
+    'php7.1-xmlrpc',
+    'php7.1-mysql',
+    'php7.1-common',
+    'php7.1-soap',
+
+    'php-xdebug',
+    'php-xhprof',
     'php-uploadprogress',
+    'php-gettext',
 
   ]
 
@@ -57,7 +72,7 @@ class parrot_php (
   }
   ->
   # Fix a bug in Ubuntu https://bugs.launchpad.net/ubuntu/+source/php5/+bug/1242376
-  file {['/etc/init/php5.6-fpm.override', '/etc/init/php7.0-fpm.override']:
+  file {['/etc/init/php5.6-fpm.override', '/etc/init/php7.0-fpm.override', '/etc/init/php7.1-fpm.override']:
     ensure => 'file',
     owner => 'root',
     group => 'root',
@@ -70,11 +85,24 @@ class parrot_php (
     target => '/etc/php/5.6/mods-available/uploadprogress.ini',
     notify => Service['php5.6-fpm'],
   }
+  # uploadprogress doesn't get symlinked correctly for some reason.
+  file { '/etc/php/7.0/fpm/conf.d/20-uploadprogress.ini':
+    ensure => 'file',
+    target => '/etc/php/7.0/mods-available/uploadprogress.ini',
+    notify => Service['php7.0-fpm'],
+  }
 
   service { 'php7.0-fpm':
     ensure    => 'running',
     enable    => true,
     restart   => "service php7.0-fpm reload",
+    hasstatus => true,
+  }
+
+  service { 'php7.1-fpm':
+    ensure    => 'running',
+    enable    => true,
+    restart   => "service php7.1-fpm reload",
     hasstatus => true,
   }
 
@@ -107,6 +135,22 @@ class parrot_php (
     php_fpm_package => 'php7.0-fpm',
     php_fpm_service => 'php7.0-fpm',
   }
+  parrot_php::fpm::pool { 'www-7.1':
+    listen => '127.0.0.1:9997',
+    pm_max_children => 10,
+    pm_start_servers => 2,
+    pm_max_requests => 100,
+    chdir => '/',
+    pm_min_spare_servers => 1,
+    pm_max_spare_servers => 4,
+    user => 'host_user',
+    group => $fpm_user_gid,
+
+    pool => 'www',
+    php_version => '7.1',
+    php_fpm_package => 'php7.1-fpm',
+    php_fpm_service => 'php7.1-fpm',
+  }
   parrot_php::fpm::pool { 'www-5.6':
     listen => '127.0.0.1:9999',
     pm_max_children => 10,
@@ -130,6 +174,7 @@ class parrot_php (
 
   parrot_php::config{'5.6': }
   parrot_php::config{'7.0': }
+  parrot_php::config{'7.1': }
 
   package { 'graphviz': }
 
