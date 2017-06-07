@@ -108,7 +108,7 @@ class http_stack::apache(
     group => 'root',
   }
 
-#  class { 'phpmyadmin': }
+  class { 'phpmyadmin': }
 
   # Restart Apache after the config file is deployed.
   service { 'apache2':

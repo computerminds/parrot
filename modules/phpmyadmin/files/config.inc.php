@@ -10,6 +10,14 @@
  * @package phpMyAdmin
  */
 
+ini_set('upload_tmp_dir', '/var/lib/phpmyadmin/tmp');
+ini_set('open_basedir', '/usr/share/phpmyadmin/:/etc/phpmyadmin/:/var/lib/phpmyadmin/:/usr/share/php/php-gettext/:/usr/share/javascript/');
+ini_set('allow_url_fopen', 'Off');
+ini_set('register_globals', 'Off');
+ini_set('magic_quotes_gpc', 'Off');
+ini_set('track_vars', 'On');
+
+
 /*
  * This is needed for cookie based authentication to encrypt password in
  * cookie
