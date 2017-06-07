@@ -9,11 +9,31 @@ define http_stack::apache::site () {
       "false": { $webroot_subdir = $apache_vhost_webroot_subdir }
   }
   # @TODO: replace the above with hiera.
+
+  # Test for PHP 7.x
   $f2 = "/vagrant_sites/$name/.parrot-php7"
   $_exists2 = inline_template("<%= File.exists?('$f2') %>")
   case $_exists2 {
-      "true": { $fpm_port = "9998" }
-      "false": { $fpm_port = "9999" }
+    "true": { $fpm_port = "9997" } # PHP 7.1
+    "false": {
+
+      # Test for PHP 7.1
+      $f3 = "/vagrant_sites/$name/.parrot-php7.1"
+      $_exists3 = inline_template("<%= File.exists?('$f3') %>")
+      case $_exists3 {
+        "true": { $fpm_port = "9997" } # PHP 7.1
+        "false": {
+
+          # Test for PHP 7.0
+          $f4 = "/vagrant_sites/$name/.parrot-php7.0"
+          $_exists4 = inline_template("<%= File.exists?('$f4') %>")
+          case $_exists4 {
+            "true": { $fpm_port = "9998" } # PHP 7.0
+            "false": { $fpm_port = "9999" } # PHP 5.6
+          }
+        }
+      }
+    }
   }
   # @TODO: replace the above with hiera.
 
