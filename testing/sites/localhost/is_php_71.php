@@ -6,7 +6,7 @@
 $success = array();
 $fail = array();
 
-if (PHP_MAJOR_VERSION == 7 && PHP_MINOR_VERSION == 0) {
+if (PHP_MAJOR_VERSION == 7 && PHP_MINOR_VERSION == 1) {
   $success[] = 'Found PHP 7.1';
 }
 else {
