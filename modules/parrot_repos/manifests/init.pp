@@ -7,14 +7,20 @@ class parrot_repos {
     },
   }
   ->
-  # Add a repo for Varnish.
+  # Remove the old varnish repo.
   apt::source { 'varnish':
       location   => 'http://repo.varnish-cache.org/ubuntu/',
       repos      => 'varnish-3.0',
       release    => 'trusty',
+      ensure => 'absent',
+  }
+  apt::source { 'varnish30':
+      location   => 'https://packagecloud.io/varnishcache/varnish30/ubuntu/',
+      repos      => 'main',
+      release    => 'trusty',
       key        => {
-        "id"     => "E98C6BBBA1CBC5C3EB2DF21C60E7C096C4DEFFEB",
-        "source" => "http://repo.varnish-cache.org/debian/GPG-key.txt",
+        'id' => '246BE381150865E2DC8C6B01FC1318ACEE2C594C',
+        'source' => 'https://packagecloud.io/varnishcache/varnish30/gpgkey',
       },
   }
   ->
