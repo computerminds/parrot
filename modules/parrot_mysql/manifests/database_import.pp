@@ -17,6 +17,7 @@ define parrot_mysql::database_import {
       refreshonly => true,
       subscribe => Exec["create-db-$name"],
       command => "/usr/bin/mysql -uroot -proot $db_name < /vagrant_databases/$name",
+      timeout => 600,
     }
   }
   elsif $name =~ /\.sql.gz$/ {
@@ -24,6 +25,7 @@ define parrot_mysql::database_import {
       refreshonly => true,
       subscribe => Exec["create-db-$name"],
       command => "/bin/zcat /vagrant_databases/$name | /usr/bin/mysql -uroot -proot $db_name",
+      timeout => 600,
     }
   }
   else{
