@@ -1,0 +1,10 @@
+<?php
+
+$aliases['<%= @name %>'] = array(
+  'uri' => '<%= @protocol %><%= @uri %>',
+  'root' => '<%= @root %>',
+  <%- if @php_executable -%>
+  'php' => '<%= @php_executable %>',
+  <%- end -%>
+  'local' => TRUE, // Required to avoid double-calling, see https://github.com/drush-ops/drush/issues/1870
+);

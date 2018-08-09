@@ -1,4 +1,7 @@
-define http_stack::apache::site () {
+define http_stack::apache::site (
+  $ensure = 'present',
+  $drush_alias = true,
+) {
 
   # Special handling for a 'webroot' subdirectory.
   # We pretend like it's the root.
@@ -14,22 +17,34 @@ define http_stack::apache::site () {
   $f2 = "/vagrant_sites/$name/.parrot-php7"
   $_exists2 = inline_template("<%= File.exists?('$f2') %>")
   case $_exists2 {
-    "true": { $fpm_port = "9997" } # PHP 7.1
+    "true": { # PHP 7.1
+      $fpm_port = "9997"
+      $php = "/usr/bin/php7.1"
+    }
     "false": {
 
       # Test for PHP 7.1
       $f3 = "/vagrant_sites/$name/.parrot-php7.1"
       $_exists3 = inline_template("<%= File.exists?('$f3') %>")
       case $_exists3 {
-        "true": { $fpm_port = "9997" } # PHP 7.1
+        "true": { # PHP 7.1
+          $fpm_port = "9997"
+          $php = "/usr/bin/php7.1"
+        }
         "false": {
 
           # Test for PHP 7.0
           $f4 = "/vagrant_sites/$name/.parrot-php7.0"
           $_exists4 = inline_template("<%= File.exists?('$f4') %>")
           case $_exists4 {
-            "true": { $fpm_port = "9998" } # PHP 7.0
-            "false": { $fpm_port = "9999" } # PHP 5.6
+            "true": { # PHP 7.0
+              $fpm_port = "9998"
+              $php = "/usr/bin/php7.0"
+            }
+            "false": { # PHP 5.6
+              $fpm_port = "9999"
+              $php = "/usr/bin/php5.6"
+            }
           }
         }
       }
@@ -73,4 +88,12 @@ define http_stack::apache::site () {
     group => 'root',
   }
 
+  if $drush_alias {
+    parrot_drush::components::php::drush_alias { $name:
+      root => "/vagrant_sites/$name$webroot_subdir",
+      ensure => $ensure,
+      php_executable => $php,
+      protocol => 'https://',
+    }
+  }
 }
