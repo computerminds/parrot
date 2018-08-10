@@ -7,19 +7,18 @@ define parrot_drush::components::php::drush_alias (
 )
 {
 
-  file {"/home/vagrant/.drush/$name.aliases.drushrc.php":
-    ensure => $ensure,
-    owner => 'root',
-    group => 'root',
-    content => template('parrot_drush/php/drush_alias.erb'),
-    #require => File['/home/vagrant/.drush'],
+  # Create home directories for the users that will be using Drush.
+  file { '/home/vagrant/.drush':
+    ensure => 'directory',
+    owner => 'vagrant',
+    group => 'vagrant',
   }
 
-  file {"/root/.drush/$name.aliases.drushrc.php":
+  file {"/home/vagrant/.drush/$name.aliases.drushrc.php":
     ensure => $ensure,
-    owner => 'www-data',
-    group => 'www-data',
+    owner => 'vagrant',
+    group => 'vagrant',
     content => template('parrot_drush/php/drush_alias.erb'),
-    #require => File['/root/.drush'],
+    require => File['/home/vagrant/.drush'],
   }
 }
