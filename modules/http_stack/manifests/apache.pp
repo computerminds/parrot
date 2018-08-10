@@ -124,6 +124,13 @@ class http_stack::apache(
     ensure => "directory",
   }
 
+  # Create home directories for the users that will be using Drush.
+  file { '/home/vagrant/.drush':
+    ensure => 'directory',
+    owner => 'vagrant',
+    group => 'vagrant',
+  }
+
   # Find the sites.
   $site_names_string = generate('/usr/bin/find', '-L', '/vagrant_sites/' , '-type', 'd', '-printf', '%f\0', '-maxdepth', '1', '-mindepth', '1')
   $site_names = split($site_names_string, '\0')
