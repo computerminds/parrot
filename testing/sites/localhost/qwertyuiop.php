@@ -16,6 +16,7 @@ $extensions = array(
   'xdebug',
   'xmlrpc',
   'soap',
+  'zip',
 
   // Drupal 7 required extensions
   'date',

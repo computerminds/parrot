@@ -19,6 +19,7 @@ class parrot_php (
     'php5.6-mysql',
     'php5.6-common',
     'php5.6-soap',
+    'php5.6-zip',
 
     'php7.0',
     'php7.0-fpm',
@@ -34,6 +35,7 @@ class parrot_php (
     'php7.0-mysql',
     'php7.0-common',
     'php7.0-soap',
+    'php7.0-zip',
 
     'php7.1',
     'php7.1-fpm',
@@ -49,6 +51,7 @@ class parrot_php (
     'php7.1-mysql',
     'php7.1-common',
     'php7.1-soap',
+    'php7.1-zip',
 
     'php-xdebug',
     'php-xhprof',
