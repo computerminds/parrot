@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# cd to our parrot directory and run the vagrant command specified
+(cd ~/parrot && vagrant "$@")
